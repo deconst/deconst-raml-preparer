@@ -1,0 +1,3 @@
+#TODO
+-   Get the coding done...
+-   Remove copy-pasta stuff
