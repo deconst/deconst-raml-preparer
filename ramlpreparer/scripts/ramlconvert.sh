@@ -1,4 +1,4 @@
 #! /bin/sh
 
-npm install raml2html
-raml2html ../../tests/tester.raml > ../../tests/tester-raw.html --template ../../tests/nunjucks/index.nunjucks
+echo $output_html
+raml2html $file_raml > $output_html --template ../../tests/nunjucks/index.nunjucks
