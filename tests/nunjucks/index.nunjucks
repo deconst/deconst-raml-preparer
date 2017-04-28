@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>{{ title }} API documentation</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="generator" content="https://github.com/raml2html/raml2html {{ config.raml2HtmlVersion }}">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9" role="main">
+          <div class="page-header">
+            <h1>{{ title }} API documentation{% if version %} <small>version {{ version }}</small>{% endif %}</h1>
+            <p>{{ baseUri }}</p>
+
+            {% if description %}
+              <p>{{ description }}</p>
+            {% endif %}
+
+            {% if baseUriParameters %}
+              <ul>
+                {% for item in baseUriParameters %}
+                  {% include "./item.nunjucks" %}
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% for chapter in documentation %}
+              <h3 id="{{ chapter.uniqueId }}"><a href="#{{ chapter.uniqueId }}">{{ chapter.title }}</a></h3>
+{% markdown %}
+{{ chapter.content }}
+{% endmarkdown %}
+            {% endfor %}
+          </div>
+
+          {% for resource in resources %}
+            <div>
+              <div>
+                <h3 id="{{ resource.uniqueId }}">
+                  {% if resource.displayName %}{{ resource.displayName}}{% else %}{{ resource.relativeUri }}{% endif %}
+                </h3>
+              </div>
+              <div>
+                {% if resource.description %}
+                  <div>
+                    {% markdown %}
+                      {{ resource.description }}
+                    {% endmarkdown %}
+                  </div>
+                {% endif %}
+                <div>
+                  {% include "./resource.nunjucks" %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

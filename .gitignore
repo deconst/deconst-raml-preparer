@@ -87,3 +87,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Extras
+tests/node_modules/
+tests/*.html
+ramlpreparer/scripts/node_modules/
+ramlpreparer/builders/node_modules/
