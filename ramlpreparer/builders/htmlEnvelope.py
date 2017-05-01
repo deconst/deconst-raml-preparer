@@ -22,8 +22,8 @@ for raml in list_of_ramls:
     originalHTML = raml2html.raml2html(raml,output_html)
     html_list.append(originalHTML)
 
-print(html_list)
-
+# print(html_list)
+#
 # Put into envelope
 for page in html_list:
     whole_envelope = {
