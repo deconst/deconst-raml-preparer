@@ -41,6 +41,20 @@ for page in html_list:
     that_page = tocbuilder.parseIt(page)
     toc_html = tocbuilder.htmlify(that_page)
     whole_envelope['toc'] = toc_html
+    # try:
+    #     whole_envelope['author'] = soupit.author
+    # except:
+    #     continue
+    # try:
+    #     whole_envelope['publish_date'] = soupit.publish_date
+    # except:
+    #     continue
+    # try:
+    #     whole_envelope['categories'] = soupit.categories
+    # except:
+    #     continue
+    # try:
+    #     whole_envelope['unsearchable'] = deconst.json.search.choice
     whole_enchilada[n] = whole_envelope
     n += 1
 
