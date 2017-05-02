@@ -1,6 +1,7 @@
 #! usr/bin/env python
 
 # TODO: Replace psuedocode with real code
+# NOTE: Probably not going to be used. envelope_writer.py ended up holding this, really.
 
 # Take in HTML
 originalHTML = array_with_html_pages

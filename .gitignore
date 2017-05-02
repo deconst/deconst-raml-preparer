@@ -92,5 +92,6 @@ ENV/
 tests/node_modules/
 tests/*.html
 tests/*.raml
+tests/*.jpg
 ramlpreparer/scripts/node_modules/
 ramlpreparer/builders/node_modules/
