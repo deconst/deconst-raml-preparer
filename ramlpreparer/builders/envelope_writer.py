@@ -22,8 +22,6 @@ for raml in list_of_ramls:
     originalHTML = raml2html.raml2html(raml,output_html)
     html_list.append(originalHTML)
 
-# print(html_list)
-#
 # Put into envelope
 for page in html_list:
     whole_envelope = {
@@ -60,6 +58,10 @@ for page in html_list:
 
 print(whole_enchilada)
 #print(json.dumps(whole_enchilada))
+
+# TODO: Write whole_enchilada to a new file in ENVELOPE_DIR.
+
+
 
 
 # From the Sphinx preparer's envelope.py
