@@ -13,7 +13,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/deconst/preparer-sphinx/issues.
+Report bugs at https://github.com/nimbinatus/deconst-raml-preparer/issues.
 
 If you are reporting a bug, please include:
 
@@ -44,7 +44,7 @@ Submit Feedback
 ~~~~~~~~~~~~~~~
 
 The best way to send feedback is to file an issue at
-https://github.com/deconst/preparer-sphinx/issues.
+https://github.com/nimbinatus/deconst-raml-preparer/issues.
 
 If you are proposing a feature:
 
@@ -56,19 +56,20 @@ If you are proposing a feature:
 Get Started!
 ------------
 
-Ready to contribute? Here's how to set up `deconstrst` for local development.
+Ready to contribute? Here's how to set up `deconst-raml-preparer` for local
+development.
 
-1. Fork the `deconst/preparer-sphinx` repo on GitHub.
+1. Fork the `/nimbinatus/deconst-raml-preparer` repo on GitHub.
 2. Clone your fork locally::
 
-    $ git clone git@github.com:your_name_here/preparer-sphinx.git
+    $ git clone git@github.com:your_name_here/deconst-raml-preparer.git
 
 3. Install your local copy into a virtualenv. Assuming you have
    virtualenvwrapper installed, this is how you set up your fork for local
    development::
 
-    $ mkvirtualenv deconstrst
-    $ cd deconstrst/
+    $ mkvirtualenv deconstraml
+    $ cd deconstraml/
     $ python setup.py develop
 
 4. Create a branch for local development::
@@ -103,13 +104,12 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
-3. The pull request should work for Python 3.4. Check
-   https://travis-ci.org/deconst/preparer-sphinx/pull_requests
+3. The pull request should work for Python 3.4. Check Travis CI (coming up)
    and make sure that the tests pass for all supported Python versions.
 
 Tips
 ----
 
-To run a subset of tests::
+To run a subset of tests (not functional yet)::
 
-    $ python -m unittest tests.test_deconstrst
+    $ python -m unittest tests.test_deconstraml
