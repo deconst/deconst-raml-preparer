@@ -14,10 +14,12 @@ whole_enchilada = {}
 n = 0
 that_page = ''
 
+
 class Envelope_RAML:
     '''
     A class for metadata envelopes.
     '''
+
     def __init__(self, docname, body, title, author, toc, publish_date,
                  categories, unsearchable):
         self.docname = docname
@@ -47,7 +49,8 @@ class Envelope_RAML:
         Generate the full path at which this envelope should be serialized.
         """
 
-        envelope_filename = urllib.parse.quote(self.content_id, safe='') + '.json'
+        envelope_filename = urllib.parse.quote(
+            self.content_id, safe='') + '.json'
         return path.join(self.deconst_config.envelope_dir, envelope_filename)
 
     def serialization_payload(self):
@@ -56,7 +59,7 @@ class Envelope_RAML:
         of the envelope.
         """
 
-        payload = { 'body': self.body }
+        payload = {'body': self.body}
         if self.title:
             payload['title'] = self.title
         if self.toc:
@@ -84,7 +87,7 @@ class Envelope_RAML:
 # Take in HTML
 for raml in list_of_ramls:
     output_html = '../../tests/tester-raw.html'
-    originalHTML = raml2html.raml2html(raml,output_html)
+    originalHTML = raml2html.raml2html(raml, output_html)
     html_list.append(originalHTML)
 
 # Put into envelope
@@ -101,6 +104,6 @@ for page in html_list:
     n += 1
 
 print(whole_enchilada)
-#print(json.dumps(whole_enchilada))
+# print(json.dumps(whole_enchilada))
 # TODO: Write each envelope to a new file in ENVELOPE_DIR.
 # TODO: Review the code from the Sphinx preparer if anything should be copied.
