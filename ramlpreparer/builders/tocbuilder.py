@@ -4,8 +4,9 @@ from bs4 import BeautifulSoup
 import re
 
 # TODO: Test with real RAML2HTML output
-# TODO: Clean this thing up...
+# TODO: Pythonify this
 # TODO: Hook up with the rest of the system
+# NOTE: It might be better to move this into another file for cleanliness.
 
 def parseIt(html_doc):
     '''

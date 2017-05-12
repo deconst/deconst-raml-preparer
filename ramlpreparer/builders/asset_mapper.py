@@ -21,3 +21,5 @@ for asset in original_asset_dir:
     get path using os.path()
     find the match in the asset_offset_envelope
     append path to list of the match
+
+# TODO: Replace the asset in the HTML with the single-character placehoolder.
