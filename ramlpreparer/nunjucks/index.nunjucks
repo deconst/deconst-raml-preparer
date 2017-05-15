@@ -1,63 +1,83 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>{{ title }} API documentation</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="generator" content="https://github.com/raml2html/raml2html {{ config.raml2HtmlVersion }}">
+    {% block head %}
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>{% block metaTitle %}{{ title }} API documentation{% endblock %}</title>
+      <meta content="{% block ogTitle %}{{ title }}{% endblock %}" name="og:title">
+      <meta content="{% block twitterTitle %}{{ title }}{% endblock %}" name="twitter:title">
+      <meta name="generator" content="https://github.com/raml2html/raml2html {{ config.raml2HtmlVersion }}">
+      <meta content="{% block ogImage %}{% endblock %}" name="og:image">
+      <meta name="og:type" content="site">
+      {% if documentation.metadata.description %}
+        <meta content="{% block metaDescription %}{{ documentation.metadata.description }}{% endblock %}" name="description">
+        <meta content="{% block ogDescription %}{{ documentation.metadata.description }}{% endblock %}" name="og:description">
+        <meta content="{% block twitterDescription %}{{ documentation.metadata.description }}{% endblock %}" name="twitter:description">
+      {% endif %}
+      {% if documentation.metadata.categories %}
+        <meta content="{{ documentation.metadata.categories }}" name="categories">
+      {% endif %}
+      {% if twitter.handle %}
+        <meta content="{% block twitterCreator %}{{ twitter.handle }}{% endblock %}" name="twitter:creator">
+        <meta content="{{ twitter.handle }}" name="twitter:site">
+      {% endif %}
+    {% endblock %}
   </head>
 
   <body>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-9" role="main">
-          <div class="page-header">
-            <h1 id='topTitle'>{{ title }} API documentation{% if version %} version {{ version }}{% endif %}</h1>
-            <p>{{ baseUri }}</p>
+    {% block body %}
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9" role="main">
+            <div class="page-header">
+              <h1 id='topTitle'>{{ title }} API documentation{% if version %} version {{ version }}{% endif %}</h1>
+              <p>{{ baseUri }}</p>
 
-            {% if description %}
-              <p>{{ description }}</p>
-            {% endif %}
+              {% if description %}
+                <p>{{ description }}</p>
+              {% endif %}
 
-            {% if baseUriParameters %}
-              <ul>
-                {% for item in baseUriParameters %}
-                  {% include "./item.nunjucks" %}
-                {% endfor %}
-              </ul>
-            {% endif %}
+              {% if baseUriParameters %}
+                <ul>
+                  {% for item in baseUriParameters %}
+                    {% include "./item.nunjucks" %}
+                  {% endfor %}
+                </ul>
+              {% endif %}
 
-            {% for chapter in documentation %}
-              <h3 id="{{ chapter.uniqueId }}"><a href="#{{ chapter.uniqueId }}">{{ chapter.title }}</a></h3>
-{% markdown %}
-{{ chapter.content }}
-{% endmarkdown %}
-            {% endfor %}
-          </div>
+              {% for chapter in documentation %}
+                <h3 id="{{ chapter.uniqueId }}"><a href="#{{ chapter.uniqueId }}">{{ chapter.title }}</a></h3>
+  {% markdown %}
+  {{ chapter.content }}
+  {% endmarkdown %}
+              {% endfor %}
+            </div>
 
-          {% for resource in resources %}
-            <div>
+            {% for resource in resources %}
               <div>
-                <h3 id="{{ resource.uniqueId }}">
-                  {% if resource.displayName %}{{ resource.displayName}}{% else %}{{ resource.relativeUri }}{% endif %}
-                </h3>
-              </div>
-              <div>
-                {% if resource.description %}
-                  <div>
-                    {% markdown %}
-                      {{ resource.description }}
-                    {% endmarkdown %}
-                  </div>
-                {% endif %}
                 <div>
-                  {% include "./resource.nunjucks" %}
+                  <h3 id="{{ resource.uniqueId }}">
+                    {% if resource.displayName %}{{ resource.displayName }}{% else %}{{ resource.relativeUri }}{% endif %}
+                  </h3>
+                </div>
+                <div>
+                  {% if resource.description %}
+                    <div>
+                      {% markdown %}
+                        {{ resource.description }}
+                      {% endmarkdown %}
+                    </div>
+                  {% endif %}
+                  <div>
+                    {% include "./resource.nunjucks" %}
+                  </div>
                 </div>
               </div>
-            </div>
-          {% endfor %}
+            {% endfor %}
+          </div>
         </div>
       </div>
-    </div>
+    {% endblock %}
   </body>
 </html>

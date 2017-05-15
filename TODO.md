@@ -6,3 +6,4 @@
 -   Add comments to code for readability
 -   Add docstrings to methods for autodoc and help
 -   Look into updating to the latest alpine (3.5.x at the moment)
+-   Figure out how metadata can be added to the RAML spec's documentation

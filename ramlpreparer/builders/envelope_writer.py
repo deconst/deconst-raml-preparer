@@ -141,7 +141,7 @@ def make_it_html(self, raml, output_html):
     Takes in the RAML and gives out HTML
     '''
     originalHTML = raml2html.raml2html(raml, output_html)
-    html_list.append(originalHTML)
+    return originalHTML
 
 
 def parsing_html(self, page):

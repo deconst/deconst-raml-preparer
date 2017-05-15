@@ -46,17 +46,17 @@ def parse_it(html_doc):
     cleared_tags = body_tag.findAll(regex101)
     for tag in cleared_tags:
         if tag.name == 'h1':
-            tag_it(tag)
+            tag_link = tag_it(tag)
             toc_gen.append(begstr + tag_link + "\">" + tag.string + endstr)
         elif tag.name == 'h2':
-            tag_it(tag)
+            tag_link = tag_it(tag)
             current_h2.append(begstr + tag_link + "\">" + tag.string + endstr)
             try:
                 sibs_it(tag, current_h2, regex101, toc_gen)
             except:
                 toc_gen.append(current_h2)
         elif tag.name == 'h3':
-            tag_it(tag)
+            tag_link = tag_it(tag)
             current_h3.append(begstr + tag_link + "\">" + tag.string + endstr)
             try:
                 sibs_it(tag, current_h3, regex101, toc_gen)
