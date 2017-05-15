@@ -1,10 +1,13 @@
 #! usr/bin/env python
 
 from bs4 import BeautifulSoup
-import tocbuilder
 import json
-import raml2html
 import subprocess
+
+import .asset_mapper
+import .common
+import .tocbuilder
+import .raml2html
 
 # Initialize the raml2html package.
 starter_call = '../scripts/npminstall.sh'
@@ -73,22 +76,22 @@ class Envelope_RAML:
         if self.deconst_config.git_root and self.deconst_config.github_url:
             full_path = path.join(os.getcwd(),
                                   self.builder.env.srcdir,
-                                  self.docname + self.builder.config.source_suffix[0])
+                                  self.docname + self.config.source_suffix[0])
             edit_segments = [
                 self.deconst_config.github_url,
                 'edit',
                 self.deconst_config.github_branch,
-                path.relpath(full_path, self.builder.env.srcdir)
+                path.relpath(full_path, self.env.srcdir)
             ]
-            self.meta['github_edit_url'] = '/'.join(segment.strip('/')
-                                                    for segment in edit_segments)
+            self.meta['github_edit_url'] = (
+                '/'.join(segment.strip('/') for segment in edit_segments))
 
     def _populate_unsearchable(self):
         '''
         Populate "unsearchable" from per-page or repository-wide settings.
         '''
-        unsearchable = self.per_page_meta.get('deconstunsearchable',
-                                              self.builder.config.deconst_default_unsearchable)
+        unsearchable = self.per_page_meta.get(
+            'deconstunsearchable', self.config.deconst_default_unsearchable)
         if unsearchable is not None:
             self.unsearchable = unsearchable in ('true', True)
 
@@ -96,7 +99,7 @@ class Envelope_RAML:
         '''
         Derive the "layout_key" from per-page or repository-wide configuration.
         '''
-        default_layout = self.builder.config.deconst_default_layout
+        default_layout = self.config.deconst_default_layout
         self.layout_key = self.per_page_meta.get(
             'deconstlayout', default_layout)
 
@@ -105,7 +108,7 @@ class Envelope_RAML:
         Unify global and per-page categories.
         '''
         page_cats = self.per_page_meta.get('deconstcategories')
-        global_cats = self.builder.config.deconst_categories
+        global_cats = self.config.deconst_categories
         if page_cats is not None or global_cats is not None:
             cats = set()
             if page_cats is not None:
@@ -113,13 +116,13 @@ class Envelope_RAML:
             cats.update(global_cats or [])
             self.categories = list(cats)
 
-    def __populate_asset_offsets(self):
+    def _populate_asset_offsets(self):
         '''
         Read stored asset offsets from the docwriter.
         '''
-        self.asset_offsets = self.docwriter.visitor.calculate_offsets()
+        self.asset_offsets = self.visitor.calculate_offsets()
 
-    def __populate_content_id(self):
+    def _populate_content_id(self):
         '''
         Derive this envelope's content ID.
         '''
@@ -132,23 +135,25 @@ class Envelope_RAML:
         if 'deconsttitle' in self.per_page_meta:
             self.title = self.per_page_meta['deconsttitle']
 
-    def make_it_html(self, raml, output_html):
-        '''
-        Takes in the RAML and gives out HTML
-        '''
-        originalHTML = raml2html.raml2html(raml, output_html)
-        html_list.append(originalHTML)
 
-    def parsing_html(self, page):
-        '''
-        Parse the HTML to put it in an envelope.
-        '''
-        soupit = BeautifulSoup(page, 'html.parser')
-        that_page = tocbuilder.parseIt(page)
-        toc_html = tocbuilder.htmlify(that_page)
-        whole_envelope = Envelope_RAML(body=soupit.body,
-                                       title=soupit.title.string,
-                                       toc=toc_html)
+def make_it_html(self, raml, output_html):
+    '''
+    Takes in the RAML and gives out HTML
+    '''
+    originalHTML = raml2html.raml2html(raml, output_html)
+    html_list.append(originalHTML)
+
+
+def parsing_html(self, page):
+    '''
+    Parse the HTML to put it in an envelope.
+    '''
+    soupit = BeautifulSoup(page, 'html.parser')
+    that_page = tocbuilder.parse_it(page)
+    toc_html = tocbuilder.htmlify(that_page)
+    whole_envelope = Envelope_RAML(body=soupit.body,
+                                   title=soupit.title.string,
+                                   toc=toc_html)
 
 # QUESTION: Does each page's envelope need to get placed separately? Currently,
 # it's written to put each envelope inside of a larger envelope...

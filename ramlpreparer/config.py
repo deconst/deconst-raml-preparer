@@ -62,8 +62,8 @@ class Configuration:
             self.meta = doc["meta"]
         if "githubUrl" in doc:
             self.github_url = doc["githubUrl"]
-            self.github_issues_url = '/'.join(segment.strip('/')
-                                              for segment in [doc["githubUrl"], 'issues'])
+            self.github_issues_url = '/'.join(
+                segment.strip('/') for segment in [doc["githubUrl"], 'issues'])
             self.meta.update({'github_issues_url': self.github_issues_url})
         if "githubBranch" in doc:
             self.github_branch = doc["githubBranch"]

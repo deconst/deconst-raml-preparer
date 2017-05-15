@@ -4,6 +4,7 @@ import os
 import subprocess
 from sys import argv
 
+
 def raml2html(file_raml, output_html):
     '''
     Converts RAML files to HTML using the raml2html JavaScript library. Expects
@@ -23,6 +24,7 @@ def raml2html(file_raml, output_html):
     api_html.close()
     return apiraw
 
+
 # Typical define as needed system
 if __name__ == '__main__':
     import sys
@@ -32,4 +34,4 @@ if __name__ == '__main__':
     print(sys.argv[1])
     print(sys.argv[2])
     # BUG: Slice isn't working here. [1:] returns an error.
-    raml2html(sys.argv[1],sys.argv[2])
+    raml2html(sys.argv[1], sys.argv[2])
