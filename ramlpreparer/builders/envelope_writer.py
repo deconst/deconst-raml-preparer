@@ -5,14 +5,10 @@ import tocbuilder
 import json
 import raml2html
 import subprocess
+
+# Initialize the raml2html package.
 starter_call = '../scripts/npminstall.sh'
 subprocess.call(starter_call)
-
-html_list = []
-list_of_ramls = ['../../tests/tester.raml', '../../tests/tester.raml']
-whole_enchilada = {}
-n = 0
-that_page = ''
 
 
 class Envelope_RAML:
@@ -20,90 +16,141 @@ class Envelope_RAML:
     A class for metadata envelopes.
     '''
 
-    def __init__(self, docname, body, title, author, toc, publish_date,
-                 categories, unsearchable):
-        self.docname = docname
-        self.body = body
-        self.title = title
-        self.toc = toc
-        # NOTE: Not sure if any of these following ones will be used.
-        self.author = author
-        self.publish_date = publish_date
-        self.categories = categories
-        self.unsearchable = unsearchable
-        # TODO: Get these next ones figured out (from the Sphinx preparer)
-        self.content_id = None
-        self.layout_key = None
-        self.meta = None
-        self.asset_offsets = None
-        self.next = None
-        self.previous = None
-        self.addenda = None
-        self.builder = builder
-        self.deconst_config = deconst_config
-        self.per_page_meta = per_page_meta
-        self.docwriter = docwriter
+    def __init__(self, body, docname=None, title=None, author=None, toc=None,
+                 publish_date=None, categories=None, unsearchable=None,
+                 content_id=None, layout_key=None, meta=None,
+                 asset_offsets=None, next=None, previous=None, addenda=None,
+                 deconst_config=None, per_page_meta=None):
+        '''
+        Initiate as a dictionary.
+        '''
+        the_envelope = {
+            'body': self.body,
+            'docname': self.docname,
+            'title': self.title,
+            'toc': self.toc,
+            # NOTE: Not sure if any of these following ones will be used.
+            'author': self.author,  # Doubt this appears in the RAML spec.
+            'publish_date': self.publish_date,  # Ditto
+            'categories': self.categories,  # Ditto
+            'unsearchable': self.unsearchable,  # From deconst, or Sphinx?
+            # TODO: Get these next ones figured out (from the Sphinx preparer)
+            'content_id': self.content_id,
+            'layout_key': self.layout_key,
+            'meta': self.meta,
+            'asset_offsets': self.asset_offsets,
+            'next': self.next,
+            'previous': self.previous,
+            'addenda': self.addenda,
+            'deconst_config': self.deconst_config,
+            'per_page_meta': self.per_page_meta
+        }
+        return the_envelope
 
+    # TODO: Figure out if this is actually necessary. It looks like the
+    # Sphinx preparer is essentially creating it's own builder, which may
+    # need this method to generate the JSON.
     def serialization_path(self):
-        """
+        '''
         Generate the full path at which this envelope should be serialized.
-        """
-
+        '''
         envelope_filename = urllib.parse.quote(
             self.content_id, safe='') + '.json'
         return path.join(self.deconst_config.envelope_dir, envelope_filename)
 
-    def serialization_payload(self):
-        """
-        Construct a dict containing the data that should be serialized as part
-        of the envelope.
-        """
+    def _populate_meta(self):
+        '''
+        Merge repository-global and per-page metadata into the envelope's
+        metadata.
+        '''
+        self.meta = self.deconst_config.meta.copy()
+        self.meta.update(self.per_page_meta)
 
-        payload = {'body': self.body}
-        if self.title:
-            payload['title'] = self.title
-        if self.toc:
-            payload['toc'] = self.toc
+    def _populate_git(self):
+        '''
+        Set the github_edit_url property within "meta".
+        '''
+        if self.deconst_config.git_root and self.deconst_config.github_url:
+            full_path = path.join(os.getcwd(),
+                                  self.builder.env.srcdir,
+                                  self.docname + self.builder.config.source_suffix[0])
+            edit_segments = [
+                self.deconst_config.github_url,
+                'edit',
+                self.deconst_config.github_branch,
+                path.relpath(full_path, self.builder.env.srcdir)
+            ]
+            self.meta['github_edit_url'] = '/'.join(segment.strip('/')
+                                                    for segment in edit_segments)
 
-        if self.unsearchable is not None:
-            payload['unsearchable'] = self.unsearchable
-        if self.layout_key is not None:
-            payload['layout_key'] = self.layout_key
-        if self.categories is not None:
-            payload['categories'] = self.categories
-        if self.meta is not None:
-            payload['meta'] = self.meta
-        if self.asset_offsets is not None:
-            payload['asset_offsets'] = self.asset_offsets
+    def _populate_unsearchable(self):
+        '''
+        Populate "unsearchable" from per-page or repository-wide settings.
+        '''
+        unsearchable = self.per_page_meta.get('deconstunsearchable',
+                                              self.builder.config.deconst_default_unsearchable)
+        if unsearchable is not None:
+            self.unsearchable = unsearchable in ('true', True)
 
-        if self.next is not None:
-            payload['next'] = self.next
-        if self.previous is not None:
-            payload['previous'] = self.previous
-        if self.addenda is not None:
-            payload['addenda'] = self.addenda
+    def _populate_layout_key(self):
+        '''
+        Derive the "layout_key" from per-page or repository-wide configuration.
+        '''
+        default_layout = self.builder.config.deconst_default_layout
+        self.layout_key = self.per_page_meta.get(
+            'deconstlayout', default_layout)
 
+    def _populate_categories(self):
+        '''
+        Unify global and per-page categories.
+        '''
+        page_cats = self.per_page_meta.get('deconstcategories')
+        global_cats = self.builder.config.deconst_categories
+        if page_cats is not None or global_cats is not None:
+            cats = set()
+            if page_cats is not None:
+                cats.update(re.split("\s*,\s*", page_cats))
+            cats.update(global_cats or [])
+            self.categories = list(cats)
 
-# Take in HTML
-for raml in list_of_ramls:
-    output_html = '../../tests/tester-raw.html'
-    originalHTML = raml2html.raml2html(raml, output_html)
-    html_list.append(originalHTML)
+    def __populate_asset_offsets(self):
+        '''
+        Read stored asset offsets from the docwriter.
+        '''
+        self.asset_offsets = self.docwriter.visitor.calculate_offsets()
 
-# Put into envelope
+    def __populate_content_id(self):
+        '''
+        Derive this envelope's content ID.
+        '''
+        self.content_id = derive_content_id(self.deconst_config, self.docname)
+
+    def _override_title(self):
+        '''
+        Override the envelope's title if requested by page metadata.
+        '''
+        if 'deconsttitle' in self.per_page_meta:
+            self.title = self.per_page_meta['deconsttitle']
+
+    def make_it_html(self, raml, output_html):
+        '''
+        Takes in the RAML and gives out HTML
+        '''
+        originalHTML = raml2html.raml2html(raml, output_html)
+        html_list.append(originalHTML)
+
+    def parsing_html(self, page):
+        '''
+        Parse the HTML to put it in an envelope.
+        '''
+        soupit = BeautifulSoup(page, 'html.parser')
+        that_page = tocbuilder.parseIt(page)
+        toc_html = tocbuilder.htmlify(that_page)
+        whole_envelope = Envelope_RAML(body=soupit.body,
+                                       title=soupit.title.string,
+                                       toc=toc_html)
+
 # QUESTION: Does each page's envelope need to get placed separately? Currently,
 # it's written to put each envelope inside of a larger envelope...
-for page in html_list:
-    soupit = BeautifulSoup(page, 'html.parser')
-    that_page = tocbuilder.parseIt(page)
-    toc_html = tocbuilder.htmlify(that_page)
-    whole_envelope = Envelope_RAML(body=soupit.body,
-                                   title=soupit.title.string,
-                                   toc=toc_html)
-    whole_enchilada[n] = whole_envelope
-    n += 1
-
-print(whole_enchilada)
-# print(json.dumps(whole_enchilada))
 # TODO: Write each envelope to a new file in ENVELOPE_DIR.
 # TODO: Review the code from the Sphinx preparer if anything should be copied.
