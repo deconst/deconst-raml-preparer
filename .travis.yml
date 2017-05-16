@@ -1,10 +1,13 @@
 language: python
 python:
 - "3.5"
+before_install:
+  if [[ `npm -v` != 4* ]]; then npm i -g npm@4; fi
 install:
 - pip install -r requirements.txt
 - npm install raml2html
 script:
+- raml2html --version
 - python tests/test_raml2html.py
 notifications:
   email: false
