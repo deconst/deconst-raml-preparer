@@ -3,8 +3,9 @@ python:
 - "3.5"
 install:
 - pip install -r requirements.txt
-- ./ramlpreparer/scripts/npminstall.sh
 script:
+- which npm
+- npm install raml2html
 - raml2html --version
 - python tests/test_raml2html.py
 notifications:
