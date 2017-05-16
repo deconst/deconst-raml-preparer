@@ -10,8 +10,8 @@ import .tocbuilder
 import .raml2html
 
 # Initialize the raml2html package.
-starter_call = '../scripts/npminstall.sh'
-subprocess.call(starter_call)
+starter_call = os.getcwd() + '/ramlpreparer/scripts/npminstall.sh'
+subprocess.call(starter_call, shell=True)
 
 
 class Envelope_RAML:

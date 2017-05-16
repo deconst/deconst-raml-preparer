@@ -19,7 +19,7 @@ def raml2html(file_raml, output_html):
     except FileNotFoundError:
         output_file = open(output_html, 'w')  # TODO: Switch to with open()
         output_file.close()
-        output_file = open(output_html, 'r')
+        output_file = open(output_html, 'r')  # TODO: Fix the messiness
     scripting = os.getcwd() + '/ramlpreparer/scripts/ramlconvert.sh'
     nunjucks_path = os.getcwd() + '/ramlpreparer/nunjucks/index.nunjucks'
     htmlifyit = subprocess.call(
@@ -33,8 +33,8 @@ def raml2html(file_raml, output_html):
 if __name__ == '__main__':
     starter_call = os.getcwd() + '/ramlpreparer/scripts/npminstall.sh'
     subprocess.call(starter_call, shell=True)
-    print(sys.argv[0])
-    print(sys.argv[1])
-    print(sys.argv[2])
+    # print(sys.argv[0])
+    # print(sys.argv[1])
+    # print(sys.argv[2])
     # BUG: Slice isn't working here. [1:] returns an error.
     raml2html(sys.argv[1], sys.argv[2])
