@@ -10,10 +10,10 @@
       <meta name="generator" content="https://github.com/raml2html/raml2html {{ config.raml2HtmlVersion }}">
       <meta content="{% block ogImage %}{% endblock %}" name="og:image">
       <meta name="og:type" content="site">
-      {% if documentation.metadata.description %}
-        <meta content="{% block metaDescription %}{{ documentation.metadata.description }}{% endblock %}" name="description">
-        <meta content="{% block ogDescription %}{{ documentation.metadata.description }}{% endblock %}" name="og:description">
-        <meta content="{% block twitterDescription %}{{ documentation.metadata.description }}{% endblock %}" name="twitter:description">
+      {% if description %}
+        <meta content="{% block metaDescription %}{{ description }}{% endblock %}" name="description">
+        <meta content="{% block ogDescription %}{{ description }}{% endblock %}" name="og:description">
+        <meta content="{% block twitterDescription %}{{ description }}{% endblock %}" name="twitter:description">
       {% endif %}
       {% if documentation.metadata.categories %}
         <meta content="{{ documentation.metadata.categories }}" name="categories">
@@ -47,19 +47,23 @@
               {% endif %}
 
               {% for chapter in documentation %}
-                <h3 id="{{ chapter.uniqueId }}"><a href="#{{ chapter.uniqueId }}">{{ chapter.title }}</a></h3>
-  {% markdown %}
-  {{ chapter.content }}
-  {% endmarkdown %}
+                <h2 id="{{ chapter.uniqueId }}"><a href="#{{ chapter.uniqueId }}">{{ chapter.title }}</a></h2>
+                {% markdown %}
+                  {{ chapter.content }}
+                {% endmarkdown %}
               {% endfor %}
             </div>
 
             {% for resource in resources %}
               <div>
                 <div>
-                  <h3 id="{{ resource.uniqueId }}">
-                    {% if resource.displayName %}{{ resource.displayName }}{% else %}{{ resource.relativeUri }}{% endif %}
-                  </h3>
+                  <h2 id="{{ resource.uniqueId }}">
+                    {% if resource.displayName %}
+                      {{ resource.displayName }}
+                    {% else %}
+                      {{ resource.relativeUri }}
+                    {% endif %}
+                  </h2>
                 </div>
                 <div>
                   {% if resource.description %}
