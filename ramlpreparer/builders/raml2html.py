@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
 import os
+import sys
 import subprocess
 from sys import argv
 
@@ -17,8 +18,10 @@ def raml2html(file_raml, output_html):
         output_file = open(output_html, 'r')
     except FileNotFoundError:
         output_file = open(output_html, 'w')
-    scripting = '../scripts/ramlconvert.sh'
-    htmlifyit = subprocess.call([scripting, file_raml, output_html])
+    scripting = os.getcwd() + '/ramlpreparer/scripts/ramlconvert.sh'
+    nunjucks_path = os.getcwd() + '/ramlpreparer/nunjucks/index.nunjucks'
+    htmlifyit = subprocess.call(
+        [scripting, file_raml, output_html, nunjucks_path])
     api_html = open(output_html)
     apiraw = str(api_html.read())
     api_html.close()
@@ -27,9 +30,8 @@ def raml2html(file_raml, output_html):
 
 # Typical define as needed system
 if __name__ == '__main__':
-    import sys
-    starter_call = '../scripts/npminstall.sh'
-    subprocess.call(starter_call)
+    starter_call = os.getcwd() + '/ramlpreparer/scripts/npminstall.sh'
+    subprocess.call(starter_call, shell=True)
     print(sys.argv[0])
     print(sys.argv[1])
     print(sys.argv[2])
