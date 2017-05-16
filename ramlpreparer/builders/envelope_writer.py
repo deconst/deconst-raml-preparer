@@ -50,7 +50,7 @@ class Envelope_RAML:
         }
         return the_envelope
 
-    # TODO: Figure out if this is actually necessary. It looks like the
+    # DONE: Figure out if this is actually necessary. It looks like the
     # Sphinx preparer is essentially creating it's own builder, which may
     # need this method to generate the JSON.
     def serialization_path(self):
@@ -154,6 +154,26 @@ def parsing_html(self, page):
     whole_envelope = Envelope_RAML(body=soupit.body,
                                    title=soupit.title.string,
                                    toc=toc_html)
+    return whole_envelope
+
+
+def make_json(self, envelope):
+    '''
+    Take in an HTML envelope (a dictionary) and output JSON.
+    '''
+    the_envelope_please = json.dumps(envelope)
+    return the_envelope_please
+
+
+def write_out(self, jsonfile):
+    '''
+    Write the JSON to the serialized path.
+    '''
+    file_path = serialization_path()
+    with open(file_path, 'w') as thefile:
+        json.dump(jsonfile, thefile)
+    return thefile
+
 
 # QUESTION: Does each page's envelope need to get placed separately? Currently,
 # it's written to put each envelope inside of a larger envelope...
