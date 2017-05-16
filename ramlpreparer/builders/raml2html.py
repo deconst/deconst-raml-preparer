@@ -17,14 +17,15 @@ def raml2html(file_raml, output_html):
     try:
         output_file = open(output_html, 'r')
     except FileNotFoundError:
-        output_file = open(output_html, 'w')
+        output_file = open(output_html, 'w')  # TODO: Switch to with open()
+        output_file.close()
+        output_file = open(output_html, 'r')
     scripting = os.getcwd() + '/ramlpreparer/scripts/ramlconvert.sh'
     nunjucks_path = os.getcwd() + '/ramlpreparer/nunjucks/index.nunjucks'
     htmlifyit = subprocess.call(
         [scripting, file_raml, output_html, nunjucks_path])
-    api_html = open(output_html)
-    apiraw = str(api_html.read())
-    api_html.close()
+    apiraw = str(output_file.read())
+    output_file.close()
     return apiraw
 
 
