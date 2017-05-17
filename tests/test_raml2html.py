@@ -34,6 +34,14 @@ class RAML2HTMLTestCase(unittest.TestCase):
         output_file = os.getcwd() + '/tests/test_is_html.html'
         self.assertIn('<html>', raml2html(test_raml, output_file))
 
+    def test_raml2html_without_raml(self):
+        '''
+        Does non-RAML input fail?
+        '''
+        test_not_raml = os.getcwd() + '/tests/tester.txt'
+        output_file = os.getcwd() + '/tests/test_isnt_html.html'
+        self.assertRaises(TypeError, raml2html, [test_not_raml, output_file])
+
 
 if __name__ == '__main__':
     unittest.main()

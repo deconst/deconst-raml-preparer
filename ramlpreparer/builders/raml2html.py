@@ -14,19 +14,22 @@ def raml2html(file_raml, output_html):
     -   the path to an HTML file for output. This file does not need to be
         created first as the script will create it as needed.
     '''
-    try:
-        output_file = open(output_html, 'r')
-    except FileNotFoundError:
-        output_file = open(output_html, 'w')  # TODO: Switch to with open()
+    if not file_raml.lower().endswith('.raml'):
+        raise TypeError("This isn't RAML! Pass a RAML file to this method.")
+    else:
+        try:
+            output_file = open(output_html, 'r')
+        except FileNotFoundError:
+            output_file = open(output_html, 'w')  # TODO: Switch to with open()
+            output_file.close()
+            output_file = open(output_html, 'r')  # TODO: Fix the messiness
+        scripting = os.getcwd() + '/ramlpreparer/scripts/ramlconvert.sh'
+        nunjucks_path = os.getcwd() + '/ramlpreparer/nunjucks/index.nunjucks'
+        htmlifyit = subprocess.call(
+            [scripting, file_raml, output_html, nunjucks_path])
+        apiraw = str(output_file.read())
         output_file.close()
-        output_file = open(output_html, 'r')  # TODO: Fix the messiness
-    scripting = os.getcwd() + '/ramlpreparer/scripts/ramlconvert.sh'
-    nunjucks_path = os.getcwd() + '/ramlpreparer/nunjucks/index.nunjucks'
-    htmlifyit = subprocess.call(
-        [scripting, file_raml, output_html, nunjucks_path])
-    apiraw = str(output_file.read())
-    output_file.close()
-    return apiraw
+        return apiraw
 
 
 # Typical define as needed system
