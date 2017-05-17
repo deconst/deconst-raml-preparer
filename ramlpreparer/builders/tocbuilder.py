@@ -11,6 +11,9 @@ import re
 
 
 def tag_it(tag):
+    '''
+    Set up a tag link.
+    '''
     try:
         tag_link = str(tag['id'])
     except KeyError:
@@ -20,27 +23,27 @@ def tag_it(tag):
 
 
 def sibs_it(tag, current_heading_list, regex101, toc_gen):
+    '''
+    Identify if the next heading is at the same level. If not, close the
+    unordered list and start a new one for the heading level. If it is, add
+    that item to the current unordered list.
+    '''
     sibs = tag.find_next_sibling(regex101)
     if sibs.name != tag.name:
-        current_heading_list.append("</ul>")  # NOTE: Orig., line only for h3
+        # current_heading_list.append("</ul>")  # NOTE: Orig., line only for h3
         toc_gen.append(current_heading_list)
         current_heading_list = []
         return toc_gen
     else:
-        continue
         return current_heading_list
 
 
-def parse_it(html_doc):
+def parse_it(html_doc, toc_gen=[], current_h2=[], current_h3=[],
+             begstr="<li><a href=\"#", endstr="</a></li>"):
     '''
     Parses an HTML doc for headings to add to a table of contents.
     '''
     soup = BeautifulSoup(html_doc, 'html.parser')
-    toc_gen = []
-    current_h2 = []
-    current_h3 = ["<ul>"]
-    begstr = "<li><a href=\"#"
-    endstr = "</a></li>"
     body_tag = soup.body
     regex101 = re.compile('h[1,2,3]')
     cleared_tags = body_tag.findAll(regex101)
@@ -66,6 +69,9 @@ def parse_it(html_doc):
 
 
 def htmlify(toc_list):
+    '''
+    Put together the TOC pieces to make a full TOC for an HTML document.
+    '''
     result = ["<ul>"]
     for item in toc_list:
         if isinstance(item, list):
