@@ -49,7 +49,7 @@ class TocBuilderTestCase(unittest.TestCase):
 
     def test_sibs_it_has_sib(self):
         '''
-        Question?
+        If the tag is followed by a sibling, does it provide the right output?
         '''
         soup = BeautifulSoup('<h3>test</h3><h3>test</h3>', 'html.parser')
         the_method = sibs_it(soup.h3, ['<ul>'], re.compile('h[1,2,3]'), [])
@@ -57,7 +57,8 @@ class TocBuilderTestCase(unittest.TestCase):
 
     def test_sibs_it_not_sib(self):
         '''
-        Question?
+        If the tag is not followed by a sibling, does it provide the right
+        output?
         '''
         soup = BeautifulSoup('<h3>test</h3><h2>test</h2>', 'html.parser')
         the_method = sibs_it(soup.h3, ['empty'], re.compile('h[1,2,3]'), [])
@@ -75,8 +76,8 @@ class TocBuilderTestCase(unittest.TestCase):
         self.assertEqual(the_method_h1, the_result_h1)
 
 # BUG: These next two tests make the test_parse_it_h1_only test break.
-# I think somehow the values of the variables are getting passed like the cache
-# hasn't cleared...
+# I think somehow the values of the variables are getting passed as if the
+# cache hasn't cleared...
     # def test_parse_it_h1_and_h2(self):
     #     '''
     #     Does parse_it work for H1 and H2 tags?

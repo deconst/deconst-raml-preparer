@@ -7,3 +7,4 @@
 -   Add docstrings to methods for autodoc and help
 -   Look into updating to the latest alpine (3.5.x at the moment)
 -   Figure out how metadata can be added to the RAML spec's documentation
+-   Is it better to have a test that tests all methods, then a test that tests all classes, then a test that tests the whole shebang OR a suite of tests that run per file? Figure out the best method of attack.
