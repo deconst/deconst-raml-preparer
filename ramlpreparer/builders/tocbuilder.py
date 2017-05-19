@@ -22,7 +22,7 @@ def tag_it(tag):
     return tag_link
 
 
-def sibs_it(tag, name, current_heading_list, regex101, toc_gen):
+def sibs_it(tag, name, current_heading_list, regex101, toc_gen, prev_list=None):
     '''
     Identify if the next heading is at the same level. If not, close the
     unordered list and start a new one for the heading level. If it is, add
@@ -30,17 +30,24 @@ def sibs_it(tag, name, current_heading_list, regex101, toc_gen):
     '''
     sibs = tag.find_next_sibling(regex101)
     try:
-        if sibs.name != name:
-            # current_heading_list.append("</ul>")  # NOTE: Orig., line only
+        if sibs.name != name and name == 'h3':
+            prev_list.append(current_heading_list)
+            current_heading_list = []
+            return (toc_gen, current_heading_list, prev_list)
+        elif sibs.name != name and name == 'h2' and sibs.name == 'h1':
             toc_gen.append(current_heading_list)
             current_heading_list = []
-            return (toc_gen, current_heading_list)
+            return (toc_gen, current_heading_list, prev_list)
+        # elif sibs.name != name:
+        #     toc_gen.append(current_heading_list)
+        #     current_heading_list = []
+        #     return (toc_gen, current_heading_list, prev_list)
         else:
-            return (toc_gen, current_heading_list)
+            return (toc_gen, current_heading_list, prev_list)
     except AttributeError:
         toc_gen.append(current_heading_list)
         current_heading_list = []
-        return (toc_gen, current_heading_list)
+        return (toc_gen, current_heading_list, prev_list)
 
 
 def parse_it(html_doc, toc_gen=None, current_h2=None, current_h3=None,
@@ -71,8 +78,8 @@ def parse_it(html_doc, toc_gen=None, current_h2=None, current_h3=None,
             tag_link = tag_it(tag)
             current_h2.append(begstr + tag_link + "\">" + tag.string + endstr)
             # try:
-            (toc_gen, current_h2) = sibs_it(
-                tag, tag.name, current_h2, regex101, toc_gen)
+            (toc_gen, current_h2, random_var) = sibs_it(
+                tag, tag.name, current_h2, regex101, toc_gen, current_h2)
             # except:
             #     toc_gen.append(current_h2)
             #     current_h2 = []
@@ -80,8 +87,10 @@ def parse_it(html_doc, toc_gen=None, current_h2=None, current_h3=None,
             tag_link = tag_it(tag)
             current_h3.append(begstr + tag_link + "\">" + tag.string + endstr)
             # try:
-            (toc_gen, current_h3) = sibs_it(
-                tag, tag.name, current_h3, regex101, toc_gen)
+            (toc_gen, current_h3, random_var) = sibs_it(
+                tag, tag.name, current_h3, regex101, toc_gen, current_h2)
+            if tag.find_next_sibling(regex101) == 'h2':
+                current_h2 = random_var
             # except:
             #     toc_gen.append(current_h3)
             #     current_h3 = []
