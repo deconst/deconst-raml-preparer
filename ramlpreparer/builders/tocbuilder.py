@@ -65,6 +65,8 @@ def parse_it(html_doc, toc_gen=[], current_h2=[], current_h3=[],
                 sibs_it(tag, current_h3, regex101, toc_gen)
             except:
                 toc_gen.append(current_h3)
+    current_h3 = []
+    current_h2 = []
     return toc_gen
 
 

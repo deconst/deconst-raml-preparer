@@ -31,6 +31,16 @@ class TocBuilderTestCase(unittest.TestCase):
     Tests for the tocbuilder methods
     '''
 
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        soup = None
+        tag = None
+        html_sample = None
+        the_method = None
+        the_result = None
+
     def test_tag_it_if_id_present(self):
         '''
         Does tag_it provide a string when given good input?
@@ -69,11 +79,14 @@ class TocBuilderTestCase(unittest.TestCase):
         Does parse_it work for H1 tags only?
         '''
         self.maxDiff = None
-        html_sample_h1 = ('<body><h1>text 1</h1><h1>text 2</h1></body>')
-        the_result_h1 = ['<li><a href="#text1">text 1</a></li>',
-                         '<li><a href="#text2">text 2</a></li>']
-        the_method_h1 = parse_it(html_sample_h1)
-        self.assertEqual(the_method_h1, the_result_h1)
+        html_sample = '<body>\\\
+                       <h1>Heading 1 h1</h1>\\\
+                       <h1>Heading 2 h1</h1>\\\
+                       </body>'
+        the_result = ['<li><a href="#Heading1h1">Heading 1 h1</a></li>',
+                      '<li><a href="#Heading2h1">Heading 2 h1</a></li>']
+        the_method = parse_it(html_sample)
+        self.assertEqual(the_method, the_result)
 
 # BUG: These next two tests make the test_parse_it_h1_only test break.
 # I think somehow the values of the variables are getting passed as if the
@@ -83,39 +96,50 @@ class TocBuilderTestCase(unittest.TestCase):
     #     Does parse_it work for H1 and H2 tags?
     #     '''
     #     self.maxDiff = None
-    #     html_sample_h2 = ('<body><h1>text h1 1</h1><h2>text h2 1</h2>' +
-    #                       '<h2>text h2 2</h2><h1>text h1 2</h1>' +
-    #                       '<h2>text h2 3</h2><h2>text h2 4</h2></body>')
-    #     the_result_h2 = ['<li><a href="#texth11">text h1 1</a></li>',
-    #                      ['<li><a href="#texth21">text h2 1</a></li>',
-    #                       '<li><a href="#texth22">text h2 2</a></li>'],
-    #                      '<li><a href="#texth12">text h1 2</a></li>',
-    #                      ['<li><a href="#texth23">text h2 3</a></li>',
-    #                          '<li><a href="#texth24">text h2 4</a></li>']]
-    #     the_method_h2 = parse_it(html_sample_h2)
-    #     self.assertEqual(the_method_h2, the_result_h2)
+    #     html_sample = '<body>\\\
+    #                    <h1>Heading 1 h2</h1>\\\
+    #                    <h2>Heading 1.1 h2</h2>\\\
+    #                    <h2>Heading 1.2 h2</h2>\\\
+    #                    <h1>Heading 2 h2</h1>\\\
+    #                    <h2>Heading 2.1 h2</h2>\\\
+    #                    <h2>Heading 2.2 h2</h2>\\\
+    #                    </body>'
+    #     the_result = ['<li><a href="#Heading1h2">Heading 1 h2</a></li>',
+    #                   ['<li><a href="#Heading1.1h2">Heading 1.1 h2</a></li>',
+    #                       '<li><a href="#Heading1.2h2">Heading 1.2 h2</a></li>'],
+    #                   '<li><a href="#Heading2h2">Heading 2 h2</a></li>',
+    #                   ['<li><a href="#Heading2.1h2">Heading 2.1 h2</a></li>',
+    #                    '<li><a href="#Heading2.2h2">Heading 2.2 h2</a></li>']]
+    #     the_method = parse_it(html_sample)
+    #     self.assertEqual(the_method, the_result)
     #
     # def test_parse_it_pass(self):
     #     '''
     #     Does parse_it work for H1, H2, and H3 tags?
     #     '''
     #     self.maxDiff = None
-    #     html_sample_h3 = ('<body><h1>text h1 1</h1><h2>text h2 1</h2>' +
-    #                       '<h3>text h3 1</h3><h3>text h3 2</h3>' +
-    #                       '<h2>text h2 2</h2><h3>text h3 3</h3>' +
-    #                       '<h1>text h1 2</h1><h2>text h2 3</h2>' +
-    #                       '<h2>text h2 4</h2></body>')
-    #     the_result_h3 = ['<li><a href="#texth11">text h1 1</a></li>',
-    #                      ['<li><a href="#texth21">text h2 1</a></li>',
-    #                       ['<li><a href="#texth31">text h3 1</a></li>',
-    #                        '<li><a href="#texth32">text h3 2</a></li>'],
-    #                          '<li><a href="#texth22">text h2 2</a></li>',
-    #                          ['<li><a href="#texth33">text h3 3</a></li>']],
-    #                      '<li><a href="#texth12">text h1 2</a></li>',
-    #                      ['<li><a href="#texth23">text h2 3</a></li>',
-    #                          '<li><a href="#texth24">text h2 4</a></li>']]
-    #     the_method_h3 = parse_it(html_sample_h3)
-    #     self.assertEqual(the_method_h3, the_result_h3)
+    #     html_sample = '<body>\\\
+    #                    <h1>Heading 1 h3</h1>\\\
+    #                    <h2>Heading 1.1 h3</h2>\\\
+    #                    <h3>Heading 1.1.1 h3</h3>\\\
+    #                    <h3>Heading 1.1.2 h3</h3>\\\
+    #                    <h2>Heading 1.2 h3</h2>\\\
+    #                    <h3>Heading 1.2.1 h3</h3>\\\
+    #                    <h1>Heading 2 h3</h1>\\\
+    #                    <h2>Heading 2.1 h3</h2>\\\
+    #                    <h2>Heading 2.2 h3</h2>\\\
+    #                    </body>'
+    #     the_result = ['<li><a href="#Heading1h3">Heading 1 h3</a></li>',
+    #                   ['<li><a href="#Heading1.1h3">Heading 1.1 h3</a></li>',
+    #                       ['<li><a href="#Heading1.1.1h3">Heading 1.1.1 h3</a></li>',
+    #                        '<li><a href="#Heading1.1.2h3">Heading 1.1.2 h3</a></li>'],
+    #                    '<li><a href="#Heading1.2h3">Heading 1.2 h3</a></li>',
+    #                    ['<li><a href="#Heading1.2.1h3">Heading 1.2.1 h3</a></li>']],
+    #                   '<li><a href="#Heading2h3">Heading 2 h3</a></li>',
+    #                   ['<li><a href="#Heading2.1h3">Heading 2.1 h3</a></li>',
+    #                    '<li><a href="#Heading2.2h3">Heading 2.2 h3</a></li>']]
+    #     the_method = parse_it(html_sample)
+    #     self.assertEqual(the_method, the_result)
 
     def test_parse_it_fail(self):
         '''
