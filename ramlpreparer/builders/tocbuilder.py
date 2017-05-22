@@ -29,41 +29,46 @@ def sibs_it(tag, name, current_heading_list, regex101, toc_gen, prev_list=None):
     that item to the current unordered list.
     '''
     sibs = tag.find_next_sibling(regex101)
+    head_level = re.findall(r'\d+', name)[0]
     try:
-        if sibs.name != name and name == 'h3':
+        sib_head_level = re.findall(r'\d+', sibs.name)[0]
+    except AttributeError:
+        sib_head_level = 0
+    try:
+        if sibs.name != name and head_level < sib_head_level:
+            return (toc_gen, current_heading_list, prev_list, sib_head_level)
+        elif sibs.name != name and head_level > sib_head_level:
             prev_list.append(current_heading_list)
             current_heading_list = []
-            return (toc_gen, current_heading_list, prev_list)
-        elif sibs.name != name and name == 'h2' and sibs.name == 'h1':
+            return (toc_gen, current_heading_list, prev_list, sib_head_level)
+        else:
+            return (toc_gen, current_heading_list, prev_list, sib_head_level)
+    except AttributeError:
+        if head_level != '1':
             toc_gen.append(current_heading_list)
             current_heading_list = []
-            return (toc_gen, current_heading_list, prev_list)
-        # elif sibs.name != name:
-        #     toc_gen.append(current_heading_list)
-        #     current_heading_list = []
-        #     return (toc_gen, current_heading_list, prev_list)
+            return (toc_gen, current_heading_list, prev_list, sib_head_level)
         else:
-            return (toc_gen, current_heading_list, prev_list)
-    except AttributeError:
-        toc_gen.append(current_heading_list)
-        current_heading_list = []
-        return (toc_gen, current_heading_list, prev_list)
+            return (toc_gen, current_heading_list, prev_list, sib_head_level)
 
 
-def parse_it(html_doc, toc_gen=None, current_h2=None, current_h3=None,
-             begstr="<li><a href=\"#", endstr="</a></li>"):
+def parse_it(html_doc, toc_gen=None, current_h1=None, current_h2=None,
+             current_h3=None, begstr="<li><a href=\"#", endstr="</a></li>"):
     '''
     Parses an HTML doc for headings to add to a table of contents.
     '''
     if toc_gen is None:
         toc_gen = []
+        # current_h1 = []
         current_h2 = []
         current_h3 = []
     else:
         toc_gen = None
+        current_h1 = None
         current_h2 = None
         current_h3 = None
         toc_gen = []
+        # current_h1 = []
         current_h2 = []
         current_h3 = []
     soup = BeautifulSoup(html_doc, 'html.parser')
@@ -74,26 +79,54 @@ def parse_it(html_doc, toc_gen=None, current_h2=None, current_h3=None,
         if tag.name == 'h1':
             tag_link = tag_it(tag)
             toc_gen.append(begstr + tag_link + "\">" + tag.string + endstr)
+            (toc_gen, current_h1, prev_var, sib) = sibs_it(
+                tag, tag.name, current_h1, regex101, toc_gen)
+            if sib != '1':
+                pass
+            if sib == '0':
+                current_h1 = []
+                current_h2 = []
+                current_h3 = []
+                prev_var = []
+            else:
+                current_h1 = []
+                current_h2 = []
+                current_h3 = []
+                prev_var = []
         elif tag.name == 'h2':
             tag_link = tag_it(tag)
             current_h2.append(begstr + tag_link + "\">" + tag.string + endstr)
-            # try:
-            (toc_gen, current_h2, random_var) = sibs_it(
-                tag, tag.name, current_h2, regex101, toc_gen, current_h2)
-            # except:
-            #     toc_gen.append(current_h2)
-            #     current_h2 = []
+            (toc_gen, current_h2, prev_var, sib) = sibs_it(
+                tag, tag.name, current_h2, regex101, toc_gen, current_h1)
+            if sib == '1':
+                current_h2 = current_h1
+                toc_gen.append(current_h2)
+                current_h2 = []
+            if sib == '0':
+                current_h1 = []
+                current_h2 = []
+                current_h3 = []
+                prev_var = []
+            else:
+                pass
         elif tag.name == 'h3':
             tag_link = tag_it(tag)
             current_h3.append(begstr + tag_link + "\">" + tag.string + endstr)
-            # try:
-            (toc_gen, current_h3, random_var) = sibs_it(
+            (toc_gen, current_h3, prev_var, sib) = sibs_it(
                 tag, tag.name, current_h3, regex101, toc_gen, current_h2)
-            if tag.find_next_sibling(regex101) == 'h2':
-                current_h2 = random_var
-            # except:
-            #     toc_gen.append(current_h3)
-            #     current_h3 = []
+            if sib == '1':
+                toc_gen.append(current_h2)
+                current_h1 = []
+                current_h2 = []
+                current_h3 = []
+                prev_var = []
+            if sib == '0':
+                current_h1 = []
+                current_h2 = []
+                current_h3 = []
+                prev_var = []
+            else:
+                pass
     return toc_gen
 
 

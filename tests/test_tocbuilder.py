@@ -65,7 +65,7 @@ class TocBuilderTestCase(unittest.TestCase):
         the_method = sibs_it(
             soup.h3, 'h3', ['current_heading_list'], re.compile('h[1,2,3]'), ['toc_builder'])
         self.assertEqual(
-            (['toc_builder'], ['current_heading_list'], None), the_method)
+            (['toc_builder'], ['current_heading_list'], None, '3'), the_method)
 
     def test_sibs_h3_followed_by_h2(self):
         '''
@@ -76,7 +76,7 @@ class TocBuilderTestCase(unittest.TestCase):
         the_method = sibs_it(
             soup.h3, 'h3', ['current_heading_list'], re.compile('h[1,2,3]'), ['toc_builder'], ['h2 list'])
         self.assertEqual(
-            (['toc_builder'], [], ['h2 list', ['current_heading_list']]), the_method)
+            (['toc_builder'], [], ['h2 list', ['current_heading_list']], '2'), the_method)
 
     def test_sibs_h3_followed_by_h1(self):
         '''
@@ -87,13 +87,13 @@ class TocBuilderTestCase(unittest.TestCase):
         the_method = sibs_it(
             soup.h3, 'h3', ['current_heading_list'], re.compile('h[1,2,3]'), ['toc_builder'])
         self.assertEqual(
-            (['toc_builder', ['current_heading_list']], [], None), the_method)
+            (['toc_builder', ['current_heading_list']], [], None, '1'), the_method)
 
     def test_parse_it_h1_only(self):
         '''
         Does parse_it work for H1 tags only?
         '''
-        # self.maxDiff = None
+        self.maxDiff = None
         html_sample = '<body><h1>Heading 1 h1</h1><h1>Heading 2 h1</h1></body>'
         the_result = ['<li><a href="#Heading1h1">Heading 1 h1</a></li>',
                       '<li><a href="#Heading2h1">Heading 2 h1</a></li>']
@@ -106,9 +106,9 @@ class TocBuilderTestCase(unittest.TestCase):
         '''
         Does parse_it work for H1 and H2 tags?
         '''
-        # self.maxDiff = None
+        self.maxDiff = None
         html_sample = '<body><h1>Heading 1 h2</h1><h2>Heading 1.1 h2</h2><h2>Heading 1.2 h2</h2><h1>Heading 2 h2</h1><h2>Heading 2.1 h2</h2><h2>Heading 2.2 h2</h2></body>'
-        the_result = ['<li><a href="#Heading1h2">Heading 1 h2</a></li>', ['<li><a href="#Heading1.1h2">Heading 1.1 h2</a></li>', '<li><a href="#Heading1.2h2">Heading 1.2 h2</a></li>'],
+        the_result = ['<li><a href="#Heading1h2">Heading 1 h2</a></li>', [['<li><a href="#Heading1.1h2">Heading 1.1 h2</a></li>', '<li><a href="#Heading1.2h2">Heading 1.2 h2</a></li>']],
                       '<li><a href="#Heading2h2">Heading 2 h2</a></li>', ['<li><a href="#Heading2.1h2">Heading 2.1 h2</a></li>', '<li><a href="#Heading2.2h2">Heading 2.2 h2</a></li>']]
         the_method = parse_it(html_sample)
         self.assertEqual(the_method, the_result)
@@ -117,7 +117,7 @@ class TocBuilderTestCase(unittest.TestCase):
         '''
         Does parse_it work for H1, H2, and H3 tags?
         '''
-        # self.maxDiff = None
+        self.maxDiff = None
         html_sample = '<body><h1>Heading 1 h3</h1><h2>Heading 1.1 h3</h2><h3>Heading 1.1.1 h3</h3><h3>Heading 1.1.2 h3</h3><h2>Heading 1.2 h3</h2><h3>Heading 1.2.1 h3</h3><h1>Heading 2 h3</h1><h2>Heading 2.1 h3</h2><h2>Heading 2.2 h3</h2></body>'
         the_result = ['<li><a href="#Heading1h3">Heading 1 h3</a></li>', ['<li><a href="#Heading1.1h3">Heading 1.1 h3</a></li>', ['<li><a href="#Heading1.1.1h3">Heading 1.1.1 h3</a></li>', '<li><a href="#Heading1.1.2h3">Heading 1.1.2 h3</a></li>'],
                                                                           '<li><a href="#Heading1.2h3">Heading 1.2 h3</a></li>', ['<li><a href="#Heading1.2.1h3">Heading 1.2.1 h3</a></li>']], '<li><a href="#Heading2h3">Heading 2 h3</a></li>', ['<li><a href="#Heading2.1h3">Heading 2.1 h3</a></li>', '<li><a href="#Heading2.2h3">Heading 2.2 h3</a></li>']]
