@@ -30,7 +30,7 @@ class RAML2HTMLTestCase(unittest.TestCase):
         '''
         Is the output of raml2html actually HTML?
         '''
-        test_raml = os.getcwd() + '/tests/tester.raml'
+        test_raml = os.getcwd() + '/tests/small_test.raml'
         output_file = os.getcwd() + '/tests/test_is_html.html'
         self.assertIn('<html>', raml2html(test_raml, output_file))
 

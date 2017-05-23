@@ -36,7 +36,9 @@ class EnvelopeWriterTestCase(unittest.TestCase):
         '''
         Question?
         '''
+        test_case_1 = make_it_html('./small_test.raml', 'test_case_1.html')
         pass
+        # self.assertEqual()
 
     def test_make_it_html_fail(self):
         '''
@@ -75,6 +77,129 @@ class EnvelopeWriterTestCase(unittest.TestCase):
         pass
 
     def test_write_out_fail(self):
+        '''
+        Question?
+        '''
+        pass
+
+
+class Envelope_RAMLTestCase(unittest.TestCase):
+    '''
+    Tests for class methods in the Envelope_RAML class
+    '''
+
+    def setUp(self):
+        '''
+        Instantiate the class.
+        '''
+        self.envelope = Envelope_RAML('<body><p>testing</p></body>')
+
+    def tearDown(self):
+        pass
+
+    def test_serialization_path_pass(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_serialization_path_fail(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_populate_meta_pass(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_populate_meta_fail(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_populate_git_pass(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_populate_git_fail(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_populate_unsearchable_pass(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_populate_unsearchable_fail(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_populate_layout_key_pass(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_populate_layout_key_fail(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_populate_categories_pass(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_populate_categories_fail(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_populate_asset_offsets_pass(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_populate_asset_offsets_fail(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_populate_content_id_pass(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_populate_content_id_fail(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_override_title_pass(self):
+        '''
+        Question?
+        '''
+        pass
+
+    def test_override_title_fail(self):
         '''
         Question?
         '''
