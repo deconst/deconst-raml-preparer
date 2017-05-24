@@ -20,15 +20,17 @@ element2 = 0
 for img in soup.find_all('img'):
     tag_string = str(img)
     begin_offset = element1.index(tag_string)
-    end_offset = len(tag_string) + begin_offset
-    n = (begin_offset, end_offset, img['src'])
-    print(n)
-    asset_offset_envelope[n] = [tag_string]
+    src_offset = tag_string.index('src="')
+    # To get the end of the tag: end_offset = len(tag_string) + begin_offset
+    final_offset = len('src="') + src_offset + begin_offset
+    n = (img['src'], final_offset)
     img['src'] = element2
-    changed_envelope[element2] = [img]
+    changed_envelope[n] = [img]
     element2 += 1
+    # can I use bs4 to replace the src with the asset URL, or is that
+    # happening in the submitter? Do I need the offset of the src where I
+    # place the single chara, or the offset of the tag?
 
-print(asset_offset_envelope)
 print(changed_envelope)
 
 # Step 3: Map all assets in the HTML to the location in the asset directory.
