@@ -10,5 +10,6 @@ script:
 - raml2html --version
 - python tests/test_raml2html.py
 - python tests/test_tocbuilder.py
+- python tests/test_asset_mapper.py
 notifications:
   email: false
