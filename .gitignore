@@ -92,7 +92,6 @@ ENV/
 tests/node_modules/
 tests/dest/*.html
 tests/src/tester.raml
-tests/src/assets/*.jpg
 tests/dest/assets/*.jpg
 ramlpreparer/scripts/node_modules/
 ramlpreparer/builders/node_modules/
