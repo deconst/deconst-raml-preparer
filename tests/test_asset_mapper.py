@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 
 sys.path.append(path.join(path.dirname(__file__), '..'))
 
-# from ramlpreparer.builders.asset_mapper import name
+from ramlpreparer.builders.asset_mapper import map_the_assets
 
 # Initialize the raml2html package.
 starter_call = os.getcwd() + '/ramlpreparer/scripts/npminstall.sh'
@@ -27,13 +27,19 @@ class AssetMapperTestCase(unittest.TestCase):
     Tests for the asset_mapper methods
     '''
 
-    def test_assetmapper1_pass(self):
+    def test_map_the_assets_asset_offset_pass(self):
         '''
-        Question?
+        Does the mapper successfully map the new path?
         '''
-        pass
+        expected_version = {os.getcwd() + '/tests/dest/assets/tool_time12.jpg': 3980,
+                            os.getcwd() + '/tests/dest/assets/tool_time.jpg': 663}
+        source_assets = os.getcwd() + '/tests/src/assets/'
+        dest_assets = os.getcwd() + '/tests/dest/assets/'
+        x, mapped_version = map_the_assets(
+            '/tests/src/tester-raw.html', source_assets, dest_assets)
+        self.assertEqual(expected_version, mapped_version)
 
-    def test_assetmapper1_fail(self):
+    def test_map_the_assets_asset_offset_fail(self):
         '''
         Question?
         '''
