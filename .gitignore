@@ -90,8 +90,9 @@ ENV/
 
 # Extras
 tests/node_modules/
-tests/*.html
-tests/tester.raml
-tests/*.jpg
+tests/dest/*.html
+tests/src/tester.raml
+tests/src/assets/*.jpg
+tests/dest/assets/*.jpg
 ramlpreparer/scripts/node_modules/
 ramlpreparer/builders/node_modules/

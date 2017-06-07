@@ -36,7 +36,8 @@ class EnvelopeWriterTestCase(unittest.TestCase):
         '''
         Question?
         '''
-        test_case_1 = make_it_html('./small_test.raml', 'test_case_1.html')
+        test_case_1 = make_it_html(
+            './src/small_test.raml', './dest/test_case_1.html')
         pass
         # self.assertEqual()
 
