@@ -19,31 +19,26 @@ class Envelope_RAML:
     A class for metadata envelopes.
     '''
 
-    def __init__(self, body, docname=None, title=None, author=None, toc=None,
-                 publish_date=None, categories=None, unsearchable=None,
-                 content_id=None, layout_key=None, meta=None,
-                 asset_offsets=None, next=None, previous=None, addenda=None,
+    def __init__(self, body, docname=None, title=None, toc=None,
+                 publish_date=None, unsearchable=None, content_id=None,
+                 layout_key=None, meta=None, asset_offsets=None, addenda=None,
                  deconst_config=None, per_page_meta=None):
         '''
         Initiate as a dictionary.
         '''
         the_envelope = {
-            'body': self.body,
-            'docname': self.docname,
+            'body': self.body,  # TODO: Fix the body to show the asset mapper
+            'docname': self.docname,  # TODO: Set docname up so the content id and all work
             'title': self.title,
             'toc': self.toc,
             # NOTE: Not sure if any of these following ones will be used.
-            'author': self.author,  # Doubt this appears in the RAML spec.
-            'publish_date': self.publish_date,  # Ditto
-            'categories': self.categories,  # Ditto
+            # 'publish_date': self.publish_date,  # Ditto
             'unsearchable': self.unsearchable,  # From deconst, or Sphinx?
             # TODO: Get these next ones figured out (from the Sphinx preparer)
             'content_id': self.content_id,
             'layout_key': self.layout_key,
             'meta': self.meta,
             'asset_offsets': self.asset_offsets,
-            'next': self.next,
-            'previous': self.previous,
             'addenda': self.addenda,
             'deconst_config': self.deconst_config,
             'per_page_meta': self.per_page_meta
@@ -103,24 +98,11 @@ class Envelope_RAML:
         self.layout_key = self.per_page_meta.get(
             'deconstlayout', default_layout)
 
-    def _populate_categories(self):
-        '''
-        Unify global and per-page categories.
-        '''
-        page_cats = self.per_page_meta.get('deconstcategories')
-        global_cats = self.config.deconst_categories
-        if page_cats is not None or global_cats is not None:
-            cats = set()
-            if page_cats is not None:
-                cats.update(re.split("\s*,\s*", page_cats))
-            cats.update(global_cats or [])
-            self.categories = list(cats)
-
     def _populate_asset_offsets(self):
         '''
-        Read stored asset offsets from the docwriter.
+        Read stored asset offsets from the asset mapper, and then update the body.
         '''
-        self.asset_offsets = self.visitor.calculate_offsets()
+        self.body, self.asset_offsets = self.asset_offsets.map_the_assets()
 
     def _populate_content_id(self):
         '''
