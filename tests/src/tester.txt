@@ -316,8 +316,6 @@ documentation:
         type: integer
     type: base
     get:
-      # TODO can be different outcomes, so need to define a couple of examples and
-      # a couple of schemas instead of given one for 'image'.
       description: |
         Get information about a media object. The returned type key will allow
         you to differentiate between image and video media.
@@ -854,7 +852,6 @@ documentation:
         Search for media in a given area. The default time span is set to 5 days.
         The time span must not exceed 7 days. Defaults time stamps cover the
         last 5 days.
-    # TODO oneOf
       queryParameters:
         lat:
           description: |
@@ -3322,7 +3319,6 @@ documentation:
   /search:
     type: base
     get:
-      #TODO oneOf
       description: Search for a location by geographic coordinate.
       queryParameters:
         lat:
