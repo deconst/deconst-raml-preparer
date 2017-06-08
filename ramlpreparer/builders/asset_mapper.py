@@ -6,7 +6,7 @@ import shutil
 from bs4 import BeautifulSoup
 
 # DONE: Step 1: Take the assets and copy them over.
-# Note: Look at envelopes with
+# NOTE: Look at envelopes with
 # http://localhost:9000/content/https%3A%2F%2Fgithub.com%2F<org>%2F<repo>
 #     %2F<permalink>
 # from the integrated deconst.
@@ -35,9 +35,6 @@ def map_the_assets(html_doc_path, src_asset_dir, dest_asset_dir):
         img['src'] = element2
         changed_envelope[n] = final_offset
         element2 += 1
-        # QUESTION: Can I use bs4 to replace the src with the asset URL, or is
-        # that happening in the submitter? Do I need the offset of the src
-        # where I place the single chara, or the offset of the tag?
     listed_env = list(changed_envelope)
     # Step 3: Map all assets in the HTML to the location in the asset
     # directory.
@@ -45,6 +42,8 @@ def map_the_assets(html_doc_path, src_asset_dir, dest_asset_dir):
     for key in listed_env:
         path_to_key = src_asset_dir + key
         new_path = dest_asset_dir + key
+        # potential BUG: What if the same image is used twice in the doc (or
+        # reused in another doc)?
         shutil.copy(path_to_key, dest_asset_dir)
         changed_envelope[new_path] = changed_envelope.pop(key)
     # DONE: Step 4: Replace the asset in the HTML with the single-character
