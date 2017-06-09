@@ -45,9 +45,6 @@ class Envelope_RAML:
         }
         return the_envelope
 
-    # DONE: Figure out if this is actually necessary. It looks like the
-    # Sphinx preparer is essentially creating it's own builder, which may
-    # need this method to generate the JSON.
     def serialization_path(self):
         '''
         Generate the full path at which this envelope should be serialized.
