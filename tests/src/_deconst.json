@@ -1,0 +1,8 @@
+{
+  "contentIDBase": "https://github.com/deconst/fake-repo/",
+  "githubUrl": "https://github.com/deconst/fake-repo/",
+  "meta": {
+    "someKey": "someValue",
+    "preferGithubIssues": true
+  }
+}

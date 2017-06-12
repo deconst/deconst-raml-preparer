@@ -13,6 +13,7 @@ import os
 import json
 from os import path
 from bs4 import BeautifulSoup
+from test import support
 
 sys.path.append(path.join(path.dirname(__file__), '..'))
 
@@ -23,6 +24,11 @@ from ramlpreparer.config import Configuration
 starter_call = path.join(os.getcwd(), 'ramlpreparer',
                          'scripts', 'npminstall.sh')
 subprocess.call(starter_call, shell=True)
+
+# Identify where the test files live
+env_file = path.join(os.getcwd(), 'ramlpreparer', 'tests', 'src', 'env')
+deconstjson = path.join(os.getcwd(), 'ramlpreparer',
+                        'tests', 'src', '_deconst.json')
 
 
 class ConfigTestCase(unittest.TestCase):
@@ -54,17 +60,23 @@ class ConfigurationTestCase(unittest.TestCase):
         '''
         Instantiate the class.
         '''
-        self.config_class = Configuration()
+        self.config_class = Configuration(os.environ)
 
     def tearDown(self):
-        pass
+        self.config_class.dispose()
 
     @unittest.skip("feature not ready")
     def test_apply_file_pass(self):
         '''
-        Question?
+        Does the apply_file method correctly parse the deconst json file?
         '''
-        pass
+        test_deconst_result = config_class.apply_file(deconstjson)
+        expected_deconst_result = {}
+        expected_deconst_result['contentIDBase'] = 'https://github.com/deconst/fake-repo/'
+        expected_deconst_result['meta'] = {
+            'github_issues_url': 'https://github.com/deconst/fake-repo/issues/'}
+        expected_deconst_result['githubUrl'] = 'https://github.com/deconst/fake-repo/'
+        self.assertEqual(expected_deconst_result, test_deconst_result)
 
     @unittest.skip("feature not ready")
     def test_apply_file_fail(self):
