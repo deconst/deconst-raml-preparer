@@ -23,8 +23,10 @@ def raml2html(file_raml, output_html):
             output_file = open(output_html, 'w')  # TODO: Switch to with open()
             output_file.close()
             output_file = open(output_html, 'r')  # TODO: Fix the messiness
-        scripting = os.getcwd() + '/ramlpreparer/scripts/ramlconvert.sh'
-        nunjucks_path = os.getcwd() + '/ramlpreparer/nunjucks/index.nunjucks'
+        scripting = os.path.join(
+            os.getcwd(), 'ramlpreparer', 'scripts', 'ramlconvert.sh')
+        nunjucks_path = os.path.join(
+            os.getcwd(), 'ramlpreparer', 'nunjucks', 'index.nunjucks')
         htmlifyit = subprocess.call(
             [scripting, file_raml, output_html, nunjucks_path])
         apiraw = str(output_file.read())
@@ -34,7 +36,8 @@ def raml2html(file_raml, output_html):
 
 # Typical define as needed system
 if __name__ == '__main__':
-    starter_call = os.getcwd() + '/ramlpreparer/scripts/npminstall.sh'
+    starter_call = os.path.join(
+        os.getcwd(), 'ramlpreparer', 'scripts', 'npminstall.sh')
     subprocess.call(starter_call, shell=True)
     # print(sys.argv[0])
     # print(sys.argv[1])

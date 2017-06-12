@@ -49,7 +49,8 @@ def map_the_assets(html_doc_path, src_asset_dir, dest_asset_dir):
         changed_envelope[new_path] = changed_envelope.pop(key)
     # DONE: Step 4: Replace the asset in the HTML with the single-character
     # placeholder.
-    the_new_path = os.path.join(os.getcwd(), 'tests/dest/asset_test.html')
+    the_new_path = os.path.join(
+        os.getcwd(), 'tests', 'dest', 'asset_test.html')
     with open(the_new_path, 'a') as cleaned_file:
         cleaned_file.write(str(soup))
     return cleaned_file, changed_envelope
