@@ -1,5 +1,6 @@
 #! usr/bin/env python
 
+# Modified from the Sphinx preparer's config.py file
 # TODO: Clean up copy-pasta.
 
 import json
