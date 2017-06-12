@@ -6,7 +6,7 @@ import os
 import sys
 
 from pip import pip
-# from deconstrst.deconstrst import build, get_conf_builder
+import ramlpreparer.deconstraml as deconstraml  # import build, get_conf_builder
 from .config import Configuration
 
 __author__ = 'Laura Santamaria'
@@ -40,9 +40,9 @@ def main(directory=False):
 
     # Lock source and destination to the same paths as the Makefile.
     # srcdir = '.'
-    # destdir = os.path.join('_build', get_conf_builder(srcdir))
+    # destdir = os.path.join('_build', deconstraml.get_conf_builder(srcdir))
 
-    # status = build(srcdir, destdir)
+    # status = deconstraml.build(srcdir, destdir)
     # if status != 0:
     #     sys.exit(status)
 

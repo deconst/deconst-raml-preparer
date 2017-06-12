@@ -3,17 +3,17 @@
 # Written for Python 3.x by Laura A Santamaria for deconst, an end-to-end
 # documentation delivery system.
 
+'''
+Use the RAML2HTML JavaScript library to convert .raml files to JSON envelopes
+to pass to the deconst submitter module.
+'''
+
 import sys
 import os
 import re
 import urllib.parse
 import requests
-#from deconstraml.builder import DeconstJSONBuilder
-# from <<<raml builder>>>> import <<<<modules>>>>>
-
-import envelope_writer
-
-# Get the RAML
+import ramlpreparer.envelope_writer as envelope_writer
 
 
 def enveloper(self, the_raml):
@@ -27,11 +27,13 @@ def enveloper(self, the_raml):
 
 
 # Sumbit to the submitter
-def submit(___):
+def submit(self, the_envelope):
     '''
     Pass the envelopes to the submitter.
     '''
-    pass
+    the_json = envelope_writer.make_json(the_envelope)
+    # TODO: What's the submission variable?
+    final_submit = envelope_writer.write_out(SUBMISSION)
 
 
 # Run me!
