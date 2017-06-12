@@ -1,8 +1,9 @@
-#! usr/bin/env python
+#! usr/bin/env python3
 
 from bs4 import BeautifulSoup
 import json
 import subprocess
+import os
 
 import .asset_mapper
 import .common
@@ -10,7 +11,8 @@ import .tocbuilder
 import .raml2html
 
 # Initialize the raml2html package.
-starter_call = os.getcwd() + '/ramlpreparer/scripts/npminstall.sh'
+starter_call = os.path.join(
+    os.getcwd(), 'ramlpreparer', 'scripts', 'npminstall.sh')
 subprocess.call(starter_call, shell=True)
 
 

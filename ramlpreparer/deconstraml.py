@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 # Written for Python 3.x by Laura A Santamaria for deconst, an end-to-end
 # documentation delivery system.
@@ -32,11 +32,12 @@ def submit(self, the_envelope):
     Pass the envelopes to the submitter.
     '''
     the_json = envelope_writer.make_json(the_envelope)
-    # TODO: What's the submission variable?
-    final_submit = envelope_writer.write_out(SUBMISSION)
+    # DONE: What's the submission variable?
+    submission = os.path.join(os.getcwd(), the_envelope.content_id)
+    final_submit = envelope_writer.write_out(submission)
 
 
 # Run me!
 if __name__ == "__main__":
-    print("This module was called directly.")
-    pass
+    each_envelope = enveloper(self)
+    submit(each_envelope)

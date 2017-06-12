@@ -1,4 +1,4 @@
-#! usr/bin/env python
+#! usr/bin/env python3
 
 # Modified from the Sphinx preparer's config.py file
 # TODO: Clean up copy-pasta.

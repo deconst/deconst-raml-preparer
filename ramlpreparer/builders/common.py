@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Modified from the Sphinx preparer's common.py
@@ -16,7 +17,7 @@ from ramlpreparer.config import Configuration
 
 def init_builder(builder):
     '''
-    Common Builder initialization.
+    deconst config initialization
     '''
     builder.deconst_config = Configuration(os.environ)
 
