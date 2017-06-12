@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# Modified from the Sphinx preparer's __init__.py file
+
 import os
 import sys
 
