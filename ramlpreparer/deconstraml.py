@@ -13,7 +13,7 @@ import os
 import re
 import urllib.parse
 import requests
-import ramlpreparer.envelope_writer as envelope_writer
+import ramlpreparer.builders.envelope_writer as envelope_writer
 
 
 def enveloper(self, the_raml):
