@@ -21,11 +21,17 @@ class Envelope_RAML:
 
     def __init__(self, body, docname=None, title=None, toc=None,
                  publish_date=None, unsearchable=None, content_id=None,
-                 layout_key=None, meta=None, asset_offsets=None, addenda=None,
+                 meta=None, asset_offsets=None, addenda=None,
                  deconst_config=None, per_page_meta=None):
         '''
-        Initiate as a dictionary.
+        Run populations, and initiate dictionary.
         '''
+        self._populate_content_id()
+        self._populate_meta()
+        self._populate_asset_offsets()
+        self._populate_unsearchable()
+        self._populate_git()
+
         the_envelope = {
             'body': self.body,  # TODO: Fix the body to show the asset mapper
             'docname': self.docname,  # TODO: Set docname up so the content id and all work
@@ -36,7 +42,6 @@ class Envelope_RAML:
             'unsearchable': self.unsearchable,  # From deconst, or Sphinx?
             # TODO: Get these next ones figured out (from the Sphinx preparer)
             'content_id': self.content_id,
-            'layout_key': self.layout_key,
             'meta': self.meta,
             'asset_offsets': self.asset_offsets,
             'addenda': self.addenda,
@@ -87,14 +92,6 @@ class Envelope_RAML:
         if unsearchable is not None:
             self.unsearchable = unsearchable in ('true', True)
 
-    def _populate_layout_key(self):
-        '''
-        Derive the "layout_key" from per-page or repository-wide configuration.
-        '''
-        default_layout = self.config.deconst_default_layout
-        self.layout_key = self.per_page_meta.get(
-            'deconstlayout', default_layout)
-
     def _populate_asset_offsets(self):
         '''
         Read stored asset offsets from the asset mapper, and then update the body.
@@ -105,14 +102,8 @@ class Envelope_RAML:
         '''
         Derive this envelope's content ID.
         '''
-        self.content_id = derive_content_id(self.deconst_config, self.docname)
-
-    def _override_title(self):
-        '''
-        Override the envelope's title if requested by page metadata.
-        '''
-        if 'deconsttitle' in self.per_page_meta:
-            self.title = self.per_page_meta['deconsttitle']
+        self.content_id = common.derive_content_id(
+            self.deconst_config, self.docname)
 
 
 def make_it_html(self, raml, output_html):

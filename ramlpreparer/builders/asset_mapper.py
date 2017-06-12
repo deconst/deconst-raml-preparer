@@ -19,7 +19,8 @@ def map_the_assets(html_doc_path, src_asset_dir, dest_asset_dir):
     '''
     Given an HTML file, take all image assets and remap for deconst.
     '''
-    with open(os.getcwd() + html_doc_path, 'r') as html_doc_sample:
+    the_path = os.path.join(os.getcwd(), html_doc_path)
+    with open(the_path, 'r') as html_doc_sample:
         soup = BeautifulSoup(html_doc_sample, 'html.parser')
     changed_envelope = {}
     element1 = str(soup)
@@ -48,6 +49,7 @@ def map_the_assets(html_doc_path, src_asset_dir, dest_asset_dir):
         changed_envelope[new_path] = changed_envelope.pop(key)
     # DONE: Step 4: Replace the asset in the HTML with the single-character
     # placeholder.
-    with open(os.getcwd() + '/tests/dest/asset_test.html', 'a') as cleaned_file:
+    the_new_path = os.path.join(os.getcwd(), 'tests/dest/asset_test.html')
+    with open(the_new_path, 'a') as cleaned_file:
         cleaned_file.write(str(soup))
     return cleaned_file, changed_envelope
