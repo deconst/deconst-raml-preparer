@@ -17,7 +17,8 @@ sys.path.append(path.join(path.dirname(__file__), '..'))
 from ramlpreparer.builders.raml2html import raml2html
 
 # Initialize the raml2html package.
-starter_call = os.getcwd() + '/ramlpreparer/scripts/npminstall.sh'
+starter_call = path.join(os.getcwd(), 'ramlpreparer',
+                         'scripts', 'npminstall.sh')
 subprocess.call(starter_call, shell=True)
 
 
@@ -30,16 +31,18 @@ class RAML2HTMLTestCase(unittest.TestCase):
         '''
         Is the output of raml2html actually HTML?
         '''
-        test_raml = os.getcwd() + '/tests/src/small_test.raml'
-        output_file = os.getcwd() + '/tests/dest/test_is_html.html'
+        test_raml = path.join(os.getcwd(), 'tests', 'src', 'small_test.raml')
+        output_file = path.join(os.getcwd(), 'tests',
+                                'dest', 'test_is_html.html')
         self.assertIn('<html>', raml2html(test_raml, output_file))
 
     def test_raml2html_without_raml(self):
         '''
         Does non-RAML input fail?
         '''
-        test_not_raml = os.getcwd() + '/tests/src/tester.txt'
-        output_file = os.getcwd() + '/tests/dest/test_isnt_html.html'
+        test_not_raml = path.join(os.getcwd(), 'tests', 'src', 'tester.txt')
+        output_file = path.join(os.getcwd(), 'tests',
+                                'dest', 'test_isnt_html.html')
         self.assertRaises(TypeError, raml2html, [test_not_raml, output_file])
 
 

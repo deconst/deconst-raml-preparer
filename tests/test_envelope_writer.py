@@ -23,7 +23,8 @@ from ramlpreparer.builders.envelope_writer import write_out
 from ramlpreparer.builders.envelope_writer import Envelope_RAML
 
 # Initialize the raml2html package.
-starter_call = os.getcwd() + '/ramlpreparer/scripts/npminstall.sh'
+starter_call = path.join(os.getcwd(), 'ramlpreparer',
+                         'scripts', 'npminstall.sh')
 subprocess.call(starter_call, shell=True)
 
 
