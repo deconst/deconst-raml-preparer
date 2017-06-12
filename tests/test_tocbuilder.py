@@ -22,7 +22,8 @@ from ramlpreparer.builders.tocbuilder import parse_it
 from ramlpreparer.builders.tocbuilder import htmlify
 
 # Initialize the raml2html package.
-starter_call = path.join(os.getcwd() 'ramlpreparer', 'scripts', 'npminstall.sh')
+starter_call = path.join(os.getcwd(), 'ramlpreparer',
+                         'scripts', 'npminstall.sh')
 subprocess.call(starter_call, shell=True)
 
 
