@@ -1,7 +1,7 @@
 # Deconst RAML Preparer
 RAML :point_right: :wrench: :point_right: .json
 
-[Stability Rating](https://img.shields.io/badge/stability-in%20development-yellow.svg)
+[![Stability Rating](https://img.shields.io/badge/stability-in%20development-yellow.svg)](https://img.shields.io/badge/stability-in%20development-yellow.svg)
 
 :construction: Work in progress :construction:
 
