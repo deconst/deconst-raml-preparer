@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
@@ -22,6 +22,7 @@ class TestRamlPreparer(unittest.TestCase):
 
     def tearDown(self):
         pass
+
 
 if __name__ == '__main__':
     unittest.main()
