@@ -30,12 +30,14 @@ class ConfigTestCase(unittest.TestCase):
     Tests for the config method
     '''
 
+    @unittest.skip("feature not ready")
     def test__normalize_pass(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test__normalize_fail(self):
         '''
         Question?
@@ -57,12 +59,14 @@ class ConfigurationTestCase(unittest.TestCase):
     def tearDown(self):
         pass
 
+    @unittest.skip("feature not ready")
     def test_apply_file_pass(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_apply_file_fail(self):
         '''
         Question?
