@@ -5,10 +5,10 @@ import json
 import subprocess
 import os
 
-import .asset_mapper
-import .common
-import .tocbuilder
-import .raml2html
+import ramlpreparer.builders.asset_mapper as asset_mapper
+import ramlpreparer.builders.common as common
+import ramlpreparer.builders.tocbuilder as tocbuilder
+import ramlpreparer.builders.raml2html as raml2html
 
 # Initialize the raml2html package.
 starter_call = os.path.join(
