@@ -179,12 +179,13 @@ class TocBuilderTestCase(unittest.TestCase):
         the_method = parse_it(html_sample)
         self.assertEqual(the_method, the_result)
 
-    # def test_parse_it_fail(self):
-    #     '''
-    #     Question?
-    #     '''
-    #     html_doc = '<h1>text</h1><h2>text</h2><h3>text</h3>'
-    #     pass
+    @unittest.skip("haven't figured out how to test the failure yet")
+    def test_parse_it_fail(self):
+        '''
+        Question?
+        '''
+        html_doc = '<h1>text</h1><h2>text</h2><h3>text</h3>'
+        pass
 
     def test_htmlify_pass(self):
         '''
@@ -202,13 +203,14 @@ class TocBuilderTestCase(unittest.TestCase):
         the_method = htmlify(the_list)
         self.assertEqual(the_method, the_result)
 
-    # def test_htmlify_fail(self):
-    #     '''
-    #     Question?
-    #     '''
-    #     soup = BeautifulSoup(
-    #         '<h1>text</h1><h2>text</h2><h3>text</h3>', 'html.parser')
-    #     pass
+    @unittest.skip("haven't figured out how to test the failure yet")
+    def test_htmlify_fail(self):
+        '''
+        Question?
+        '''
+        soup = BeautifulSoup(
+            '<h1>text</h1><h2>text</h2><h3>text</h3>', 'html.parser')
+        pass
 
 
 if __name__ == '__main__':

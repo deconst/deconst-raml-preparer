@@ -33,6 +33,7 @@ class EnvelopeWriterTestCase(unittest.TestCase):
     Tests for the envelope_writer methods
     '''
 
+    @unittest.skip("feature not ready")
     def test_make_it_html_pass(self):
         '''
         Question?
@@ -42,42 +43,49 @@ class EnvelopeWriterTestCase(unittest.TestCase):
         pass
         # self.assertEqual()
 
+    @unittest.skip("feature not ready")
     def test_make_it_html_fail(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_parsing_html_pass(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_parsing_html_fail(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_make_json_pass(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_make_json_fail(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_write_out_pass(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_write_out_fail(self):
         '''
         Question?
@@ -99,108 +107,126 @@ class Envelope_RAMLTestCase(unittest.TestCase):
     def tearDown(self):
         pass
 
+    @unittest.skip("feature not ready")
     def test_serialization_path_pass(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_serialization_path_fail(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_populate_meta_pass(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_populate_meta_fail(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_populate_git_pass(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_populate_git_fail(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_populate_unsearchable_pass(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_populate_unsearchable_fail(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_populate_layout_key_pass(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_populate_layout_key_fail(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_populate_categories_pass(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_populate_categories_fail(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_populate_asset_offsets_pass(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_populate_asset_offsets_fail(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_populate_content_id_pass(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_populate_content_id_fail(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_override_title_pass(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_override_title_fail(self):
         '''
         Question?

@@ -27,12 +27,14 @@ class CommonTestCase(unittest.TestCase):
     Tests for the common methods
     '''
 
+    @unittest.skip("feature not ready")
     def test_common1_pass(self):
         '''
         Question?
         '''
         pass
 
+    @unittest.skip("feature not ready")
     def test_common1_fail(self):
         '''
         Question?
