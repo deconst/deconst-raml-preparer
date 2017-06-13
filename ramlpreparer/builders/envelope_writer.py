@@ -28,6 +28,8 @@ class Envelope_RAML:
         '''
         Run populations, and initiate dictionary.
         '''
+        self._populate_docname()
+        self._populate_deconst_config()
         self._populate_content_id()
         self._populate_meta()
         self._populate_asset_offsets()
@@ -36,7 +38,7 @@ class Envelope_RAML:
 
         the_envelope = {
             'body': self.body,  # TODO: Fix the body to show the asset mapper
-            'docname': self.docname,  # TODO: Set docname up so the content id and all work
+            'docname': self.docname,  # DONE: Set docname up so the content id and all work
             'title': self.title,
             'toc': self.toc,
             # NOTE: Not sure if any of these following ones will be used.
@@ -107,6 +109,18 @@ class Envelope_RAML:
         self.content_id = common.derive_content_id(
             self.deconst_config, self.docname)
 
+    def _populate_deconst_config(self):
+        '''
+        Pull in all the deconst json info
+        '''
+        self.deconst_config = common.init_builder()
+
+    def _populate_docname(self):
+        '''
+
+        '''
+        self.docname = self.title.replace(" ", "")
+
 
 def make_it_html(raml, output_html):
     '''
@@ -120,11 +134,14 @@ def parsing_html(page):
     '''
     Parse the HTML to put it in an envelope.
     '''
-    soupit = BeautifulSoup(page, 'html.parser')
-    that_page = tocbuilder.parse_it(page)
+    with open(page, 'r') as contents:
+        soupit = BeautifulSoup(contents, 'html.parser')
+    with open(page, 'r') as contents:
+        that_page = tocbuilder.parse_it(contents)
     toc_html = tocbuilder.htmlify(that_page)
+    the_title = soupit.title
     whole_envelope = Envelope_RAML(body=soupit.body,
-                                   title=soupit.title.string,
+                                   title=the_title.string,
                                    toc=toc_html)
     return whole_envelope
 

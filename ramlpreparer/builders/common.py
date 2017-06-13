@@ -15,15 +15,15 @@ from os import path
 from ramlpreparer.config import Configuration
 
 
-def init_builder(builder):
+def init_builder():
     '''
     deconst config initialization
     '''
-    builder.deconst_config = Configuration(os.environ)
+    deconst_config = Configuration(os.environ)
 
     if path.exists('_deconst.json'):
         with open('_deconst.json', 'r', encoding='utf-8') as cf:
-            builder.deconst_config.apply_file(cf)
+            deconst_config.apply_file(cf)
 
 
 def derive_content_id(deconst_config, docname):
