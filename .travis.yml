@@ -8,7 +8,7 @@ install:
 - npm install raml2html
 script:
 - raml2html --version
-- coverage run tests/test_all.py
+- coverage run -m unittest -v
 notifications:
   email: false
 after_success:
