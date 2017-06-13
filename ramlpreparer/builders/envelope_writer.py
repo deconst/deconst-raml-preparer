@@ -137,11 +137,20 @@ def make_json(envelope):
     return the_envelope_please
 
 
-def write_out(jsonfile):
+def write_out(jsonfile, file_path=None, envelope=None):
     '''
-    Write the JSON to the serialized path.
+    Write the JSON to the serialized path. If no file_path is provided, the
+    original envelope from make_json() is needed to generate a file path. An
+    error is raised if you don't have a file path or an envelope.
     '''
-    file_path = serialization_path()
+    if file_path is None and envelope is None:
+        raise ValueError("If you don't have a file path, you need to" +
+                         "identify the envelope that the JSON came from so " +
+                         "the system can generate a file path for you.")
+    elif file_path is None and envelope is not None:
+        file_path = envelope.serialization_path()
+    else:
+        pass
     with open(file_path, 'w') as thefile:
         json.dump(jsonfile, thefile)
     return thefile
