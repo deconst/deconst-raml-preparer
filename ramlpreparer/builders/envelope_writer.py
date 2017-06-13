@@ -108,7 +108,7 @@ class Envelope_RAML:
             self.deconst_config, self.docname)
 
 
-def make_it_html(self, raml, output_html):
+def make_it_html(raml, output_html):
     '''
     Takes in the RAML and gives out HTML
     '''
@@ -116,7 +116,7 @@ def make_it_html(self, raml, output_html):
     return originalHTML
 
 
-def parsing_html(self, page):
+def parsing_html(page):
     '''
     Parse the HTML to put it in an envelope.
     '''
@@ -129,7 +129,7 @@ def parsing_html(self, page):
     return whole_envelope
 
 
-def make_json(self, envelope):
+def make_json(envelope):
     '''
     Take in an HTML envelope (a dictionary) and output JSON.
     '''
@@ -137,7 +137,7 @@ def make_json(self, envelope):
     return the_envelope_please
 
 
-def write_out(self, jsonfile):
+def write_out(jsonfile):
     '''
     Write the JSON to the serialized path.
     '''
