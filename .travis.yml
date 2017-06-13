@@ -8,11 +8,8 @@ install:
 - npm install raml2html
 script:
 - raml2html --version
-- python tests/test_asset_mapper.py
-- python tests/test_common.py
-- python tests/test_config.py
-- python tests/test_envelope_writer.py
-- python tests/test_raml2html.py
-- python tests/test_tocbuilder.py
+- coverage run tests/test_all.py
 notifications:
   email: false
+after_success:
+  - coveralls

@@ -1,0 +1,9 @@
+# .coveragerc to control coverage.py
+[run]
+branch = True
+data_file = .coverage
+source =
+    ramlpreparer
+
+[report]
+ignore_errors = True

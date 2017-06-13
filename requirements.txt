@@ -1,2 +1,4 @@
 beautifulsoup4
+coverage
+python-coveralls
 requests
