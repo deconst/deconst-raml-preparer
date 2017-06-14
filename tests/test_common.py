@@ -15,7 +15,8 @@ from bs4 import BeautifulSoup
 
 sys.path.append(path.join(path.dirname(__file__), '..'))
 
-# from ramlpreparer.builders.common import name
+from ramlpreparer.builders.common import init_builder
+from ramlpreparer.builders.common import derive_content_id
 
 # Initialize the raml2html package.
 starter_call = os.getcwd() + '/ramlpreparer/scripts/npminstall.sh'
@@ -27,12 +28,17 @@ class CommonTestCase(unittest.TestCase):
     Tests for the common methods
     '''
 
-    @unittest.skip("feature not ready")
-    def test_common1_pass(self):
+    # @unittest.skip("feature not ready")
+    def test_init_builder_pass(self):
         '''
-        Question?
+        Does the init_builder method parse a full deconst file correctly?
         '''
-        pass
+        actual_result = init_builder(test=True)
+        expected_result = {
+            "contentIDBase": "https://github.com/deconst/fake-repo/",
+            "githubUrl": "https://github.com/deconst/fake-repo/",
+            "meta": {"someKey": "someValue", "preferGithubIssues": True}}
+        self.assertEqual(actual_result, expected_result)
 
     @unittest.skip("feature not ready")
     def test_common1_fail(self):

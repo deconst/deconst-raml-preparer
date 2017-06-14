@@ -3,27 +3,54 @@
 
 # Modified from the Sphinx preparer's common.py
 # TODO: Update with the correct info vs copy-pasta
-
 '''
 Some minor set-up stuff
 '''
 
 import os
+import subprocess
+import json
 # import glob
 from os import path
+from pathlib import Path
 
 from ramlpreparer.config import Configuration
 
 
-def init_builder():
+def init_builder(test=False):
     '''
     deconst config initialization
     '''
-    deconst_config = Configuration(os.environ)
-
-    if path.exists('_deconst.json'):
-        with open('_deconst.json', 'r', encoding='utf-8') as cf:
-            deconst_config.apply_file(cf)
+    # Search the tree with os.walk and an if statement
+    git_root = subprocess.Popen(
+        ['git', 'rev-parse', '--show-toplevel'],
+        stdout=subprocess.PIPE).communicate()[0].rstrip().decode('utf-8')
+    if test:
+        for (dirpath, dirnames, filenames) in os.walk(git_root):
+            for filename in filenames:
+                if filename.endswith('_deconst.json'):
+                    for dirname in dirnames:
+                        actual_path = str(Path(dirname).parents[0])[:-2]
+                        path_name = path.join(dirpath, actual_path, filename)
+        if path_name:
+            with open(path_name, 'r') as deconst_file:
+                deconst_config = json.load(deconst_file)
+        else:
+            print("There's no _deconst.json file in this repo at " +
+                  str(git_root) + ". Add one!")
+            deconst_config = None
+        return deconst_config
+    else:
+        deconst_config = Configuration(os.environ)
+        for root, dirs, files in os.walk(git_root):
+            try:
+                if '_deconst.json' in files:
+                    with open('_deconst.json', 'r', encoding='utf-8') as cf:
+                        deconst_config.apply_file(cf)
+            except OSError:
+                print("There's no _deconst.json file in this repo at " +
+                      str(git_root) + ". Add one!")
+        return deconst_config
 
 
 def derive_content_id(deconst_config, docname):

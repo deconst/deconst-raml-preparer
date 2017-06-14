@@ -61,7 +61,7 @@ class EnvelopeWriterTestCase(unittest.TestCase):
         Question?
         '''
         the_html = path.join(os.getcwd(), 'tests', 'src', 'test_html.html')
-        parsed_html = parsing_html(the_html)
+        parsed_html = parsing_html(the_html, page_title='fake_title')
         expected_result = {
             body: '<div class="container"><div class="row"><div class="col-m' +
             'd-9" role="main"><div class="page-header"><h1 id="topTitle">Ins' +
