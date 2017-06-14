@@ -39,18 +39,22 @@ def init_builder(test=False):
             print("There's no _deconst.json file in this repo at " +
                   str(git_root) + ". Add one!")
             deconst_config = None
-        return deconst_config
     else:
         deconst_config = Configuration(os.environ)
-        for root, dirs, files in os.walk(git_root):
-            try:
-                if '_deconst.json' in files:
-                    with open('_deconst.json', 'r', encoding='utf-8') as cf:
-                        deconst_config.apply_file(cf)
-            except OSError:
-                print("There's no _deconst.json file in this repo at " +
-                      str(git_root) + ". Add one!")
-        return deconst_config
+        for (dirpath, dirnames, filenames) in os.walk(git_root):
+            for filename in filenames:
+                if filename.endswith('_deconst.json'):
+                    for dirname in dirnames:
+                        actual_path = str(Path(dirname).parents[0])[:-2]
+                        path_name = path.join(dirpath, actual_path, filename)
+        if path_name:
+            with open(path_name, 'r') as deconst_file:
+                deconst_config.apply_file(deconst_file)
+        else:
+            print("There's no _deconst.json file in this repo at " +
+                  str(git_root) + ". Add one!")
+            deconst_config = None
+    return deconst_config
 
 
 def derive_content_id(deconst_config, docname):
@@ -64,7 +68,7 @@ def derive_content_id(deconst_config, docname):
     else:
         content_id_suffix = docname
 
-    content_id = path.join(deconst_config.content_id_base, content_id_suffix)
+    content_id = path.join(deconst_config['contentIDBase'], content_id_suffix)
     if content_id.endswith('/'):
         content_id = content_id[:-1]
 
