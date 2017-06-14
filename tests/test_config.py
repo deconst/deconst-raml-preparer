@@ -61,20 +61,27 @@ class ConfigurationTestCase(unittest.TestCase):
         Instantiate the class.
         '''
         self.config_class = Configuration(os.environ)
+        return self.config_class
 
     def tearDown(self):
-        self.config_class.dispose()
+        self.config_class = None
 
-    @unittest.skip("feature not ready")
     def test_apply_file_pass(self):
         '''
         Does the apply_file method correctly parse the deconst json file?
         '''
-        test_deconst_result = config_class.apply_file(deconstjson)
+        deconstjson = path.join(os.getcwd(), 'tests', 'src', '_deconst.json')
+        self.config_class.apply_file(deconstjson)
+        test_deconst_result = {}
+        test_deconst_result['contentIDBase'] = self.config_class.content_id_base
+        test_deconst_result['meta'] = self.config_class.meta
+        test_deconst_result['githubUrl'] = self.config_class.github_url
         expected_deconst_result = {}
         expected_deconst_result['contentIDBase'] = 'https://github.com/deconst/fake-repo/'
         expected_deconst_result['meta'] = {
-            'github_issues_url': 'https://github.com/deconst/fake-repo/issues/'}
+            'github_issues_url': 'https://github.com/deconst/fake-repo/issues',
+            "someKey": "someValue",
+            "preferGithubIssues": True}
         expected_deconst_result['githubUrl'] = 'https://github.com/deconst/fake-repo/'
         self.assertEqual(expected_deconst_result, test_deconst_result)
 

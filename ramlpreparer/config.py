@@ -51,7 +51,8 @@ class Configuration:
         recognized settings found there to this configuration.
         Environment variables take precedence over any values found here.
         '''
-        doc = json.load(f)
+        with open(f, 'r') as deconst_file:
+            doc = json.load(deconst_file)
         if "contentIDBase" in doc:
             if not self.content_id_base:
                 self.content_id_base = _normalize(doc["contentIDBase"])

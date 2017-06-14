@@ -9,6 +9,7 @@ import ramlpreparer.builders.asset_mapper as asset_mapper
 import ramlpreparer.builders.common as common
 import ramlpreparer.builders.tocbuilder as tocbuilder
 import ramlpreparer.builders.raml2html as raml2html
+from ramlpreparer.config import Configuration
 
 # Initialize the raml2html package.
 starter_call = os.path.join(
@@ -28,7 +29,15 @@ class Envelope_RAML:
         '''
         Run populations, and initiate dictionary.
         '''
+        self.body = body
         self.title = title
+        self.toc = toc
+        self.publish_date = publish_date
+        self.addenda = addenda
+        if per_page_meta:
+            self.per_page_meta = per_page_meta
+        else:
+            self.per_page_meta = {}
         self._populate_docname()
         self._populate_deconst_config()
         self._populate_content_id()
@@ -68,7 +77,7 @@ class Envelope_RAML:
         Merge repository-global and per-page metadata into the envelope's
         metadata.
         '''
-        self.meta = self.deconst_config.meta.copy()
+        self.meta = self.deconst_config['meta'].copy()
         self.meta.update(self.per_page_meta)
 
     def _populate_git(self):
@@ -101,7 +110,10 @@ class Envelope_RAML:
         '''
         Read stored asset offsets from the asset mapper, and then update the body.
         '''
-        self.body, self.asset_offsets = self.asset_offsets.map_the_assets()
+        original_asset_dir = os.path.join(
+            Configuration.content_root(self), 'assets', '')
+        self.body, self.asset_offsets = asset_mapper.map_the_assets(
+            self.body, original_asset_dir, Configuration.asset_dir(self))
 
     def _populate_content_id(self):
         '''
