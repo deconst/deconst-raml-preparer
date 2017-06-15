@@ -5,6 +5,7 @@
 
 import json
 import os
+import subprocess
 from os import path
 
 
@@ -73,14 +74,13 @@ class Configuration:
             self.github_branch = "master"
 
     def _get_git_root(self, d):
-        '''
-        Walk up until we find the ".git" directory, and return its parent
-        '''
-        if path.isdir(path.join(d, '.git')):
-            return d
-        if d == '/':
-            raise FileNotFoundError
-        return self._get_git_root(path.realpath(path.join(d, '..')))
+        the_git_root = subprocess.Popen(
+            ['git', 'rev-parse', '--show-toplevel'],
+            stdout=subprocess.PIPE).communicate()[0].rstrip().decode('utf-8')
+        if not the_git_root:
+            raise FileNotFoundError('You\'re not in a git repo.')
+            the_git_root = '/fake-root/'
+        return the_git_root
 
     def missing_values(self):
         '''

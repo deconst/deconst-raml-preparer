@@ -22,7 +22,7 @@ class Envelope_RAML:
     A class for metadata envelopes.
     '''
 
-    def __init__(self, body, docname=None, title=None, toc=None,
+    def __init__(self, body, originalFile=None, docname=None, title=None, toc=None,
                  publish_date=None, unsearchable=None, content_id=None,
                  meta=None, asset_offsets=None, addenda=None,
                  deconst_config=None, per_page_meta=None):
@@ -30,6 +30,7 @@ class Envelope_RAML:
         Run populations, and initiate dictionary.
         '''
         self.body = body
+        self.originalFile = originalFile
         self.title = title
         self.toc = toc
         self.publish_date = publish_date
@@ -43,7 +44,7 @@ class Envelope_RAML:
         self._populate_content_id()
         self._populate_meta()
         self._populate_asset_offsets()
-        self._populate_unsearchable()
+        # self._populate_unsearchable()
         self._populate_git()
 
         the_envelope = {
@@ -97,23 +98,25 @@ class Envelope_RAML:
             self.meta['github_edit_url'] = (
                 '/'.join(segment.strip('/') for segment in edit_segments))
 
-    def _populate_unsearchable(self):
-        '''
-        Populate "unsearchable" from per-page or repository-wide settings.
-        '''
-        unsearchable = self.per_page_meta.get(
-            'deconstunsearchable', self.config.deconst_default_unsearchable)
-        if unsearchable is not None:
-            self.unsearchable = unsearchable in ('true', True)
+# TODO: Add an unsearchable feature.
+    # def _populate_unsearchable(self):
+    #     '''
+    #     Populate "unsearchable" from per-page or repository-wide settings.
+    #     '''
+    #     unsearchable = self.per_page_meta.get(
+    #         'deconstunsearchable', self.config.deconst_default_unsearchable)
+    #     if unsearchable is not None:
+    #         self.unsearchable = unsearchable in ('true', True)
 
     def _populate_asset_offsets(self):
         '''
         Read stored asset offsets from the asset mapper, and then update the body.
         '''
+        classy = Configuration(os.environ)
         original_asset_dir = os.path.join(
-            Configuration.content_root(self), 'assets', '')
+            classy.content_root, 'assets', '')
         self.body, self.asset_offsets = asset_mapper.map_the_assets(
-            self.body, original_asset_dir, Configuration.asset_dir(self))
+            original_asset_dir, classy.asset_dir, html_doc_path=self.originalFile)
 
     def _populate_content_id(self):
         '''
@@ -150,14 +153,15 @@ def parsing_html(page, page_title=None):
     '''
     with open(page, 'r') as contents:
         soupit = BeautifulSoup(contents, 'html.parser')
-    with open(page, 'r') as contents:
-        that_page = tocbuilder.parse_it(contents)
+    with open(page, 'r') as contents2:
+        that_page = tocbuilder.parse_it(contents2)
     toc_html = tocbuilder.htmlify(that_page)
     if page_title == None:
         the_title = soupit.title.string
     else:
         the_title = page_title
-    whole_envelope = Envelope_RAML(body=soupit.body,
+    whole_envelope = Envelope_RAML(soupit.body,
+                                   originalFile=page,
                                    title=the_title,
                                    toc=toc_html)
     return whole_envelope

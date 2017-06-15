@@ -14,6 +14,7 @@ import json
 import filecmp
 from os import path
 from bs4 import BeautifulSoup
+from unittest import mock
 
 sys.path.append(path.join(path.dirname(__file__), '..'))
 
@@ -56,6 +57,11 @@ class EnvelopeWriterTestCase(unittest.TestCase):
         pass
 
     @unittest.skip("feature not ready")
+    @mock.patch.dict('os.environ', {'CONTENT_ROOT': 'test-root',
+                                    'CONTENT_ID_BASE': 'test-base',
+                                    'ENVELOPE_DIR': 'test-envelope',
+                                    'ASSET_DIR': 'test-asset',
+                                    'git_root': 'test-root'})
     def test_parsing_html_pass(self):
         '''
         Question?

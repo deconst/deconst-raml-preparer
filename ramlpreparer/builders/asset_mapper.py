@@ -15,13 +15,19 @@ from bs4 import BeautifulSoup
 # dest_asset_dir = './tests/dest/assets/'  # os.getenv('ASSET_DIR')
 
 
-def map_the_assets(html_doc_path, src_asset_dir, dest_asset_dir):
+def map_the_assets(src_asset_dir, dest_asset_dir, html_doc_path=None, html_source=None):
     '''
     Given an HTML file, take all image assets and remap for deconst.
     '''
-    the_path = os.path.join(os.getcwd(), html_doc_path)
-    with open(the_path, 'r') as html_doc_sample:
-        soup = BeautifulSoup(html_doc_sample, 'html.parser')
+    if html_doc_path:
+        the_path = os.path.join(os.getcwd(), html_doc_path)
+        with open(the_path, 'r') as html_doc_sample:
+            soup = BeautifulSoup(html_doc_sample, 'html.parser')
+    elif html_source:
+        soup = BeautifulSoup(html_source, 'html.parser')
+    else:
+        raise ValueError(
+            'You need to send this some HTML. Use either a path or a source file.')
     changed_envelope = {}
     element1 = str(soup)
     element2 = 0
