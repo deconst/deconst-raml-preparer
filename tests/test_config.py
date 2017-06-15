@@ -11,6 +11,8 @@ import subprocess
 import sys
 import os
 import json
+import io
+from unittest import mock
 from os import path
 from bs4 import BeautifulSoup
 from test import support
@@ -84,6 +86,35 @@ class ConfigurationTestCase(unittest.TestCase):
             "preferGithubIssues": True}
         expected_deconst_result['githubUrl'] = 'https://github.com/deconst/fake-repo/'
         self.assertEqual(expected_deconst_result, test_deconst_result)
+
+    def test_apply_minimal_file_pass(self):
+        '''
+        Does the apply_file method correctly parse the deconst json file?
+        '''
+        deconstjson = path.join(os.getcwd(), 'tests',
+                                'src', '_deconst_minimal.json')
+        self.config_class.content_id_base = '/random/path/'
+        self.config_class.apply_file(deconstjson)
+        test_deconst_result = {}
+        test_deconst_result['contentIDBase'] = self.config_class.content_id_base
+        expected_deconst_result = {}
+        expected_deconst_result['contentIDBase'] = '/random/path/'
+        self.assertEqual(expected_deconst_result, test_deconst_result)
+
+    def test_apply_minimal_file_check_error_message_pass(self):
+        '''
+        Does the apply_file method correctly parse the deconst json file?
+        '''
+        expected_message = ("Using environment variable CONTENT_ID_BASE=" +
+                            "[/random/path/] instead of _deconst.json " +
+                            "setting [https://github.com/deconst/fake-repo/]" +
+                            ".\n")
+        deconstjson = path.join(os.getcwd(), 'tests',
+                                'src', '_deconst_errorcheck.json')
+        self.config_class.content_id_base = '/random/path/'
+        with mock.patch('sys.stdout', new_callable=io.StringIO) as object_out:
+            self.config_class.apply_file(deconstjson)
+            self.assertEqual(expected_message, object_out.getvalue())
 
     @unittest.skip("feature not ready")
     def test_apply_file_fail(self):
