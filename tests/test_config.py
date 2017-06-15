@@ -19,7 +19,7 @@ from test import support
 
 sys.path.append(path.join(path.dirname(__file__), '..'))
 
-from ramlpreparer.config import _normalize
+from ramlpreparer.config import _normalize as normalize_it
 from ramlpreparer.config import Configuration
 
 # Initialize the raml2html package.
@@ -38,19 +38,38 @@ class ConfigTestCase(unittest.TestCase):
     Tests for the config method
     '''
 
-    @unittest.skip("feature not ready")
     def test__normalize_pass(self):
         '''
-        Question?
+        Does normalize send a good URL with a slash?
         '''
-        pass
+        expected_output = 'https://github.com/'
+        actual_output = normalize_it('https://github.com')
+        self.assertEqual(expected_output, actual_output)
 
-    @unittest.skip("feature not ready")
-    def test__normalize_fail(self):
+    def test__normalize_has_slash_pass(self):
         '''
-        Question?
+        Does normalize send a good URL with a slash if it already has a slash?
         '''
-        pass
+        expected_output = 'https://github.com/'
+        actual_output = normalize_it('https://github.com/')
+        self.assertEqual(expected_output, actual_output)
+
+    def test__normalize_not_a_url(self):
+        '''
+        Does normalize send something as expected when it's not a URL?
+        '''
+        expected_output = 'random-path/'
+        actual_output = normalize_it('random-path')
+        self.assertEqual(expected_output, actual_output)
+
+    def test__normalize_not_a_url_with_slash(self):
+        '''
+        Does normalize send something as expected when it's not a URL but has
+        a slash?
+        '''
+        expected_output = 'random-path/'
+        actual_output = normalize_it('random-path/')
+        self.assertEqual(expected_output, actual_output)
 
 
 class ConfigurationTestCase(unittest.TestCase):
