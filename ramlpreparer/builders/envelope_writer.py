@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import json
 import subprocess
 import os
+import urllib
 
 import ramlpreparer.builders.asset_mapper as asset_mapper
 import ramlpreparer.builders.common as common
@@ -22,10 +23,11 @@ class Envelope_RAML:
     A class for metadata envelopes.
     '''
 
-    def __init__(self, body, originalFile=None, docname=None, title=None, toc=None,
-                 publish_date=None, unsearchable=None, content_id=None,
-                 meta=None, asset_offsets=None, addenda=None,
-                 deconst_config=None, per_page_meta=None):
+    def __init__(self, body, originalFile=None, docname=None, title=None,
+                 toc=None, publish_date=None, unsearchable=None,
+                 content_id=None, meta=None, asset_offsets=None, addenda=None,
+                 deconst_config=None, per_page_meta=None,
+                 github_edit_url=None):
         '''
         Run populations, and initiate dictionary.
         '''
@@ -35,17 +37,36 @@ class Envelope_RAML:
         self.toc = toc
         self.publish_date = publish_date
         self.addenda = addenda
+        self.unsearchable = unsearchable
         if per_page_meta:
             self.per_page_meta = per_page_meta
         else:
             self.per_page_meta = {}
-        self._populate_docname()
-        self._populate_deconst_config()
-        self._populate_content_id()
-        self._populate_meta()
-        self._populate_asset_offsets()
+        if not docname:
+            self._populate_docname()
+        else:
+            self.docname = docname
+        if not deconst_config:
+            self._populate_deconst_config()
+        else:
+            self.deconst_config = deconst_config
+        if not content_id:
+            self._populate_content_id()
+        else:
+            self.content_id = content_id
+        if not meta:
+            self._populate_meta()
+        else:
+            self.meta = meta
+        if not asset_offsets:
+            self._populate_asset_offsets()
+        else:
+            self.asset_offsets = asset_offsets
         # self._populate_unsearchable()
-        self._populate_git()
+        if not github_edit_url:
+            self._populate_git()
+        else:
+            self.github_edit_url = github_edit_url
 
         the_envelope = {
             'body': self.body,  # TODO: Fix the body to show the asset mapper
@@ -63,7 +84,7 @@ class Envelope_RAML:
             'deconst_config': self.deconst_config,
             'per_page_meta': self.per_page_meta
         }
-        return the_envelope
+        # return the_envelope
 
     def serialization_path(self):
         '''
@@ -71,7 +92,7 @@ class Envelope_RAML:
         '''
         envelope_filename = urllib.parse.quote(
             self.content_id, safe='') + '.json'
-        return path.join(self.deconst_config.envelope_dir, envelope_filename)
+        return os.path.join(self.deconst_config['envelope_dir'], envelope_filename)
 
     def _populate_meta(self):
         '''
@@ -86,14 +107,14 @@ class Envelope_RAML:
         Set the github_edit_url property within "meta".
         '''
         if self.deconst_config.git_root and self.deconst_config.github_url:
-            full_path = path.join(os.getcwd(),
-                                  self.builder.env.srcdir,
-                                  self.docname + self.config.source_suffix[0])
+            full_path = os.path.join(os.getcwd(),
+                                     self.builder.env.srcdir,
+                                     self.docname + self.config.source_suffix[0])
             edit_segments = [
                 self.deconst_config.github_url,
                 'edit',
                 self.deconst_config.github_branch,
-                path.relpath(full_path, self.env.srcdir)
+                os.path.relpath(full_path, self.env.srcdir)
             ]
             self.meta['github_edit_url'] = (
                 '/'.join(segment.strip('/') for segment in edit_segments))

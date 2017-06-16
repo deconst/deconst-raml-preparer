@@ -175,17 +175,42 @@ class Envelope_RAMLTestCase(unittest.TestCase):
         '''
         Instantiate the class.
         '''
-        self.envelope = Envelope_RAML('<body><p>testing</p></body>')
+        fake_deconst = {}
+        fake_deconst['contentIDBase'] = 'https://github.com/deconst/fake-repo/'
+        fake_deconst['meta'] = {
+            'github_issues_url': 'https://github.com/deconst/fake-repo/issues',
+            "someKey": "someValue",
+            "preferGithubIssues": True}
+        fake_deconst['githubUrl'] = 'https://github.com/deconst/fake-repo/'
+        fake_deconst['envelope_dir'] = 'fake_envelope_dir'
+        self.envelope = Envelope_RAML('<body><p>testing</p></body>',
+                                      originalFile='test',
+                                      docname='test_docname',
+                                      title='test_title',
+                                      toc='<ul><li>test1</li><li>test2</li></ul>',
+                                      publish_date='test_date',
+                                      unsearchable='derp',
+                                      content_id='https://github.com/deconst/fake-repo/test.raml',
+                                      meta=fake_deconst['meta'],
+                                      asset_offsets='random',
+                                      addenda='derpderp',
+                                      deconst_config=fake_deconst,
+                                      per_page_meta={'randomkey': 'random'},
+                                      github_edit_url=fake_deconst['githubUrl'])
+        return self.envelope
 
     def tearDown(self):
-        pass
+        self.config_class = None
 
-    @unittest.skip("feature not ready")
+    # @unittest.skip("feature not ready")
     def test_serialization_path_pass(self):
         '''
-        Question?
+        Does the correct serialization path appear from this class method?
         '''
-        pass
+        expected_serialization_path = 'fake_envelope_dir/https%3A%2F%2Fgithub.com%2Fdeconst%2Ffake-repo%2Ftest.raml.json'
+        actual_serialization_path = self.envelope.serialization_path()
+        self.assertEqual(expected_serialization_path,
+                         actual_serialization_path)
 
     @unittest.skip("feature not ready")
     def test_serialization_path_fail(self):
