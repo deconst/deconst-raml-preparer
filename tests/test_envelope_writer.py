@@ -202,7 +202,6 @@ class Envelope_RAMLTestCase(unittest.TestCase):
     def tearDown(self):
         self.config_class = None
 
-    # @unittest.skip("feature not ready")
     def test_serialization_path_pass(self):
         '''
         Does the correct serialization path appear from this class method?
@@ -217,119 +216,85 @@ class Envelope_RAMLTestCase(unittest.TestCase):
         '''
         Question?
         '''
-        pass
+
+    def test__populate_meta_pass(self):
+        '''
+        Does the class method pass the metadata to each per page metadata key?
+        '''
+        expected_meta_result = {
+            'github_issues_url': 'https://github.com/deconst/fake-repo/issues',
+            "someKey": "someValue",
+            "preferGithubIssues": True,
+            'randomkey': 'random'}
+        self.envelope._populate_meta()
+        actual_meta_result = self.envelope.meta
+        self.assertEqual(expected_meta_result, actual_meta_result)
 
     @unittest.skip("feature not ready")
-    def test_populate_meta_pass(self):
+    def test__populate_meta_fail(self):
         '''
         Question?
         '''
-        pass
 
     @unittest.skip("feature not ready")
-    def test_populate_meta_fail(self):
+    def test__populate_git_pass(self):
         '''
         Question?
         '''
-        pass
 
     @unittest.skip("feature not ready")
-    def test_populate_git_pass(self):
+    def test__populate_git_fail(self):
         '''
         Question?
         '''
-        pass
 
     @unittest.skip("feature not ready")
-    def test_populate_git_fail(self):
+    def test__populate_asset_offsets_pass(self):
         '''
         Question?
         '''
-        pass
 
     @unittest.skip("feature not ready")
-    def test_populate_unsearchable_pass(self):
+    def test__populate_asset_offsets_fail(self):
         '''
         Question?
         '''
-        pass
 
     @unittest.skip("feature not ready")
-    def test_populate_unsearchable_fail(self):
+    def test__populate_content_id_pass(self):
         '''
         Question?
         '''
-        pass
 
     @unittest.skip("feature not ready")
-    def test_populate_layout_key_pass(self):
+    def test__populate_content_id_fail(self):
         '''
         Question?
         '''
-        pass
 
     @unittest.skip("feature not ready")
-    def test_populate_layout_key_fail(self):
+    def test__populate_deconst_config_pass(self):
         '''
         Question?
         '''
-        pass
 
     @unittest.skip("feature not ready")
-    def test_populate_categories_pass(self):
+    def test__populate_deconst_config_fail(self):
         '''
         Question?
         '''
-        pass
 
     @unittest.skip("feature not ready")
-    def test_populate_categories_fail(self):
+    def test__populate_docname_pass(self):
         '''
         Question?
         '''
-        pass
 
     @unittest.skip("feature not ready")
-    def test_populate_asset_offsets_pass(self):
+    def test__populate_docname_fail(self):
         '''
         Question?
         '''
-        pass
-
-    @unittest.skip("feature not ready")
-    def test_populate_asset_offsets_fail(self):
-        '''
-        Question?
-        '''
-        pass
-
-    @unittest.skip("feature not ready")
-    def test_populate_content_id_pass(self):
-        '''
-        Question?
-        '''
-        pass
-
-    @unittest.skip("feature not ready")
-    def test_populate_content_id_fail(self):
-        '''
-        Question?
-        '''
-        pass
-
-    @unittest.skip("feature not ready")
-    def test_override_title_pass(self):
-        '''
-        Question?
-        '''
-        pass
-
-    @unittest.skip("feature not ready")
-    def test_override_title_fail(self):
-        '''
-        Question?
-        '''
-        pass
 
 
 if __name__ == '__main__':

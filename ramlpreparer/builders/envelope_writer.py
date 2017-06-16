@@ -154,7 +154,7 @@ class Envelope_RAML:
 
     def _populate_docname(self):
         '''
-
+        Create a docname
         '''
         self.docname = self.title.replace(" ", "")
 
