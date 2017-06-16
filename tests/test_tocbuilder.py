@@ -179,14 +179,6 @@ class TocBuilderTestCase(unittest.TestCase):
         the_method = parse_it(html_sample)
         self.assertEqual(the_method, the_result)
 
-    @unittest.skip("haven't figured out how to test the failure yet")
-    def test_parse_it_fail(self):
-        '''
-        Question?
-        '''
-        html_doc = '<h1>text</h1><h2>text</h2><h3>text</h3>'
-        pass
-
     def test_htmlify_pass(self):
         '''
         Does htmlify return a list wrapped in <ul></ul>?
@@ -202,15 +194,6 @@ class TocBuilderTestCase(unittest.TestCase):
                       '<li>item2</li>', '</ul>']
         the_method = htmlify(the_list)
         self.assertEqual(the_method, the_result)
-
-    @unittest.skip("haven't figured out how to test the failure yet")
-    def test_htmlify_fail(self):
-        '''
-        Question?
-        '''
-        soup = BeautifulSoup(
-            '<h1>text</h1><h2>text</h2><h3>text</h3>', 'html.parser')
-        pass
 
 
 if __name__ == '__main__':

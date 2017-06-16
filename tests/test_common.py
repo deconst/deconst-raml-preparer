@@ -46,13 +46,6 @@ class CommonTestCase(unittest.TestCase):
                 "someKey": "someValue", "preferGithubIssues": True}}
         self.assertEqual(actual_result, expected_result)
 
-    @unittest.skip("feature not ready")
-    def test_common1_fail(self):
-        '''
-        Question?
-        '''
-        pass
-
     def test_derive_content_id_pass(self):
         '''
         Does this method get a content id?

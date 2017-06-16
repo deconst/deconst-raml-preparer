@@ -43,13 +43,6 @@ class AssetMapperTestCase(unittest.TestCase):
             source_assets, dest_assets, html_doc_path='tests/src/tester-raw.html')
         self.assertEqual(expected_version, mapped_version)
 
-    @unittest.skip("haven't figured this one out yet")
-    def test_map_the_assets_asset_offset_fail(self):
-        '''
-        Question?
-        '''
-        pass
-
 
 if __name__ == '__main__':
     unittest.main()

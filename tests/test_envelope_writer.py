@@ -49,13 +49,6 @@ class EnvelopeWriterTestCase(unittest.TestCase):
         self.assertTrue(filecmp.cmp(html_location, expected_html_file),
                         'These two files are not equal.')
 
-    @unittest.skip("no clue how to fail this one")
-    def test_make_it_html_fail(self):
-        '''
-        Question?
-        '''
-        pass
-
     @unittest.skip("feature not ready")
     @mock.patch.dict('os.environ', {'CONTENT_ROOT': 'test-root',
                                     'CONTENT_ID_BASE': 'test-base',
@@ -131,13 +124,6 @@ class EnvelopeWriterTestCase(unittest.TestCase):
         self.assertEqual(parsed_html, expected_result)
 
     @unittest.skip("feature not ready")
-    def test_parsing_html_fail(self):
-        '''
-        Question?
-        '''
-        pass
-
-    @unittest.skip("feature not ready")
     def test_make_json_pass(self):
         '''
         Question?
@@ -145,21 +131,7 @@ class EnvelopeWriterTestCase(unittest.TestCase):
         pass
 
     @unittest.skip("feature not ready")
-    def test_make_json_fail(self):
-        '''
-        Question?
-        '''
-        pass
-
-    @unittest.skip("feature not ready")
     def test_write_out_pass(self):
-        '''
-        Question?
-        '''
-        pass
-
-    @unittest.skip("feature not ready")
-    def test_write_out_fail(self):
         '''
         Question?
         '''
@@ -213,12 +185,6 @@ class Envelope_RAMLTestCase(unittest.TestCase):
         self.assertEqual(expected_serialization_path,
                          actual_serialization_path)
 
-    @unittest.skip("feature not ready")
-    def test_serialization_path_fail(self):
-        '''
-        Question?
-        '''
-
     def test__populate_meta_pass(self):
         '''
         Does the class method pass the metadata to each per page metadata key?
@@ -232,12 +198,6 @@ class Envelope_RAMLTestCase(unittest.TestCase):
         actual_meta_result = self.envelope.meta
         self.assertEqual(expected_meta_result, actual_meta_result)
 
-    @unittest.skip("feature not ready")
-    def test__populate_meta_fail(self):
-        '''
-        Question?
-        '''
-
     def test__populate_git_pass(self):
         '''
         Does the class method pass the correct git url result?
@@ -248,19 +208,7 @@ class Envelope_RAMLTestCase(unittest.TestCase):
         self.assertEqual(expected_git_path, actual_git_path)
 
     @unittest.skip("feature not ready")
-    def test__populate_git_fail(self):
-        '''
-        Question?
-        '''
-
-    @unittest.skip("feature not ready")
     def test__populate_asset_offsets_pass(self):
-        '''
-        Question?
-        '''
-
-    @unittest.skip("feature not ready")
-    def test__populate_asset_offsets_fail(self):
         '''
         Question?
         '''
@@ -273,12 +221,6 @@ class Envelope_RAMLTestCase(unittest.TestCase):
         self.envelope._populate_content_id()
         actual_content_id = self.envelope.content_id
         self.assertEqual(expected_content_id, actual_content_id)
-
-    @unittest.skip("feature not ready")
-    def test__populate_content_id_fail(self):
-        '''
-        Question?
-        '''
 
 
 class Envelope_RAML_deconstjsonTestCase(unittest.TestCase):
@@ -324,12 +266,6 @@ class Envelope_RAML_deconstjsonTestCase(unittest.TestCase):
         actual_deconst_result['githubUrl'] = self.envelope.deconst_config.github_url
         actual_deconst_result['meta'] = self.envelope.deconst_config.meta
         self.assertEqual(expected_deconst_result, actual_deconst_result)
-
-    @unittest.skip("feature not ready")
-    def test__populate_deconst_config_fail(self):
-        '''
-        Question?
-        '''
 
 
 if __name__ == '__main__':

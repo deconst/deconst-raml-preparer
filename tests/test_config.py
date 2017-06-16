@@ -136,39 +136,16 @@ class ConfigurationTestCase(unittest.TestCase):
             self.assertEqual(expected_message, object_out.getvalue())
 
     @unittest.skip("feature not ready")
-    def test_apply_file_fail(self):
-        '''
-        Question?
-        '''
-        pass
-
-    @unittest.skip("feature not ready")
     def test__get_git_root_pass(self):
         '''
         Question?
         '''
-        pass
-
-    @unittest.skip("feature not ready")
-    def test__get_git_root_fail(self):
-        '''
-        Question?
-        '''
-        pass
 
     @unittest.skip("feature not ready")
     def test_missing_values_pass(self):
         '''
         Question?
         '''
-        pass
-
-    @unittest.skip("feature not ready")
-    def test_missing_values_fail(self):
-        '''
-        Question?
-        '''
-        pass
 
 
 if __name__ == '__main__':
