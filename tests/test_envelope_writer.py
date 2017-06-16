@@ -157,9 +157,13 @@ class Envelope_RAMLTestCase(unittest.TestCase):
         fake_deconst['envelope_dir'] = 'fake_envelope_dir'
         fake_deconst['git_root'] = os.getcwd()
         fake_deconst['github_branch'] = 'master'
+        fake_deconst['originalAssetDir'] = os.path.join(
+            os.getcwd(), 'tests', 'src', 'assets', '')
+        original_file = os.path.join(
+            os.getcwd(), 'tests', 'src', 'asset_test_html.html')
         self.envelope = Envelope_RAML('small_test.raml',
                                       '<body><p>testing</p></body>',
-                                      originalFile='test',
+                                      originalFile=original_file,
                                       title='test_title',
                                       toc='<ul><li>test1</li><li>test2</li></ul>',
                                       publish_date='test_date',
@@ -207,12 +211,6 @@ class Envelope_RAMLTestCase(unittest.TestCase):
         actual_git_path = self.envelope.meta['github_edit_url']
         self.assertEqual(expected_git_path, actual_git_path)
 
-    @unittest.skip("feature not ready")
-    def test__populate_asset_offsets_pass(self):
-        '''
-        Question?
-        '''
-
     def test__populate_content_id_pass(self):
         '''
         Does the content_id populate correctly?
@@ -232,9 +230,11 @@ class Envelope_RAML_deconstjsonTestCase(unittest.TestCase):
         '''
         Instantiate the class.
         '''
+        original_file = os.path.join(
+            os.getcwd(), 'tests', 'src', 'asset_test_html.html')
         self.envelope = Envelope_RAML('small_test.raml',
                                       '<body><p>testing</p></body>',
-                                      originalFile='test',
+                                      originalFile=original_file,
                                       title='test_title',
                                       toc='<ul><li>test1</li><li>test2</li></ul>',
                                       publish_date='test_date',
@@ -266,6 +266,25 @@ class Envelope_RAML_deconstjsonTestCase(unittest.TestCase):
         actual_deconst_result['githubUrl'] = self.envelope.deconst_config.github_url
         actual_deconst_result['meta'] = self.envelope.deconst_config.meta
         self.assertEqual(expected_deconst_result, actual_deconst_result)
+
+    @mock.patch.dict('os.environ', {
+        'ASSET_DIR': os.path.join(os.getcwd(), 'tests', 'dest', 'assets', '')})
+    def test__populate_asset_offsets_pass(self):
+        '''
+        Do the assets populate correctly?
+        '''
+        self.maxDiff = None
+        expected_body_result = (
+            '<p><img alt="test image" src="0"/></p><p><img alt="test image" src="1"/></p>')
+        expected_asset_map = {
+            os.path.join(os.getcwd(), 'tests', 'dest', 'assets', 'tool_time.jpg'): 58,
+            os.path.join(os.getcwd(), 'tests', 'dest', 'assets', 'tool_time12.jpg'): 108}
+        self.envelope._populate_asset_offsets(
+            original_asset_dir=os.path.join(os.getcwd(), 'tests', 'src', 'assets', ''))
+        actual_body_result = self.envelope.body
+        actual_asset_map = self.envelope.asset_offsets
+        self.assertEqual([expected_body_result, expected_asset_map], [
+                         actual_body_result, actual_asset_map])
 
 
 if __name__ == '__main__':

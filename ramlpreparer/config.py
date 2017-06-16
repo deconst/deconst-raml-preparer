@@ -41,6 +41,7 @@ class Configuration:
         self.meta = {}
         self.github_url = ""
         self.github_branch = "master"
+        self.original_asset_dir = ''
         try:
             self.git_root = self._get_git_root(os.getcwd())
         except FileNotFoundError:
@@ -72,6 +73,13 @@ class Configuration:
             self.github_branch = doc["githubBranch"]
         else:
             self.github_branch = "master"
+        if "originalAssetDir" in doc:
+            stringed = str(doc["originalAssetDir"]).split('/')
+            final_rel_path = "/"
+            for string in stringed:
+                final_rel_path = final_rel_path + ", " + string
+            self.original_asset_dir = os.path.join(
+                os.getcwd(), final_rel_path.strip('/'), '')
 
     def _get_git_root(self, d):
         the_git_root = subprocess.Popen(

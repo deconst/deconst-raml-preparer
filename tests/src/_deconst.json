@@ -1,4 +1,5 @@
 {
+  "originalAssetDir": "tests/src/assets",
   "contentIDBase": "https://github.com/deconst/fake-repo/",
   "githubUrl": "https://github.com/deconst/fake-repo/",
   "meta": {

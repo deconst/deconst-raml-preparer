@@ -132,15 +132,18 @@ class Envelope_RAML:
     #     if unsearchable is not None:
     #         self.unsearchable = unsearchable in ('true', True)
 
-    def _populate_asset_offsets(self):
+    def _populate_asset_offsets(self, original_asset_dir=None):
         '''
         Read stored asset offsets from the asset mapper, and then update the body.
         '''
-        classy = Configuration(os.environ)
-        original_asset_dir = os.path.join(
-            classy.content_root, 'assets', '')
-        self.body, self.asset_offsets = asset_mapper.map_the_assets(
-            original_asset_dir, classy.asset_dir, html_doc_path=self.originalFile)
+        if original_asset_dir:
+            classy = Configuration(os.environ)
+            self.body, self.asset_offsets = asset_mapper.map_the_assets(
+                original_asset_dir, classy.asset_dir, html_doc_path=self.originalFile)
+        else:
+            classy = Configuration(os.environ)
+            self.body, self.asset_offsets = asset_mapper.map_the_assets(
+                classy.original_asset_dir, classy.asset_dir, html_doc_path=self.originalFile)
 
     def _populate_content_id(self):
         '''
