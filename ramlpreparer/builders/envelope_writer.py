@@ -5,6 +5,7 @@ import json
 import subprocess
 import os
 import urllib
+from pathlib import Path
 
 import ramlpreparer.builders.asset_mapper as asset_mapper
 import ramlpreparer.builders.common as common
@@ -20,17 +21,19 @@ subprocess.call(starter_call, shell=True)
 
 class Envelope_RAML:
     '''
-    A class for metadata envelopes.
+    A class for metadata envelopes. The docname variable should be the basename
+    of the RAML file.
     '''
 
-    def __init__(self, body, originalFile=None, docname=None, title=None,
-                 toc=None, publish_date=None, unsearchable=None,
-                 content_id=None, meta=None, asset_offsets=None, addenda=None,
+    def __init__(self, docname, body, originalFile=None, title=None, toc=None,
+                 publish_date=None, unsearchable=None, content_id=None,
+                 meta=None, asset_offsets=None, addenda=None,
                  deconst_config=None, per_page_meta=None,
                  github_edit_url=None):
         '''
         Run populations, and initiate dictionary.
         '''
+        self.docname = docname
         self.body = body
         self.originalFile = originalFile
         self.title = title
@@ -42,10 +45,6 @@ class Envelope_RAML:
             self.per_page_meta = per_page_meta
         else:
             self.per_page_meta = {}
-        if not docname:
-            self._populate_docname()
-        else:
-            self.docname = docname
         if not deconst_config:
             self._populate_deconst_config()
         else:
@@ -106,18 +105,22 @@ class Envelope_RAML:
         '''
         Set the github_edit_url property within "meta".
         '''
-        if self.deconst_config.git_root and self.deconst_config.github_url:
-            full_path = os.path.join(os.getcwd(),
-                                     self.builder.env.srcdir,
-                                     self.docname + self.config.source_suffix[0])
-            edit_segments = [
-                self.deconst_config.github_url,
-                'edit',
-                self.deconst_config.github_branch,
-                os.path.relpath(full_path, self.env.srcdir)
-            ]
+        if self.deconst_config['git_root'] and self.deconst_config['github_url']:
+            git_root_path = self.deconst_config['git_root']
+            for (dirpath, dirnames, filenames) in os.walk(git_root_path):
+                for filename in filenames:
+                    if filename.endswith(str(self.docname)):
+                        for dirname in dirnames:
+                            actual_path = str(Path(dirname).parents[0])[:-2]
+                            full_path = os.path.join(
+                                dirpath, actual_path, filename)
+            edit_segments = [self.deconst_config['github_url'], 'edit',
+                             self.deconst_config['github_branch'], os.path.relpath(full_path, start='.')]
+            stripped_segments = []
+            for segment in edit_segments:
+                stripped_segments.append(segment.strip('/'))
             self.meta['github_edit_url'] = (
-                '/'.join(segment.strip('/') for segment in edit_segments))
+                '/'.join(segment for segment in stripped_segments))
 
 # TODO: Add an unsearchable feature.
     # def _populate_unsearchable(self):
@@ -151,12 +154,6 @@ class Envelope_RAML:
         Pull in all the deconst json info
         '''
         self.deconst_config = common.init_builder(os.getcwd())
-
-    def _populate_docname(self):
-        '''
-        Create a docname
-        '''
-        self.docname = self.title.replace(" ", "")
 
 
 def make_it_html(raml, output_html):

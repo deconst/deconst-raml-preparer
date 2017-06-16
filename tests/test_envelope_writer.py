@@ -181,11 +181,13 @@ class Envelope_RAMLTestCase(unittest.TestCase):
             'github_issues_url': 'https://github.com/deconst/fake-repo/issues',
             "someKey": "someValue",
             "preferGithubIssues": True}
-        fake_deconst['githubUrl'] = 'https://github.com/deconst/fake-repo/'
+        fake_deconst['github_url'] = 'https://github.com/deconst/fake-repo/'
         fake_deconst['envelope_dir'] = 'fake_envelope_dir'
-        self.envelope = Envelope_RAML('<body><p>testing</p></body>',
+        fake_deconst['git_root'] = os.getcwd()
+        fake_deconst['github_branch'] = 'master'
+        self.envelope = Envelope_RAML('small_test.raml',
+                                      '<body><p>testing</p></body>',
                                       originalFile='test',
-                                      docname='test_docname',
                                       title='test_title',
                                       toc='<ul><li>test1</li><li>test2</li></ul>',
                                       publish_date='test_date',
@@ -196,11 +198,11 @@ class Envelope_RAMLTestCase(unittest.TestCase):
                                       addenda='derpderp',
                                       deconst_config=fake_deconst,
                                       per_page_meta={'randomkey': 'random'},
-                                      github_edit_url=fake_deconst['githubUrl'])
+                                      github_edit_url=fake_deconst['github_url'])
         return self.envelope
 
     def tearDown(self):
-        self.config_class = None
+        self.envelope = None
 
     def test_serialization_path_pass(self):
         '''
@@ -236,11 +238,14 @@ class Envelope_RAMLTestCase(unittest.TestCase):
         Question?
         '''
 
-    @unittest.skip("feature not ready")
     def test__populate_git_pass(self):
         '''
-        Question?
+        Does the class method pass the correct git url result?
         '''
+        expected_git_path = 'https://github.com/deconst/fake-repo/edit/master/tests/src/small_test.raml'
+        self.envelope._populate_git()
+        actual_git_path = self.envelope.meta['github_edit_url']
+        self.assertEqual(expected_git_path, actual_git_path)
 
     @unittest.skip("feature not ready")
     def test__populate_git_fail(self):
@@ -280,18 +285,6 @@ class Envelope_RAMLTestCase(unittest.TestCase):
 
     @unittest.skip("feature not ready")
     def test__populate_deconst_config_fail(self):
-        '''
-        Question?
-        '''
-
-    @unittest.skip("feature not ready")
-    def test__populate_docname_pass(self):
-        '''
-        Question?
-        '''
-
-    @unittest.skip("feature not ready")
-    def test__populate_docname_fail(self):
         '''
         Question?
         '''
