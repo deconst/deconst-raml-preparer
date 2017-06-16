@@ -25,35 +25,19 @@ def init_builder(test=False):
     git_root = subprocess.Popen(
         ['git', 'rev-parse', '--show-toplevel'],
         stdout=subprocess.PIPE).communicate()[0].rstrip().decode('utf-8')
-    if test:
-        for (dirpath, dirnames, filenames) in os.walk(git_root):
-            for filename in filenames:
-                if filename.endswith('_deconst.json'):
-                    for dirname in dirnames:
-                        actual_path = str(Path(dirname).parents[0])[:-2]
-                        path_name = path.join(dirpath, actual_path, filename)
-        if path_name:
-            with open(path_name, 'r') as deconst_file:
-                deconst_config = json.load(deconst_file)
-        else:
-            print("There's no _deconst.json file in this repo at " +
-                  str(git_root) + ". Add one!")
-            deconst_config = None
+    deconst_config = Configuration(os.environ)
+    for (dirpath, dirnames, filenames) in os.walk(git_root):
+        for filename in filenames:
+            if filename.endswith('_deconst.json'):
+                for dirname in dirnames:
+                    actual_path = str(Path(dirname).parents[0])[:-2]
+                    path_name = path.join(dirpath, actual_path, filename)
+    if path_name:
+        deconst_config.apply_file(path_name)
     else:
-        deconst_config = Configuration(os.environ)
-        for (dirpath, dirnames, filenames) in os.walk(git_root):
-            for filename in filenames:
-                if filename.endswith('_deconst.json'):
-                    for dirname in dirnames:
-                        actual_path = str(Path(dirname).parents[0])[:-2]
-                        path_name = path.join(dirpath, actual_path, filename)
-        if path_name:
-            with open(path_name, 'r') as deconst_file:
-                deconst_config.apply_file(deconst_file)
-        else:
-            print("There's no _deconst.json file in this repo at " +
-                  str(git_root) + ". Add one!")
-            deconst_config = None
+        raise FileNotFoundError("There's no _deconst.json file in this repo at " +
+                                str(git_root) + ". Add one!")
+        deconst_config = None
     return deconst_config
 
 

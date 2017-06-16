@@ -33,11 +33,17 @@ class CommonTestCase(unittest.TestCase):
         '''
         Does the init_builder method parse a full deconst file correctly?
         '''
-        actual_result = init_builder(test=True)
+        deconst_config = init_builder()
+        actual_result = {}
+        actual_result['contentIDBase'] = deconst_config.content_id_base
+        actual_result['githubUrl'] = deconst_config.github_url
+        actual_result['meta'] = deconst_config.meta
         expected_result = {
             "contentIDBase": "https://github.com/deconst/fake-repo/",
             "githubUrl": "https://github.com/deconst/fake-repo/",
-            "meta": {"someKey": "someValue", "preferGithubIssues": True}}
+            "meta": {
+                "github_issues_url": "https://github.com/deconst/fake-repo/issues",
+                "someKey": "someValue", "preferGithubIssues": True}}
         self.assertEqual(actual_result, expected_result)
 
     @unittest.skip("feature not ready")
