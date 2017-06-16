@@ -265,11 +265,14 @@ class Envelope_RAMLTestCase(unittest.TestCase):
         Question?
         '''
 
-    @unittest.skip("feature not ready")
     def test__populate_content_id_pass(self):
         '''
-        Question?
+        Does the content_id populate correctly?
         '''
+        expected_content_id = 'https://github.com/deconst/fake-repo/small_test.raml'
+        self.envelope._populate_content_id()
+        actual_content_id = self.envelope.content_id
+        self.assertEqual(expected_content_id, actual_content_id)
 
     @unittest.skip("feature not ready")
     def test__populate_content_id_fail(self):
