@@ -153,7 +153,7 @@ class Envelope_RAML:
         '''
         Pull in all the deconst json info
         '''
-        self.deconst_config = common.init_builder(os.getcwd())
+        self.deconst_config = common.init_builder()
 
 
 def make_it_html(raml, output_html):

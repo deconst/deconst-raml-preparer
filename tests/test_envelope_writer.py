@@ -280,11 +280,50 @@ class Envelope_RAMLTestCase(unittest.TestCase):
         Question?
         '''
 
-    @unittest.skip("feature not ready")
+
+class Envelope_RAML_deconstjsonTestCase(unittest.TestCase):
+    '''
+    Tests explicitly for the deconst.json populate method in Envelope_RAML
+    '''
+
+    def setUp(self):
+        '''
+        Instantiate the class.
+        '''
+        self.envelope = Envelope_RAML('small_test.raml',
+                                      '<body><p>testing</p></body>',
+                                      originalFile='test',
+                                      title='test_title',
+                                      toc='<ul><li>test1</li><li>test2</li></ul>',
+                                      publish_date='test_date',
+                                      unsearchable='derp',
+                                      content_id='https://github.com/deconst/fake-repo/test.raml',
+                                      meta='meta',
+                                      asset_offsets='random',
+                                      addenda='derpderp',
+                                      per_page_meta={'randomkey': 'random'},
+                                      github_edit_url='github_url')
+        return self.envelope
+
+    def tearDown(self):
+        self.envelope = None
+
     def test__populate_deconst_config_pass(self):
         '''
         Question?
         '''
+        expected_deconst_result = {
+            "contentIDBase": "https://github.com/deconst/fake-repo/",
+            "githubUrl": "https://github.com/deconst/fake-repo/",
+            "meta": {
+                "github_issues_url": "https://github.com/deconst/fake-repo/issues",
+                "someKey": "someValue", "preferGithubIssues": True}}
+        self.envelope._populate_deconst_config()
+        actual_deconst_result = {}
+        actual_deconst_result['contentIDBase'] = self.envelope.deconst_config.content_id_base
+        actual_deconst_result['githubUrl'] = self.envelope.deconst_config.github_url
+        actual_deconst_result['meta'] = self.envelope.deconst_config.meta
+        self.assertEqual(expected_deconst_result, actual_deconst_result)
 
     @unittest.skip("feature not ready")
     def test__populate_deconst_config_fail(self):
