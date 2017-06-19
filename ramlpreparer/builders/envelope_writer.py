@@ -174,8 +174,7 @@ class Envelope_RAML:
             self.meta['github_edit_url'] = (
                 '/'.join(segment for segment in stripped_segments))
 
-
-# TODO: Add an unsearchable feature.
+    # TODO: Add an unsearchable feature.
     # def _populate_unsearchable(self):
     #     '''
     #     Populate "unsearchable" from per-page or repository-wide settings.
@@ -243,30 +242,23 @@ def parsing_html(page, page_title=None):
     return whole_envelope
 
 
-def make_json(envelope):
-    '''
-    Take in an HTML envelope (a dictionary) and output JSON.
-    '''
-    the_envelope_please = json.dumps(envelope)
-    return the_envelope_please
+# def make_json(envelope):
+#     '''
+#     Take in an HTML envelope (a dictionary) and output JSON.
+#     '''
+#     the_envelope_please = json.dumps(envelope)
+#     return the_envelope_please
 
 
-def write_out(jsonfile, file_path=None, envelope=None):
+def write_out(envelope, file_path=None):
     '''
-    Write the JSON to the serialized path. If no file_path is provided, the
-    original envelope from make_json() is needed to generate a file path. An
+    Write the HTML out as JSON to the serialized path. An
     error is raised if you don't have a file path or an envelope.
     '''
-    if file_path is None and envelope is None:
-        raise ValueError("If you don't have a file path, you need to" +
-                         "identify the envelope that the JSON came from so " +
-                         "the system can generate a file path for you.")
-    elif file_path is None and envelope is not None:
+    if file_path is None:
         file_path = envelope.serialization_path()
-    else:
-        pass
     with open(file_path, 'w') as thefile:
-        json.dump(jsonfile, thefile)
+        json.dump(envelope, thefile)
     return thefile
 
 
