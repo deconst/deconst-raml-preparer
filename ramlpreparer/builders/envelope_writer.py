@@ -242,14 +242,6 @@ def parsing_html(page, page_title=None):
     return whole_envelope
 
 
-# def make_json(envelope):
-#     '''
-#     Take in an HTML envelope (a dictionary) and output JSON.
-#     '''
-#     the_envelope_please = json.dumps(envelope)
-#     return the_envelope_please
-
-
 def write_out(envelope, file_path=None):
     '''
     Write the HTML out as JSON to the serialized path. An
@@ -264,5 +256,5 @@ def write_out(envelope, file_path=None):
 
 # QUESTION: Does each page's envelope need to get placed separately? Currently,
 # it's written to put each envelope inside of a larger envelope...
-# TODO: Write each envelope to a new file in ENVELOPE_DIR.
-# TODO: Review the code from the Sphinx preparer if anything should be copied.
+# DONE: Write each envelope to a new file in ENVELOPE_DIR.
+# DONE: Review the code from the Sphinx preparer if anything should be copied.

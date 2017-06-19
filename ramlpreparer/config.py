@@ -1,7 +1,7 @@
 #! usr/bin/env python3
 
 # Modified from the Sphinx preparer's config.py file
-# TODO: Clean up copy-pasta.
+# DONE: Clean up copy-pasta.
 
 import json
 import os

@@ -5,7 +5,7 @@ import re
 
 # DONE: Test with real RAML2HTML output
 # DONE: Pythonify this
-# TODO: Retest after modularizing with real RAML2HTML output.
+# DONE: Retest after modularizing with real RAML2HTML output.
 # DONE: Hook up with the rest of the system
 # NOTE: It might be better to move this into another file for cleanliness.
 

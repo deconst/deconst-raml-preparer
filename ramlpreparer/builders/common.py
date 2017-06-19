@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Modified from the Sphinx preparer's common.py
-# TODO: Update with the correct info vs copy-pasta
+# DONE: Update with the correct info vs copy-pasta
 '''
 Some minor set-up stuff
 '''

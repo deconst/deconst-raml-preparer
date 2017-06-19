@@ -31,10 +31,10 @@ def submit(the_envelope):
     '''
     Pass the envelopes to the submitter.
     '''
-    the_json = envelope_writer.make_json(the_envelope)
     # DONE: What's the submission variable?
     submission = os.path.join(os.getcwd(), the_envelope.content_id)
-    final_submit = envelope_writer.write_out(submission)
+    final_submit = envelope_writer.write_out(
+        the_envelope, file_path=submission)
 
 
 # Run me!
