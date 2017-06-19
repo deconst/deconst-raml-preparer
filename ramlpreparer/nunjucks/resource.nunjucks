@@ -277,7 +277,7 @@
                   <div id="{{ resource.uniqueId }}_{{ method.method }}_securedby">
                     {% for securedBy in method.securedBy %}
                       {% set securityScheme = securitySchemes[securedBy.schemeName] %}
-                      <h1>Secured by {{ securityScheme.displayName }}</h1>
+                      <h2>Secured by {{ securityScheme.displayName }}</h2>
                       {% if securityScheme.describedBy.headers.length %}
                         <h3>Headers</h3>
                         <ul>

@@ -41,7 +41,7 @@ def init_builder(test=False):
     return deconst_config
 
 
-def derive_content_id(deconst_config, docname):
+def derive_content_id(deconst_config, docname, test=False):
     '''
     Consistently generate content IDs from document names.
     '''
@@ -52,7 +52,12 @@ def derive_content_id(deconst_config, docname):
     else:
         content_id_suffix = docname
 
-    content_id = path.join(deconst_config['contentIDBase'], content_id_suffix)
+    if test == True:
+        content_id = path.join(
+            deconst_config['contentIDBase'], content_id_suffix)
+    else:
+        content_id = path.join(
+            deconst_config.content_id_base, content_id_suffix)
     if content_id.endswith('/'):
         content_id = content_id[:-1]
 
