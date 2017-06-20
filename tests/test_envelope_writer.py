@@ -20,7 +20,6 @@ sys.path.append(path.join(path.dirname(__file__), '..'))
 
 from ramlpreparer.builders.envelope_writer import make_it_html
 from ramlpreparer.builders.envelope_writer import parsing_html
-# from ramlpreparer.builders.envelope_writer import make_json
 from ramlpreparer.builders.envelope_writer import write_out
 from ramlpreparer.builders.envelope_writer import Envelope_RAML
 
@@ -34,11 +33,6 @@ class EnvelopeWriterTestCase(unittest.TestCase):
     '''
     Tests for the envelope_writer methods
     '''
-    # def setUp():
-    #     pass
-    #
-    # def tearDown():
-    #     os.remove(path.join(os.getcwd(), 'tests', 'dest', 'test_make_it.html'))
 
     def test_make_it_html_pass(self):
         '''
@@ -77,18 +71,6 @@ class EnvelopeWriterTestCase(unittest.TestCase):
             'per_page_meta': {}}
         self.assertEqual(parsed_html, expected_result)
 
-    # def test_make_json_pass(self):
-    #     '''
-    #     Question?
-    #     '''
-    #     fake_json = os.path.join(os.getcwd(), 'tests', 'src', 'test_json.json')
-    #     with open(fake_json, 'r') as fake_file:
-    #         expected_json_output = json.load(fake_file)
-    #     the_dictionary = {"body": "body_text", "toc": "toc_stuff"}
-    #     actual_json_output = make_json(the_dictionary)
-    #     self.assertEqual(actual_json_output, expected_json_output)
-
-    # @unittest.skip("feature not ready")
     def test_write_out_pass(self):
         '''
         Does the file write out properly?

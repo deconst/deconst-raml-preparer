@@ -31,7 +31,7 @@ class Envelope_RAML:
                  deconst_config=None, per_page_meta=None,
                  github_edit_url=None):
         '''
-        Run populations, and initiate dictionary.
+        Run populations
         '''
         self.docname = docname
         self.body = body
@@ -72,24 +72,10 @@ class Envelope_RAML:
         else:
             self.github_edit_url = github_edit_url
 
-        # the_envelope = {
-        #     'body': self.body,  # TODO: Fix the body to show the asset mapper
-        #     'docname': self.docname,  # DONE: Set docname up so the content id and all work
-        #     'title': self.title,
-        #     'toc': self.toc,
-        #     # NOTE: Not sure if any of these following ones will be used.
-        #     # 'publish_date': self.publish_date,  # Ditto
-        #     'unsearchable': self.unsearchable,  # From deconst, or Sphinx?
-        #     # TODO: Get these next ones figured out (from the Sphinx preparer)
-        #     'content_id': self.content_id,
-        #     'meta': self.meta,
-        #     'asset_offsets': self.asset_offsets,
-        #     'addenda': self.addenda,
-        #     'deconst_config': self.deconst_config,
-        #     'per_page_meta': self.per_page_meta
-        # }
-
     def make_an_envelope(self):
+        '''
+        Make an envelope!
+        '''
         the_envelope = {
             'body': self.body,
             'docname': self.docname,
