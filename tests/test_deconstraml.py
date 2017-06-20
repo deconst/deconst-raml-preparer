@@ -11,6 +11,7 @@ import subprocess
 import sys
 import os
 import json
+from unittest import mock
 from os import path
 from bs4 import BeautifulSoup
 
@@ -18,9 +19,11 @@ sys.path.append(path.join(path.dirname(__file__), '..'))
 
 from ramlpreparer.deconstraml import enveloper
 from ramlpreparer.deconstraml import submit
+from ramlpreparer.config import Configuration
 
 # Initialize the raml2html package.
-starter_call = os.getcwd() + '/ramlpreparer/scripts/npminstall.sh'
+starter_call = path.join(os.getcwd(), 'ramlpreparer',
+                         'scripts', 'npminstall.sh')
 subprocess.call(starter_call, shell=True)
 
 
@@ -55,6 +58,8 @@ class DeconstRAMLTestCase(unittest.TestCase):
             'per_page_meta': {}}
         self.assertEqual(actual_result, expected_result)
 
+    @mock.patch.dict('os.environ', {
+        'ENVELOPE_DIR': os.path.join(os.getcwd(), 'tests', 'dest', '')})
     def test_submit_pass(self):
         '''
         Question?

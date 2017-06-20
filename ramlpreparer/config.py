@@ -39,6 +39,8 @@ class Configuration:
         if not self.envelope_dir:
             self.envelope_dir = path.join(
                 self.content_root, '_build', 'deconst-envelopes')
+            if os.path.isdir(self.envelope_dir) is False:
+                os.makedirs(self.envelope_dir)
         self.asset_dir = env.get("ASSET_DIR", None)
         if not self.asset_dir:
             self.asset_dir = path.join(

@@ -96,3 +96,4 @@ tests/dest/assets/*.jpg
 ramlpreparer/scripts/node_modules/
 ramlpreparer/builders/node_modules/
 old/
+_build/
