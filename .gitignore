@@ -91,6 +91,7 @@ ENV/
 # Extras
 tests/node_modules/
 tests/dest/*.html
+tests/dest/*.json
 tests/src/tester.raml
 tests/dest/assets/*.jpg
 ramlpreparer/scripts/node_modules/

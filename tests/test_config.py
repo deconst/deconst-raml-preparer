@@ -154,5 +154,54 @@ class ConfigurationTestCase(unittest.TestCase):
             actual_output, ['CONTENT_ID_BASE is missing. It should be the base URL used to generate IDs for content within this repository.'])
 
 
+class ConfigurationEnvironTestCase(unittest.TestCase):
+    '''
+    Tests for environment variables in the Configuration class
+    '''
+
+    def setUp(self):
+        '''
+        Instantiate the class.
+        '''
+        self.config_class = None
+        return self.config_class
+
+    def tearDown(self):
+        self.config_class = None
+
+    @mock.patch.dict('os.environ', {"CONTENT_ROOT": 'fake-repo/fake-dir/'})
+    def test_content_root_pass(self):
+        '''
+        Does the environment's CONTENT_ROOT variable get passed correctly?
+        '''
+        self.config_class = Configuration(os.environ)
+        self.assertEqual(self.config_class.content_root, 'fake-repo/fake-dir/')
+
+    @mock.patch.dict('os.environ', {"CONTENT_ID_BASE": 'fake-repo/fake-dir/'})
+    def test_envelope_dir_pass(self):
+        '''
+        Does the environment's CONTENT_ID_BASE variable get passed correctly?
+        '''
+        self.config_class = Configuration(os.environ)
+        self.assertEqual(self.config_class.content_id_base,
+                         'fake-repo/fake-dir/')
+
+    @mock.patch.dict('os.environ', {"ENVELOPE_DIR": 'fake-repo/fake-dir/'})
+    def test_envelope_dir_pass(self):
+        '''
+        Does the environment's ENVELOPE_DIR variable get passed correctly?
+        '''
+        self.config_class = Configuration(os.environ)
+        self.assertEqual(self.config_class.envelope_dir, 'fake-repo/fake-dir/')
+
+    @mock.patch.dict('os.environ', {"ASSET_DIR": 'fake-repo/fake-dir/'})
+    def test_envelope_dir_pass(self):
+        '''
+        Does the environment's ASSET_DIR variable get passed correctly?
+        '''
+        self.config_class = Configuration(os.environ)
+        self.assertEqual(self.config_class.asset_dir, 'fake-repo/fake-dir/')
+
+
 if __name__ == '__main__':
     unittest.main()
