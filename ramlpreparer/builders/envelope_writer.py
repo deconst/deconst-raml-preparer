@@ -201,8 +201,8 @@ def make_it_html(raml, output_html):
     '''
     Takes in the RAML and gives out HTML
     '''
-    originalHTML = raml2html.raml2html(raml, output_html)
-    return originalHTML
+    raml2html.raml2html(raml, output_html)
+    return output_html
 
 
 def parsing_html(page, page_title=None):
@@ -210,10 +210,14 @@ def parsing_html(page, page_title=None):
     Parse the HTML to put it in an envelope. Optional arguments are for
     unittests only.
     '''
-    with open(page, 'r') as contents:
-        soupit = BeautifulSoup(contents, 'html.parser')
-    with open(page, 'r') as contents2:
-        that_page = tocbuilder.parse_it(contents2)
+    try:
+        with open(page, 'r') as contents:
+            soupit = BeautifulSoup(contents, 'html.parser')
+        with open(page, 'r') as contents2:
+            that_page = tocbuilder.parse_it(contents2)
+    except OSError:
+        soupit = BeautifulSoup(page, 'html.parser')
+        that_page = tocbuilder.parse_it(page)
     toc_html = tocbuilder.htmlify(that_page)
     if page_title == None:
         the_title = soupit.title.string

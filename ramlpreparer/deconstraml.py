@@ -16,12 +16,12 @@ import requests
 import ramlpreparer.builders.envelope_writer as envelope_writer
 
 
-def enveloper(the_raml):
+def enveloper(the_raml, the_location):
     '''
     Use the RAML2HTML JavaScript library to generate HTML, and then wrap the
     submission in the deconst envelope schema.
     '''
-    the_html = envelope_writer.make_it_html(the_raml)
+    the_html = envelope_writer.make_it_html(the_raml, the_location)
     the_envelope = envelope_writer.parsing_html(the_html)
     return the_envelope
 
@@ -32,9 +32,11 @@ def submit(the_envelope):
     Pass the envelopes to the submitter.
     '''
     # DONE: What's the submission variable?
-    submission = os.path.join(os.getcwd(), the_envelope.content_id)
+    final_base = str(the_envelope['content_id']) + '.json'
+    submission = os.path.join(os.getcwd(), 'tests', 'dest', final_base)
     final_submit = envelope_writer.write_out(
         the_envelope, file_path=submission)
+    return submission
 
 
 # Run me!
