@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 '''
-test_envelope_writer
+test_config
 ----------------------------------
-Tests for `envelope_writer` module.
+Tests for `config` module.
 '''
 
 import unittest

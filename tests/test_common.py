@@ -3,7 +3,7 @@
 '''
 test_common
 ----------------------------------
-Tests for `xommon` module.
+Tests for `common` module.
 '''
 
 import unittest
