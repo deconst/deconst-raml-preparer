@@ -6,7 +6,7 @@ import os
 import sys
 
 from pip import pip
-import ramlpreparer.deconstraml as deconstraml  # import build, get_conf_builder
+import ramlpreparer.deconstraml as deconstraml
 from .config import Configuration
 
 __author__ = 'Laura Santamaria'
@@ -38,13 +38,18 @@ def main(directory=False):
     # Install pip requirements when possible.
     install_requirements()
 
-    # Lock source and destination to the same paths as the Makefile.
-    # srcdir = '.'
-    # destdir = os.path.join('_build', deconstraml.get_conf_builder(srcdir))
+    the_list = deconstraml.find_all(config)
+    for path_name in the_list:
+        file_name = os.path.basename(path_name)
+        html_name = file_name.replace('raml', 'html')
+        base_location = path.join(config.envelope_dir, 'temp', html_name)
+        each_envelope = enveloper(path_name, base_location)
+        submit(each_envelope)
+    shutil.rmtree(os.chdir(os.path.join(config.envelope_dir, 'temp', '')))
 
-    status = deconstraml(config.content_root, config.envelope_dir)
-    if status != 0:
-        sys.exit(status)
+    # status = deconstraml.build_all(config)
+    # if status != 0:
+    #     sys.exit(status)
 
     reasons = config.missing_values()
     if reasons:

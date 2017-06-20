@@ -14,6 +14,8 @@ import re
 import shutil
 import urllib.parse
 import requests
+from pathlib import Path
+
 import ramlpreparer.builders.envelope_writer as envelope_writer
 from ramlpreparer.config import Configuration
 
@@ -31,12 +33,10 @@ def enveloper(the_raml, the_location):
     return the_envelope
 
 
-# Sumbit to the submitter
 def submit(the_envelope):
     '''
     Pass the envelopes to the submitter.
     '''
-    # DONE: What's the submission variable?
     final_base = str(the_envelope['content_id']) + '.json'
     submission = os.path.join(config.envelope_dir, final_base)
     final_submit = envelope_writer.write_out(
@@ -44,16 +44,19 @@ def submit(the_envelope):
     return submission
 
 
-# Run me!
-if __name__ == "__main__":
-    temp_base = str(the_envelope['content_id']) + '.html'
-    base_location = os.path.join(config.envelope_dir, 'temp', temp_base)
-    for (dirpath, dirnames, filenames) in os.walk(config.git_root):
+def find_all(config):
+    '''
+    Finds and builds all RAML in the directory given in the config files.
+    '''
+    listed_raml = []
+    excluded_filepath = set(['node_modules'])
+    for (dirpath, dirnames, filenames) in os.walk(config.git_root, topdown=True):
+        dirnames[:] = [
+            dirname for dirname in dirnames if dirname not in excluded_filepath]
         for filename in filenames:
             if filename.endswith('.raml'):
                 for dirname in dirnames:
                     actual_path = str(Path(dirname).parents[0])[:-2]
-                    path_name = path.join(dirpath, actual_path, filename)
-                    each_envelope = enveloper(path_name, base_location)
-                    submit(each_envelope)
-    shutil.rmtree(os.chdir(os.path.join(config.envelope_dir, 'temp', '')))
+                    path_name = os.path.join(dirpath, actual_path, filename)
+                    listed_raml.append(path_name)
+    return listed_raml

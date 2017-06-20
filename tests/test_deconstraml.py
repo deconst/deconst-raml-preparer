@@ -19,6 +19,7 @@ sys.path.append(path.join(path.dirname(__file__), '..'))
 
 from ramlpreparer.deconstraml import enveloper
 from ramlpreparer.deconstraml import submit
+from ramlpreparer.deconstraml import find_all
 from ramlpreparer.config import Configuration
 
 # Initialize the raml2html package.
@@ -60,7 +61,7 @@ class DeconstRAMLTestCase(unittest.TestCase):
 
     def test_submit_pass(self):
         '''
-        Question?
+        Does the submit method pass the json properly?
         '''
         config = Configuration(os.environ)
         self.maxDiff = None
@@ -86,6 +87,16 @@ class DeconstRAMLTestCase(unittest.TestCase):
         with open(fake_json_envelope, 'r') as fake_envelope:
             expected_json_output = json.load(fake_envelope)
         self.assertEqual(actual_file, expected_json_output)
+
+    def test_find_all_pass(self):
+        '''
+        Does the find_all method really find all the RAML it can?
+        '''
+        config_file = Configuration(os.environ)
+        actual_list = find_all(config_file)
+        expected_list = [os.path.join(
+            os.getcwd(), 'tests', 'src', 'fake_raml_file.raml'), os.path.join(os.getcwd(), 'tests', 'src', 'small_test.raml')]
+        self.assertEqual(actual_list, expected_list)
 
 
 if __name__ == '__main__':
