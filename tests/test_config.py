@@ -135,17 +135,23 @@ class ConfigurationTestCase(unittest.TestCase):
             self.config_class.apply_file(deconstjson)
             self.assertEqual(expected_message, object_out.getvalue())
 
-    @unittest.skip("feature not ready")
     def test__get_git_root_pass(self):
         '''
         Question?
         '''
+        actual_git_root = self.config_class._get_git_root()
+        expected_git_root = os.getcwd()
+        self.assertEqual(actual_git_root, expected_git_root)
 
-    @unittest.skip("feature not ready")
     def test_missing_values_pass(self):
         '''
-        Question?
+        Does a missing content_id_base raise the correct reason for failure?
         '''
+        self.maxDiff = None
+        self.config_class.content_id_base = None
+        actual_output = self.config_class.missing_values()
+        self.assertEqual(
+            actual_output, ['CONTENT_ID_BASE is missing. It should be the base URL used to generate IDs for content within this repository.'])
 
 
 if __name__ == '__main__':

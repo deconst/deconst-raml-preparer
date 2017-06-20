@@ -29,7 +29,12 @@ class Configuration:
         self.content_root = env.get("CONTENT_ROOT", None)
         if not self.content_root:
             self.content_root = os.getcwd()
-        self.content_id_base = _normalize(env.get("CONTENT_ID_BASE"))
+        try:
+            self.content_id_base = _normalize(env.get("CONTENT_ID_BASE"))
+        except:
+            missing_note = self.missing_values()
+            raise AssertionError(", ".join(str(element)
+                                           for element in missing_note))
         self.envelope_dir = env.get("ENVELOPE_DIR", None)
         if not self.envelope_dir:
             self.envelope_dir = path.join(
@@ -43,7 +48,7 @@ class Configuration:
         self.github_branch = "master"
         self.original_asset_dir = ''
         try:
-            self.git_root = self._get_git_root(os.getcwd())
+            self.git_root = self._get_git_root()
         except FileNotFoundError:
             self.git_root = None
 
@@ -81,7 +86,10 @@ class Configuration:
             self.original_asset_dir = os.path.join(
                 os.getcwd(), final_rel_path.strip('/'), '')
 
-    def _get_git_root(self, d):
+    def _get_git_root(self):
+        '''
+        Determine where the root of the repo is.
+        '''
         the_git_root = subprocess.Popen(
             ['git', 'rev-parse', '--show-toplevel'],
             stdout=subprocess.PIPE).communicate()[0].rstrip().decode('utf-8')
