@@ -11,9 +11,14 @@ to pass to the deconst submitter module.
 import sys
 import os
 import re
+import shutil
 import urllib.parse
 import requests
 import ramlpreparer.builders.envelope_writer as envelope_writer
+from ramlpreparer.config import Configuration
+
+
+config = Configuration(os.environ)
 
 
 def enveloper(the_raml, the_location):
@@ -33,7 +38,7 @@ def submit(the_envelope):
     '''
     # DONE: What's the submission variable?
     final_base = str(the_envelope['content_id']) + '.json'
-    submission = os.path.join(os.getcwd(), 'tests', 'dest', final_base)
+    submission = os.path.join(config.envelope_dir, final_base)
     final_submit = envelope_writer.write_out(
         the_envelope, file_path=submission)
     return submission
@@ -41,5 +46,14 @@ def submit(the_envelope):
 
 # Run me!
 if __name__ == "__main__":
-    each_envelope = enveloper(self)
-    submit(each_envelope)
+    temp_base = str(the_envelope['content_id']) + '.html'
+    base_location = os.path.join(config.envelope_dir, 'temp', temp_base)
+    for (dirpath, dirnames, filenames) in os.walk(config.git_root):
+        for filename in filenames:
+            if filename.endswith('.raml'):
+                for dirname in dirnames:
+                    actual_path = str(Path(dirname).parents[0])[:-2]
+                    path_name = path.join(dirpath, actual_path, filename)
+                    each_envelope = enveloper(path_name, base_location)
+                    submit(each_envelope)
+    shutil.rmtree(os.chdir(os.path.join(config.envelope_dir, 'temp', '')))

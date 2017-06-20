@@ -42,9 +42,9 @@ def main(directory=False):
     # srcdir = '.'
     # destdir = os.path.join('_build', deconstraml.get_conf_builder(srcdir))
 
-    # status = deconstraml.build(srcdir, destdir)
-    # if status != 0:
-    #     sys.exit(status)
+    status = deconstraml(config.content_root, config.envelope_dir)
+    if status != 0:
+        sys.exit(status)
 
     reasons = config.missing_values()
     if reasons:
