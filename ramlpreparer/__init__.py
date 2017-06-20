@@ -47,18 +47,21 @@ def main(directory=False):
         submit(each_envelope)
     shutil.rmtree(os.chdir(os.path.join(config.envelope_dir, 'temp', '')))
 
+# TODO: Implement some sort of nice exit status. I'm thinking of using
+# try/except...
+
     # status = deconstraml.build_all(config)
     # if status != 0:
     #     sys.exit(status)
 
-    reasons = config.missing_values()
-    if reasons:
-        print("Not preparing content because:", file=sys.stderr)
-        print(file=sys.stderr)
-        for reason in reasons:
-            print(" * " + reason, file=sys.stderr)
-        print(file=sys.stderr)
-        sys.exit(1)
+    # reasons = config.missing_values()
+    # if reasons:
+    #     print("Not preparing content because:", file=sys.stderr)
+    #     print(file=sys.stderr)
+    #     for reason in reasons:
+    #         print(" * " + reason, file=sys.stderr)
+    #     print(file=sys.stderr)
+    #     sys.exit(1)
 
 
 def install_requirements():
