@@ -7,7 +7,7 @@ import sys
 
 from pip import pip
 import ramlpreparer.deconstraml as deconstraml
-from .config import Configuration
+from ramlpreparer.config import Configuration
 
 __author__ = 'Laura Santamaria'
 __email__ = 'laura.santamaria@rackspace.com'
