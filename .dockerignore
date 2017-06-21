@@ -1,0 +1,6 @@
+_build
+old
+*/_pycache_
+.coverage
+*/node_modules
+fake-repo

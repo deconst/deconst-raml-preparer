@@ -3,8 +3,8 @@ MAINTAINER Laura Santamaria <laura.santamaria@rackspace.com>
 
 RUN apk add --no-cache python3 git nodejs
 RUN python3 -m ensurepip
-RUN ln -s /usr/bin/python3 /usr/bin/python && \
-  ln -s /usr/bin/pip3 /usr/bin/pip
+RUN ln -s /usr/bin/python3 /usr/bin/python
+RUN ln -s /usr/bin/pip3 /usr/bin/pip
 RUN pip install --upgrade pip
 
 RUN adduser -D -g "" -u 1000 preparer
@@ -24,4 +24,4 @@ COPY . /preparer
 VOLUME /usr/content-repo
 WORKDIR /usr/content-repo
 
-CMD ["python", "-m", "deconstraml"]
+CMD ["git", "rev-parse", "--show-toplevel", "|", "python", "deconstraml.py"]
