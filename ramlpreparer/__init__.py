@@ -43,9 +43,9 @@ def main(directory=False):
         file_name = os.path.basename(path_name)
         html_name = file_name.replace('raml', 'html')
         base_location = path.join(config.envelope_dir, 'temp', html_name)
-        each_envelope = enveloper(path_name, base_location)
-        submit(each_envelope)
-    shutil.rmtree(os.chdir(os.path.join(config.envelope_dir, 'temp', '')))
+        each_envelope = deconstraml.enveloper(path_name, base_location)
+        deconstraml.submit(each_envelope)
+    # shutil.rmtree(os.chdir(os.path.join(config.envelope_dir, 'temp', '')))
 
 # TODO: Implement some sort of nice exit status. I'm thinking of using
 # try/except...

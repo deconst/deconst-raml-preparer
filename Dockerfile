@@ -1,7 +1,7 @@
 FROM alpine:latest
 LABEL maintainer="laura.santamaria@rackspace.com"
 
-RUN apk add --no-cache python3 git nodejs
+RUN apk update && apk add --no-cache python3 git nodejs nodejs-npm
 RUN python3 -m ensurepip
 RUN ln -s /usr/bin/python3 /usr/bin/python
 RUN ln -s /usr/bin/pip3 /usr/bin/pip
