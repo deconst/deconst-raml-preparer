@@ -1,5 +1,5 @@
-FROM alpine:3.3
-MAINTAINER Laura Santamaria <laura.santamaria@rackspace.com>
+FROM alpine:latest
+LABEL maintainer="laura.santamaria@rackspace.com"
 
 RUN apk add --no-cache python3 git nodejs
 RUN python3 -m ensurepip
@@ -24,4 +24,7 @@ COPY . /preparer
 VOLUME /usr/content-repo
 WORKDIR /usr/content-repo
 
-CMD ["git", "rev-parse", "--show-toplevel", "|", "python", "deconstraml.py"]
+# TODO: Consider putting the git command logic out here and passing to Python.
+# Should be a lot simpler and avoids dependencies (and allows for other VCS
+# types as we could abstract this out to code in the repo itself).
+CMD ["python", "ramlpreparer/deconstraml.py"]
