@@ -4,8 +4,11 @@ from bs4 import BeautifulSoup
 import json
 import subprocess
 import os
+import sys
 import urllib
 from pathlib import Path
+
+sys.path.insert(0, os.getcwd())
 
 import ramlpreparer.builders.asset_mapper as asset_mapper
 import ramlpreparer.builders.common as common
@@ -143,14 +146,13 @@ class Envelope_RAML:
                 git_root_path = self.deconst_config.git_root
             elif self.deconst_config.github_url and not self.deconst_config.git_root:
                 git_root_path = getcwd()
-            for (dirpath, dirnames, filenames) in os.walk(git_root_path):
+            excluded_filepath = set(['node_modules'])
+            for (dirpath, dirnames, filenames) in os.walk(git_root_path, topdown=True):
+                dirnames[:] = [
+                    dirname for dirname in dirnames if dirname not in excluded_filepath]
                 for filename in filenames:
                     if filename.endswith(base_name):
-                        for dirname in dirnames:
-                            actual_path = str(
-                                Path(dirname).parents[0])[:-2]
-                            full_path = os.path.join(
-                                dirpath, actual_path, filename)
+                        full_path = os.path.join(dirpath, filename)
             edit_segments = [self.deconst_config.github_url, 'edit',
                              self.deconst_config.github_branch,
                              os.path.relpath(full_path, start='.')]

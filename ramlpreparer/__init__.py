@@ -6,7 +6,10 @@ import os
 import sys
 
 from pip import pip
-import ramlpreparer.deconstraml as deconstraml
+
+sys.path.insert(0, os.getcwd())
+
+from ramlpreparer.deconstraml import enveloper, submit, find_all
 from ramlpreparer.config import Configuration
 
 __author__ = 'Laura Santamaria'
@@ -24,8 +27,10 @@ def main(directory=False):
                 config.content_root, directory))
         else:
             os.chdir(config.content_root)
+            print(os.getcwd())
     elif directory:
         os.chdir(directory)
+        print(os.getcwd())
 
     if os.path.exists("_deconst.json"):
         with open("_deconst.json", "r", encoding="utf-8") as cf:
@@ -34,17 +39,19 @@ def main(directory=False):
     # Ensure that the envelope and asset directories exist.
     os.makedirs(config.envelope_dir, exist_ok=True)
     os.makedirs(config.asset_dir, exist_ok=True)
+    temp_path = os.path.join(config.envelope_dir, 'temp', '')
+    os.makedirs(temp_path, exist_ok=True)
 
     # Install pip requirements when possible.
     install_requirements()
 
-    the_list = deconstraml.find_all(config)
+    the_list = find_all(config)
     for path_name in the_list:
         file_name = os.path.basename(path_name)
         html_name = file_name.replace('raml', 'html')
-        base_location = path.join(config.envelope_dir, 'temp', html_name)
-        each_envelope = deconstraml.enveloper(path_name, base_location)
-        deconstraml.submit(each_envelope)
+        base_location = os.path.join(config.envelope_dir, 'temp', html_name)
+        each_envelope = enveloper(path_name, base_location)
+        submit(each_envelope)
     # shutil.rmtree(os.chdir(os.path.join(config.envelope_dir, 'temp', '')))
 
 # TODO: Implement some sort of nice exit status. I'm thinking of using

@@ -27,4 +27,4 @@ WORKDIR /usr/content-repo
 # TODO: Consider putting the git command logic out here and passing to Python.
 # Should be a lot simpler and avoids dependencies (and allows for other VCS
 # types as we could abstract this out to code in the repo itself).
-CMD ["python", "ramlpreparer/deconstraml.py"]
+CMD ["python", "-m", "ramlpreparer"]

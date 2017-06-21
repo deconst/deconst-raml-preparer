@@ -95,7 +95,7 @@ class DeconstRAMLTestCase(unittest.TestCase):
         config_file = Configuration(os.environ)
         actual_list = find_all(config_file)
         expected_list = [os.path.join(
-            os.getcwd(), 'tests', 'src', 'fake_raml_file.raml'), os.path.join(os.getcwd(), 'tests', 'src', 'small_test.raml')]
+            os.getcwd(), 'tests', 'src', 'small_test.raml')]
         self.assertEqual(actual_list, expected_list)
 
 

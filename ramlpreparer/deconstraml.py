@@ -16,6 +16,8 @@ import urllib.parse
 import requests
 from pathlib import Path
 
+sys.path.insert(0, os.getcwd())
+
 import ramlpreparer.builders.envelope_writer as envelope_writer
 from ramlpreparer.config import Configuration
 
@@ -55,8 +57,6 @@ def find_all(config):
             dirname for dirname in dirnames if dirname not in excluded_filepath]
         for filename in filenames:
             if filename.endswith('.raml'):
-                for dirname in dirnames:
-                    actual_path = str(Path(dirname).parents[0])[:-2]
-                    path_name = os.path.join(dirpath, actual_path, filename)
-                    listed_raml.append(path_name)
+                path_name = os.path.join(dirpath, filename)
+                listed_raml.append(path_name)
     return listed_raml
