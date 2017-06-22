@@ -5,7 +5,7 @@ python:
 - "3.5"
 install:
 - pip install -r requirements.txt
-- npm install raml2html
+- npm install --global raml2html
 script:
 - raml2html --version
 - coverage run -m unittest -v
