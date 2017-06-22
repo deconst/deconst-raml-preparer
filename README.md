@@ -1,8 +1,8 @@
 # Deconst RAML Preparer
 RAML :point_right: :wrench: :point_right: .json
 
-[![Stability Rating](https://img.shields.io/badge/stability-in%20test-yellow.svg)](https://img.shields.io/badge/stability-in%20test-yellow.svg)[![Build Status](https://travis-ci.org/nimbinatus/deconst-raml-preparer.svg?branch=master)](https://travis-ci.org/nimbinatus/deconst-raml-preparer/)
-[![Coverage Status](https://coveralls.io/repos/github/nimbinatus/deconst-raml-preparer/badge.svg?branch=master)](https://coveralls.io/github/nimbinatus/deconst-raml-preparer?branch=master)
+[![Stability Rating](https://img.shields.io/badge/stability-in%20test-yellow.svg)](https://img.shields.io/badge/stability-in%20test-yellow.svg) [![Build Status](https://travis-ci.org/nimbinatus/deconst-raml-preparer.svg?branch=master)](https://travis-ci.org/nimbinatus/deconst-raml-preparer/)
+[![Coverage Status](https://coveralls.io/repos/github/nimbinatus/deconst-raml-preparer/badge.svg)](https://coveralls.io/github/nimbinatus/deconst-raml-preparer?branch=master)
 
 :construction: Work in progress :construction:
 
