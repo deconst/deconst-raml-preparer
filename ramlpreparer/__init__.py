@@ -39,8 +39,6 @@ def main(directory=False):
     # Ensure that the envelope and asset directories exist.
     os.makedirs(config.envelope_dir, exist_ok=True)
     os.makedirs(config.asset_dir, exist_ok=True)
-    temp_path = os.path.join(config.envelope_dir, 'temp', '')
-    os.makedirs(temp_path, exist_ok=True)
 
     # Install pip requirements when possible.
     install_requirements()
@@ -49,7 +47,7 @@ def main(directory=False):
     for path_name in the_list:
         file_name = os.path.basename(path_name)
         html_name = file_name.replace('raml', 'html')
-        base_location = os.path.join(config.envelope_dir, 'temp', html_name)
+        base_location = os.path.join(config.envelope_dir, html_name)
         each_envelope = enveloper(path_name, base_location)
         submit(each_envelope)
     # shutil.rmtree(os.chdir(os.path.join(config.envelope_dir, 'temp', '')))

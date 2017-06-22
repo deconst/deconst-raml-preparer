@@ -89,6 +89,7 @@ ENV/
 .ropeproject
 
 # Extras
+node_modules/
 tests/node_modules/
 tests/dest/*.html
 tests/dest/*.json
