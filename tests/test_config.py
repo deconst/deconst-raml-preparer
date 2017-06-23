@@ -22,11 +22,6 @@ sys.path.append(path.join(path.dirname(__file__), '..'))
 from ramlpreparer.config import _normalize as normalize_it
 from ramlpreparer.config import Configuration
 
-# Initialize the raml2html package.
-starter_call = path.join(os.getcwd(), 'ramlpreparer',
-                         'scripts', 'npminstall.sh')
-subprocess.call(starter_call, shell=True)
-
 # Identify where the test files live
 env_file = path.join(os.getcwd(), 'ramlpreparer', 'tests', 'src', 'env')
 deconstjson = path.join(os.getcwd(), 'ramlpreparer',

@@ -16,11 +16,6 @@ sys.path.append(path.join(path.dirname(__file__), '..'))
 
 from ramlpreparer.builders.raml2html import raml2html
 
-# Initialize the raml2html package.
-starter_call = path.join(os.getcwd(), 'ramlpreparer',
-                         'scripts', 'npminstall.sh')
-subprocess.call(starter_call, shell=True)
-
 
 class RAML2HTMLTestCase(unittest.TestCase):
     '''

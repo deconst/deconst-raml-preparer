@@ -4,6 +4,7 @@
 
 import os
 import sys
+import re
 
 from pip import pip
 
@@ -50,7 +51,12 @@ def main(directory=False):
         base_location = os.path.join(config.envelope_dir, html_name)
         each_envelope = enveloper(path_name, base_location)
         submit(each_envelope)
-    # shutil.rmtree(os.chdir(os.path.join(config.envelope_dir, 'temp', '')))
+    # TODO: Clear out intermediate .html in envelope dir
+    # regex_clear = re.compile('.*(\.html)$')
+    # directoryname = os.path.join(config.envelope_dir, 'temp', '')
+    # for anyfile in directoryname:
+    #     if re.search(regex_clear, anyfile):
+    #         os.remove(os.path.join(directoryname, anyfile))
 
 # TODO: Implement some sort of nice exit status. I'm thinking of using
 # try/except...

@@ -3,10 +3,6 @@
 from bs4 import BeautifulSoup
 import re
 
-# DONE: Test with real RAML2HTML output
-# DONE: Pythonify this
-# DONE: Retest after modularizing with real RAML2HTML output.
-# DONE: Hook up with the rest of the system
 # NOTE: It might be better to move this into another file for cleanliness.
 
 
@@ -44,24 +40,49 @@ def sibs_it(tag, name, current_heading_list, regex101, toc_gen, prev_list=None):
         sib_head_level = 0
     try:
         if sibs.name != name and head_level < sib_head_level:
-            return (toc_gen, current_heading_list, prev_list, sib_head_level)
+            return (toc_gen,
+                    current_heading_list,
+                    prev_list,
+                    sib_head_level
+                    )
         elif sibs.name != name and head_level > sib_head_level:
             prev_list.append(current_heading_list)
             current_heading_list = []
-            return (toc_gen, current_heading_list, prev_list, sib_head_level)
+            return (toc_gen,
+                    current_heading_list,
+                    prev_list, sib_head_level
+                    )
         else:
-            return (toc_gen, current_heading_list, prev_list, sib_head_level)
+            return (toc_gen,
+                    current_heading_list,
+                    prev_list,
+                    sib_head_level
+                    )
     except AttributeError:
         if head_level != '2':
             toc_gen.append(current_heading_list)
             current_heading_list = []
-            return (toc_gen, current_heading_list, prev_list, sib_head_level)
+            return (toc_gen,
+                    current_heading_list,
+                    prev_list,
+                    sib_head_level
+                    )
         else:
-            return (toc_gen, current_heading_list, prev_list, sib_head_level)
+            return (toc_gen,
+                    current_heading_list,
+                    prev_list,
+                    sib_head_level
+                    )
 
 
-def parse_it(html_doc, toc_gen=None, current_h2=None, current_h3=None,
-             current_h4=None, begstr="<li><a href=\"#", endstr="</a></li>"):
+def parse_it(html_doc,
+             toc_gen=None,
+             current_h2=None,
+             current_h3=None,
+             current_h4=None,
+             begstr="<li><a href=\"#",
+             endstr="</a></li>"
+             ):
     '''
     Parses an HTML doc for headings to add to a table of contents.
 
@@ -71,7 +92,6 @@ def parse_it(html_doc, toc_gen=None, current_h2=None, current_h3=None,
     '''
     if toc_gen is None:
         toc_gen = []
-        # current_h2 = []
         current_h3 = []
         current_h4 = []
     else:
@@ -80,7 +100,6 @@ def parse_it(html_doc, toc_gen=None, current_h2=None, current_h3=None,
         current_h3 = None
         current_h4 = None
         toc_gen = []
-        # current_h2 = []
         current_h3 = []
         current_h4 = []
     soup = BeautifulSoup(html_doc, 'html.parser')
@@ -92,7 +111,12 @@ def parse_it(html_doc, toc_gen=None, current_h2=None, current_h3=None,
             tag_link = tag_it(tag)
             toc_gen.append(begstr + tag_link + "\">" + tag.string + endstr)
             (toc_gen, current_h2, prev_var, sib) = sibs_it(
-                tag, tag.name, current_h2, regex101, toc_gen)
+                tag,
+                tag.name,
+                current_h2,
+                regex101,
+                toc_gen
+            )
             if sib != '2':
                 pass
             if sib == '0':
@@ -109,7 +133,13 @@ def parse_it(html_doc, toc_gen=None, current_h2=None, current_h3=None,
             tag_link = tag_it(tag)
             current_h3.append(begstr + tag_link + "\">" + tag.string + endstr)
             (toc_gen, current_h3, prev_var, sib) = sibs_it(
-                tag, tag.name, current_h3, regex101, toc_gen, current_h2)
+                tag,
+                tag.name,
+                current_h3,
+                regex101,
+                toc_gen,
+                current_h2
+            )
             if sib == '2':
                 current_h3 = current_h2
                 toc_gen.append(current_h3)
@@ -130,7 +160,13 @@ def parse_it(html_doc, toc_gen=None, current_h2=None, current_h3=None,
                 current_h4.append(begstr + tag_link +
                                   "\">" + tag.get_text() + endstr)
             (toc_gen, current_h4, prev_var, sib) = sibs_it(
-                tag, tag.name, current_h4, regex101, toc_gen, current_h3)
+                tag,
+                tag.name,
+                current_h4,
+                regex101,
+                toc_gen,
+                current_h3
+            )
             if sib == '2':
                 toc_gen.append(current_h3)
                 current_h2 = []

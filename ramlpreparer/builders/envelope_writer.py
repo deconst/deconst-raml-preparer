@@ -16,10 +16,7 @@ import ramlpreparer.builders.tocbuilder as tocbuilder
 import ramlpreparer.builders.raml2html as raml2html
 from ramlpreparer.config import Configuration
 
-# Initialize the raml2html package.
-starter_call = os.path.join(
-    os.getcwd(), 'ramlpreparer', 'scripts', 'npminstall.sh')
-subprocess.call(starter_call, shell=True)
+# TODO: Add an unsearchable feature.
 
 
 class Envelope_RAML:
@@ -28,11 +25,22 @@ class Envelope_RAML:
     of the RAML file.
     '''
 
-    def __init__(self, docname, body, originalFile=None, title=None, toc=None,
-                 publish_date=None, unsearchable=None, content_id=None,
-                 meta=None, asset_offsets=None, addenda=None,
-                 deconst_config=None, per_page_meta=None,
-                 github_edit_url=None):
+    def __init__(self,
+                 docname,
+                 body,
+                 originalFile=None,
+                 title=None,
+                 toc=None,
+                 publish_date=None,
+                 unsearchable=None,
+                 content_id=None,
+                 meta=None,
+                 asset_offsets=None,
+                 addenda=None,
+                 deconst_config=None,
+                 per_page_meta=None,
+                 github_edit_url=None
+                 ):
         '''
         Run populations
         '''
@@ -69,7 +77,6 @@ class Envelope_RAML:
         else:
             self.asset_offsets = asset_offsets
 
-        # self._populate_unsearchable()
         if not github_edit_url:
             self._populate_git()
         else:
@@ -98,11 +105,17 @@ class Envelope_RAML:
         Generate the full path at which this envelope should be serialized.
         '''
         envelope_filename = urllib.parse.quote(
-            self.content_id, safe='') + '.json'
+            self.content_id,
+            safe=''
+        ) + '.json'
         if test == False:
-            return os.path.join(self.deconst_config['envelope_dir'], envelope_filename)
+            return os.path.join(self.deconst_config['envelope_dir'],
+                                envelope_filename
+                                )
         else:
-            return os.path.join(self.deconst_config.envelope_dir, envelope_filename)
+            return os.path.join(self.deconst_config.envelope_dir,
+                                envelope_filename
+                                )
 
     def _populate_meta(self, test=False):
         '''
@@ -131,10 +144,15 @@ class Envelope_RAML:
                             actual_path = str(
                                 Path(dirname).parents[0])[:-2]
                             full_path = os.path.join(
-                                dirpath, actual_path, filename)
-            edit_segments = [self.deconst_config['github_url'], 'edit',
+                                dirpath,
+                                actual_path,
+                                filename
+                            )
+            edit_segments = [self.deconst_config['github_url'],
+                             'edit',
                              self.deconst_config['github_branch'],
-                             os.path.relpath(full_path, start='.')]
+                             os.path.relpath(full_path, start='.')
+                             ]
             stripped_segments = []
             for segment in edit_segments:
                 stripped_segments.append(segment.strip('/'))
@@ -149,11 +167,13 @@ class Envelope_RAML:
             excluded_filepath = set(['node_modules'])
             for (dirpath, dirnames, filenames) in os.walk(git_root_path, topdown=True):
                 dirnames[:] = [
-                    dirname for dirname in dirnames if dirname not in excluded_filepath]
+                    dirname for dirname in dirnames if dirname not in excluded_filepath
+                ]
                 for filename in filenames:
                     if filename.endswith(base_name):
                         full_path = os.path.join(dirpath, filename)
-            edit_segments = [self.deconst_config.github_url, 'edit',
+            edit_segments = [self.deconst_config.github_url,
+                             'edit',
                              self.deconst_config.github_branch,
                              os.path.relpath(full_path, start='.')]
             stripped_segments = []
@@ -162,16 +182,6 @@ class Envelope_RAML:
             self.meta['github_edit_url'] = (
                 '/'.join(segment for segment in stripped_segments))
 
-    # TODO: Add an unsearchable feature.
-    # def _populate_unsearchable(self):
-    #     '''
-    #     Populate "unsearchable" from per-page or repository-wide settings.
-    #     '''
-    #     unsearchable = self.per_page_meta.get(
-    #         'deconstunsearchable', self.config.deconst_default_unsearchable)
-    #     if unsearchable is not None:
-    #         self.unsearchable = unsearchable in ('true', True)
-
     def _populate_asset_offsets(self, original_asset_dir=None):
         '''
         Read stored asset offsets from the asset mapper, and then update the body.
@@ -179,11 +189,17 @@ class Envelope_RAML:
         if original_asset_dir:
             classy = Configuration(os.environ)
             self.body, self.asset_offsets = asset_mapper.map_the_assets(
-                original_asset_dir, classy.asset_dir, html_doc_path=self.originalFile)
+                original_asset_dir,
+                classy.asset_dir,
+                html_doc_path=self.originalFile
+            )
         else:
             classy = Configuration(os.environ)
             self.body, self.asset_offsets = asset_mapper.map_the_assets(
-                classy.original_asset_dir, classy.asset_dir, html_doc_path=self.originalFile)
+                classy.original_asset_dir,
+                classy.asset_dir,
+                html_doc_path=self.originalFile
+            )
 
     def _populate_content_id(self, testing=False):
         '''
@@ -244,9 +260,3 @@ def write_out(envelope, file_path=None):
     with open(file_path, 'w') as thefile:
         json.dump(envelope, thefile)
     return thefile
-
-
-# QUESTION: Does each page's envelope need to get placed separately? Currently,
-# it's written to put each envelope inside of a larger envelope...
-# DONE: Write each envelope to a new file in ENVELOPE_DIR.
-# DONE: Review the code from the Sphinx preparer if anything should be copied.

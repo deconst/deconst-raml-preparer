@@ -17,11 +17,6 @@ sys.path.append(path.join(path.dirname(__file__), '..'))
 
 from ramlpreparer.builders.asset_mapper import map_the_assets
 
-# Initialize the raml2html package.
-starter_call = path.join(os.getcwd(), 'ramlpreparer',
-                         'scripts', 'npminstall.sh')
-subprocess.call(starter_call, shell=True)
-
 
 class AssetMapperTestCase(unittest.TestCase):
     '''

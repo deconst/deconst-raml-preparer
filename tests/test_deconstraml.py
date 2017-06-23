@@ -22,11 +22,6 @@ from ramlpreparer.deconstraml import submit
 from ramlpreparer.deconstraml import find_all
 from ramlpreparer.config import Configuration
 
-# Initialize the raml2html package.
-starter_call = path.join(os.getcwd(), 'ramlpreparer',
-                         'scripts', 'npminstall.sh')
-subprocess.call(starter_call, shell=True)
-
 
 class DeconstRAMLTestCase(unittest.TestCase):
     '''

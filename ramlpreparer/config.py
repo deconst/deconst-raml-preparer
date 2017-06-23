@@ -1,7 +1,6 @@
 #! usr/bin/env python3
 
 # Modified from the Sphinx preparer's config.py file
-# DONE: Clean up copy-pasta.
 
 import json
 import os
@@ -97,7 +96,7 @@ class Configuration:
             stdout=subprocess.PIPE).communicate()[0].rstrip().decode('utf-8')
         if not the_git_root:
             raise FileNotFoundError('You\'re not in a git repo.')
-            the_git_root = '/fake-root/'
+            the_git_root = '.'
         return the_git_root
 
     def missing_values(self):

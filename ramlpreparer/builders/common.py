@@ -22,11 +22,8 @@ def init_builder(test=False):
     deconst config initialization
     '''
     # Search the tree with os.walk and an if statement
-    git_root = subprocess.Popen(
-        ['git', 'rev-parse', '--show-toplevel'],
-        stdout=subprocess.PIPE).communicate()[0].rstrip().decode('utf-8')
     deconst_config = Configuration(os.environ)
-    for (dirpath, dirnames, filenames) in os.walk(git_root):
+    for (dirpath, dirnames, filenames) in os.walk(deconst_config.git_root):
         for filename in filenames:
             if filename.endswith('_deconst.json'):
                 for dirname in dirnames:
@@ -36,7 +33,7 @@ def init_builder(test=False):
         deconst_config.apply_file(path_name)
     else:
         raise FileNotFoundError("There's no _deconst.json file in this repo at " +
-                                str(git_root) + ". Add one!")
+                                str(deconst_config.git_root) + ". Add one!")
         deconst_config = None
     return deconst_config
 

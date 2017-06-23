@@ -5,15 +5,6 @@ import re
 import shutil
 from bs4 import BeautifulSoup
 
-# DONE: Step 1: Take the assets and copy them over.
-# NOTE: Look at envelopes with
-# http://localhost:9000/content/https%3A%2F%2Fgithub.com%2F<org>%2F<repo>
-#     %2F<permalink>
-# from the integrated deconst.
-# DONE: Step 2: Find all assets in the HTML.
-# src_asset_dir = './tests/src/assets/'
-# dest_asset_dir = './tests/dest/assets/'  # os.getenv('ASSET_DIR')
-
 
 def map_the_assets(src_asset_dir, dest_asset_dir, docname=None, html_doc_path=None, html_source=None):
     '''
@@ -45,9 +36,6 @@ def map_the_assets(src_asset_dir, dest_asset_dir, docname=None, html_doc_path=No
         changed_envelope[n] = final_offset
         element2 += 1
     listed_env = list(changed_envelope)
-    # Step 3: Map all assets in the HTML to the location in the asset
-    # directory.
-    # DONE: Replace pseudocode.
     for key in listed_env:
         path_to_key = src_asset_dir + key
         new_path = dest_asset_dir + key
@@ -55,13 +43,5 @@ def map_the_assets(src_asset_dir, dest_asset_dir, docname=None, html_doc_path=No
         # reused in another doc)?
         shutil.copy(path_to_key, dest_asset_dir)
         changed_envelope[new_path] = changed_envelope.pop(key)
-    # DONE: Step 4: Replace the asset in the HTML with the single-character
-    # placeholder.
-    # the_new_path = os.path.join(
-    #     os.getcwd(), 'tests', 'dest', 'asset_test.html')
-    # with open(the_new_path, 'a') as cleaned_file:
-    #     cleaned_file.write(str(soup))
-    # with open(the_new_path, 'r') as cleaned_file:
-        # final_html = BeautifulSoup(cleaned_file, 'html.parser')
     final_body = str(soup.body)[6:-7]
     return final_body, changed_envelope

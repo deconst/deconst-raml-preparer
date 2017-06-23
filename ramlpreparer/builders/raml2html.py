@@ -18,17 +18,27 @@ def raml2html(file_raml, output_html):
         raise TypeError("This isn't RAML! Pass a RAML file to this method.")
     else:
         try:
+            output_file = open(output_html, 'x')
+        except FileExistsError:
             output_file = open(output_html, 'r')
-        except FileNotFoundError:
-            output_file = open(output_html, 'w')  # TODO: Switch to with open()
-            output_file.close()
-            output_file = open(output_html, 'r')  # TODO: Fix the messiness
         scripting = os.path.join(
-            os.getcwd(), 'ramlpreparer', 'scripts', 'ramlconvert.sh')
+            os.getcwd(),
+            'ramlpreparer',
+            'scripts',
+            'ramlconvert.sh'
+        )
         nunjucks_path = os.path.join(
-            os.getcwd(), 'ramlpreparer', 'nunjucks', 'index.nunjucks')
-        htmlifyit = subprocess.call(
-            [scripting, file_raml, output_html, nunjucks_path])
+            os.getcwd(),
+            'ramlpreparer',
+            'nunjucks',
+            'index.nunjucks'
+        )
+        htmlifyit = subprocess.call([
+            scripting,
+            file_raml,
+            output_html,
+            nunjucks_path
+        ])
         apiraw = str(output_file.read())
         output_file.close()
         return apiraw
@@ -36,11 +46,5 @@ def raml2html(file_raml, output_html):
 
 # Typical define as needed system
 if __name__ == '__main__':
-    starter_call = os.path.join(
-        os.getcwd(), 'ramlpreparer', 'scripts', 'npminstall.sh')
-    subprocess.call(starter_call, shell=True)
-    # print(sys.argv[0])
-    # print(sys.argv[1])
-    # print(sys.argv[2])
     # BUG: Slice isn't working here. [1:] returns an error.
     raml2html(sys.argv[1], sys.argv[2])
