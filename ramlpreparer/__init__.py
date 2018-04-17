@@ -6,10 +6,6 @@ import os
 import sys
 import re
 
-# from pip import pip
-# import pip
-# from pip import main as pipmain
-
 try:
     from pip import main as pipmain
 except:
@@ -114,9 +110,6 @@ def install_requirements():
 
     print("Installing dependencies from {}: {}.".format(
         reqfile, ', '.join(dependencies)))
-    # pprint(vars(pip))    
-    # pip.main(['install'] + dependencies)
-    # pipmain(['install', "--upgrade", "pip"])
     pipmain(['install'] + dependencies)
 
 

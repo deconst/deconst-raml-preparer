@@ -20,7 +20,6 @@ long_description = "Raml to deconst converter"
 #    history = history_file.read().replace('.. :changelog:', '')
 
 setup(
-    # name='deconst-raml-preparer',
     name='ramlpreparer',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
