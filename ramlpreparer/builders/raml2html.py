@@ -14,6 +14,9 @@ def raml2html(file_raml, output_html):
     -   the path to an HTML file for output. This file does not need to be
         created first as the script will create it as needed.
     '''
+    script_path = os.path.dirname(os.path.realpath(__file__))
+    script_path = os.path.dirname(os.path.realpath(script_path))
+
     if not file_raml.lower().endswith('.raml'):
         raise TypeError("This isn't RAML! Pass a RAML file to this method.")
     else:
@@ -24,14 +27,12 @@ def raml2html(file_raml, output_html):
             pass
         with open(output_html, 'r') as output_file:
             scripting = os.path.join(
-                os.getcwd(),
-                'ramlpreparer',
+                script_path,
                 'scripts',
                 'ramlconvert.sh'
             )
             nunjucks_path = os.path.join(
-                os.getcwd(),
-                'ramlpreparer',
+                script_path,
                 'nunjucks',
                 'index.nunjucks'
             )

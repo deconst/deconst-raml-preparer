@@ -15,6 +15,7 @@ from os import path
 from pathlib import Path
 
 from ramlpreparer.config import Configuration
+from ramlpreparer import DECONST_FILE
 
 
 def init_builder(test=False):
@@ -25,7 +26,7 @@ def init_builder(test=False):
     deconst_config = Configuration(os.environ)
     for (dirpath, dirnames, filenames) in os.walk(deconst_config.git_root):
         for filename in filenames:
-            if filename.endswith('_deconst.json'):
+            if filename.endswith(DECONST_FILE):
                 for dirname in dirnames:
                     actual_path = str(Path(dirname).parents[0])[:-2]
                     path_name = path.join(dirpath, actual_path, filename)

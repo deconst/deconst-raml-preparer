@@ -6,7 +6,18 @@ import os
 import sys
 import re
 
-from pip import pip
+# from pip import pip
+# import pip
+# from pip import main as pipmain
+
+try:
+    from pip import main as pipmain
+except:
+    from pip._internal import main as pipmain
+
+from pprint import pprint
+
+DECONST_FILE = "_deconst.json"
 
 sys.path.insert(0, os.getcwd())
 
@@ -33,9 +44,8 @@ def main(directory=False):
         os.chdir(directory)
         print(os.getcwd())
 
-    if os.path.exists("_deconst.json"):
-        with open("_deconst.json", "r", encoding="utf-8") as cf:
-            config.apply_file(cf)
+    if os.path.exists(DECONST_FILE):
+        config.apply_file(DECONST_FILE)
 
     # Ensure that the envelope and asset directories exist.
     os.makedirs(config.envelope_dir, exist_ok=True)
@@ -104,7 +114,10 @@ def install_requirements():
 
     print("Installing dependencies from {}: {}.".format(
         reqfile, ', '.join(dependencies)))
-    pip.main(['install'] + dependencies)
+    # pprint(vars(pip))    
+    # pip.main(['install'] + dependencies)
+    # pipmain(['install', "--upgrade", "pip"])
+    pipmain(['install'] + dependencies)
 
 
 if __name__ == '__main__':

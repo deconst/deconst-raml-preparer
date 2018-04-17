@@ -11,15 +11,17 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
-    long_description = f.read()
+# with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+#     long_description = f.read()
+long_description = "Raml to deconst converter"
 
 # TODO: implement changelog
 # with open('HISTORY.rst') as history_file:
 #    history = history_file.read().replace('.. :changelog:', '')
 
 setup(
-    name='deconst-raml-preparer',
+    # name='deconst-raml-preparer',
+    name='ramlpreparer',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
@@ -35,11 +37,11 @@ setup(
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
     packages=[
-        'ramlpreparer',
+        'ramlpreparer', 'ramlpreparer.builders'
     ],
 #    package_dir={'ramlpreparer':
 #                 'deconst-raml-preparer'},
-#    include_package_data=True,
+    include_package_data=True,
     # List run-time dependencies here.  These will be installed by pip when
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
@@ -64,6 +66,7 @@ setup(
     keywords=[
         'deconst',
         'deconst-raml-preparer',
+        'ramlpreparer'
     ],
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers

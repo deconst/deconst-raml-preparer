@@ -13,7 +13,7 @@ import os
 import re
 import shutil
 import urllib.parse
-import requests
+# import requests
 from pathlib import Path
 
 sys.path.insert(0, os.getcwd())
@@ -23,7 +23,6 @@ from ramlpreparer.config import Configuration
 
 
 config = Configuration(os.environ)
-
 
 def enveloper(the_raml, the_location):
     '''
@@ -52,7 +51,8 @@ def find_all(config):
     '''
     listed_raml = []
     excluded_filepath = set(['node_modules'])
-    for (dirpath, dirnames, filenames) in os.walk(config.git_root, topdown=True):
+    # for (dirpath, dirnames, filenames) in os.walk(config.git_root, topdown=True):
+    for (dirpath, dirnames, filenames) in os.walk(config.content_root, topdown=True):
         dirnames[:] = [
             dirname for dirname in dirnames if dirname not in excluded_filepath]
         for filename in filenames:

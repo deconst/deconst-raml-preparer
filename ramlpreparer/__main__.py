@@ -1,8 +1,8 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # From the Sphinx preparer
 
-from . import main
+from ramlpreparer import main
 
 main()
