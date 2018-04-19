@@ -14,8 +14,6 @@ RUN mkdir -p /preparer /venv /usr/content-repo
 RUN chown -R preparer:preparer /preparer /venv
 ENV PYTHONPATH /preparer
 
-USER preparer
-
 RUN virtualenv /venv
 ENV PATH /venv/bin:${PATH}
 
@@ -24,7 +22,11 @@ RUN pip3 install -r /preparer/requirements.txt
 COPY . /preparer
 
 VOLUME /usr/content-repo
-WORKDIR /usr/content-repo
+WORKDIR /preparer
+
+RUN python3 setup.py install
+
+USER preparer 
 
 # TODO: Consider putting the git command logic out here and passing to Python.
 # Should be a lot simpler and avoids dependencies (and allows for other VCS
