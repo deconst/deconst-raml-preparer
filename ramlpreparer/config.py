@@ -6,7 +6,6 @@ import json
 import os
 import subprocess
 from os import path
-from ramlpreparer import DECONST_FILE
 
 def _normalize(url):
     '''
@@ -60,7 +59,7 @@ class Configuration:
         Environment variables take precedence over any values found here.
         '''
 
-        with open(DECONST_FILE, "r", encoding="utf-8") as deconst_file:
+        with open(f, "r", encoding="utf-8") as deconst_file:
             doc = json.load(deconst_file)
 
         if "contentIDBase" in doc:
