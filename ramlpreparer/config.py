@@ -7,7 +7,6 @@ import os
 import subprocess
 from os import path
 
-
 def _normalize(url):
     '''
     Ensure that the argument ends with a trailing slash if it's nonempty.
@@ -59,8 +58,10 @@ class Configuration:
         recognized settings found there to this configuration.
         Environment variables take precedence over any values found here.
         '''
-        with open(f, 'r') as deconst_file:
+
+        with open(f, "r", encoding="utf-8") as deconst_file:
             doc = json.load(deconst_file)
+
         if "contentIDBase" in doc:
             if not self.content_id_base:
                 self.content_id_base = _normalize(doc["contentIDBase"])
