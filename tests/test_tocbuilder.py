@@ -16,10 +16,10 @@ from bs4 import BeautifulSoup
 
 sys.path.append(path.join(path.dirname(__file__), '..'))
 
-from ramlpreparer.builders.tocbuilder import tag_it
-from ramlpreparer.builders.tocbuilder import sibs_it
-from ramlpreparer.builders.tocbuilder import parse_it
-from ramlpreparer.builders.tocbuilder import htmlify
+from openapipreparer.builders.tocbuilder import tag_it
+from openapipreparer.builders.tocbuilder import sibs_it
+from openapipreparer.builders.tocbuilder import parse_it
+from openapipreparer.builders.tocbuilder import htmlify
 
 
 class TocBuilderTestCase(unittest.TestCase):

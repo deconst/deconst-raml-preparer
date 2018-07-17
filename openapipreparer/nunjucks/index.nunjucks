@@ -7,7 +7,7 @@
       <title>{% block metaTitle %}{{ title }} API documentation{% endblock %}</title>
       <meta content="{% block ogTitle %}{{ title }}{% endblock %}" name="og:title">
       <meta content="{% block twitterTitle %}{{ title }}{% endblock %}" name="twitter:title">
-      <meta name="generator" content="https://github.com/raml2html/raml2html">
+      <meta name="generator" content="https://github.com/OpenAPITools/openapi-generator">
       <meta content="{% block ogImage %}{% endblock %}" name="og:image">
       <meta name="og:type" content="site">
       {% if description %}

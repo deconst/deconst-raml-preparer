@@ -92,12 +92,16 @@ class Configuration:
         '''
         Determine where the root of the repo is.
         '''
-        the_git_root = subprocess.Popen(
+        git_process = subprocess.Popen(
             ['git', 'rev-parse', '--show-toplevel'],
-            stdout=subprocess.PIPE).communicate()[0].rstrip().decode('utf-8')
+            stdout=subprocess.PIPE, stderr= subprocess.PIPE)
+        the_git_result_touples = git_process.communicate()
+        the_git_root =  the_git_result_touples[0].rstrip().decode('utf-8')
         if not the_git_root:
+            print(the_git_result_touples[1].rstrip().decode('utf-8'))
             raise FileNotFoundError('You\'re not in a git repo.')
             the_git_root = '.'
+        # return "/usr/content-repo"
         return the_git_root
 
     def missing_values(self):

@@ -5,7 +5,7 @@ python:
 - "3.5"
 install:
 - pip install -r requirements.txt
-- npm install --global raml2html
+- wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.1.1/openapi-generator-cli-3.1.1.jar -O /preparer/openapi-generator-cli-3.1.1.jar
 script:
 - raml2html --version
 - coverage run -m unittest -v

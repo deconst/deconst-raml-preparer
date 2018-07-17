@@ -13,20 +13,20 @@ here = path.abspath(path.dirname(__file__))
 # Get the long description from the README file
 # with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 #     long_description = f.read()
-long_description = "Raml to deconst converter"
+long_description = "OpenAPI to deconst converter"
 
 # TODO: implement changelog
 # with open('HISTORY.rst') as history_file:
 #    history = history_file.read().replace('.. :changelog:', '')
 
 setup(
-    name='ramlpreparer',
+    name='openapipreparer',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
     version='0.1.0',
-    description="Build RAML-based documentation to JSON and jam it in the cloud",
+    description="Build OPENAPI-based documentation to JSON and jam it in the cloud",
     long_description=long_description,
     # Author details
     author="Laura Santamaria",
@@ -36,7 +36,7 @@ setup(
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
     packages=[
-        'ramlpreparer', 'ramlpreparer.builders'
+        'openapipreparer', 'openapipreparer.builders'
     ],
 #    package_dir={'ramlpreparer':
 #                 'deconst-raml-preparer'},
@@ -64,8 +64,8 @@ setup(
     # What does your project relate to?
     keywords=[
         'deconst',
-        'deconst-raml-preparer',
-        'ramlpreparer'
+        'deconst-openapi-preparer',
+        'openapi'
     ],
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers

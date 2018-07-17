@@ -41,6 +41,9 @@ def map_the_assets(src_asset_dir, dest_asset_dir, docname=None, html_doc_path=No
         new_path = dest_asset_dir + key
         # potential BUG: What if the same image is used twice in the doc (or
         # reused in another doc)?
+        # print("TEST")
+        # print(path_to_key)
+        # print(dest_asset_dir)
         shutil.copy(path_to_key, dest_asset_dir)
         changed_envelope[new_path] = changed_envelope.pop(key)
     final_body = str(soup.body)[6:-7]

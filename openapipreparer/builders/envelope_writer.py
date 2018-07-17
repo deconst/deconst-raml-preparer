@@ -10,19 +10,19 @@ from pathlib import Path
 
 sys.path.insert(0, os.getcwd())
 
-import ramlpreparer.builders.asset_mapper as asset_mapper
-import ramlpreparer.builders.common as common
-import ramlpreparer.builders.tocbuilder as tocbuilder
-import ramlpreparer.builders.raml2html as raml2html
-from ramlpreparer.config import Configuration
+import openapipreparer.builders.asset_mapper as asset_mapper
+import openapipreparer.builders.common as common
+import openapipreparer.builders.tocbuilder as tocbuilder
+import openapipreparer.builders.openapi2html as openapi2html
+from openapipreparer.config import Configuration
 
 # TODO: Add an unsearchable feature.
 
 
-class Envelope_RAML:
+class Envelope_OPENAPI:
     '''
     A class for metadata envelopes. The docname variable should be the basename
-    of the RAML file.
+    of the openapi.json file.
     '''
 
     def __init__(self,
@@ -215,12 +215,19 @@ class Envelope_RAML:
         self.deconst_config = common.init_builder()
 
 
-def make_it_html(raml, output_html):
+def make_it_html(input_file, output_html):
     '''
-    Takes in the RAML and gives out HTML
+    Takes in the openapi.json and gives out HTML
     '''
-    raml2html.raml2html(raml, output_html)
-    return output_html
+    openapi2html.openapi2html(input_file, output_html)
+    ## since, openapi-generator-cli-3.1.1.jar creates index.html we are changing the output_html.
+    output_html_new = os.path.join(output_html,"index.html")
+    if os.path.isfile(output_html_new):
+        return output_html_new
+    else:
+        return output_html
+
+    # return "/usr/content-repo/_build/deconst-envelopes/index.html"
 
 
 def parsing_html(page, page_title=None):
@@ -241,7 +248,7 @@ def parsing_html(page, page_title=None):
         the_title = soupit.title.string
     else:
         the_title = page_title
-    set_up_class = Envelope_RAML(page,
+    set_up_class = Envelope_OPENAPI(page,
                                  soupit.body,
                                  originalFile=page,
                                  title=the_title,

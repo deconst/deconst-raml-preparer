@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 
 sys.path.append(path.join(path.dirname(__file__), '..'))
 
-from ramlpreparer.builders.asset_mapper import map_the_assets
+from openapipreparer.builders.asset_mapper import map_the_assets
 
 
 class AssetMapperTestCase(unittest.TestCase):
@@ -36,6 +36,8 @@ class AssetMapperTestCase(unittest.TestCase):
         dest_assets = path.join(os.getcwd(), 'tests', 'dest', 'assets', '')
         x, mapped_version = map_the_assets(
             source_assets, dest_assets, html_doc_path='tests/src/tester-raw.html')
+        print(expected_version)
+        print(mapped_version)
         self.assertEqual(expected_version, mapped_version)
 
 

@@ -3,7 +3,7 @@
 branch = True
 data_file = .coverage
 source =
-    ramlpreparer
+    openapipreparer
 
 [report]
-ignore_errors = True
+ignore_errors = False

@@ -3,6 +3,6 @@
 
 # From the Sphinx preparer
 
-from ramlpreparer import main
+from openapipreparer import main
 
 main()

@@ -22,7 +22,7 @@ def tag_it(tag):
             replace2 = replace1.replace("/{", "__")
             replace3 = replace2.replace("}/", "__")
             replace4 = replace3.replace("/", "__")
-            tag_link = replace4.replace(" ", "-")
+            tag_link = replace4.replace(" ", "-")        
     return tag_link
 
 
@@ -106,6 +106,7 @@ def parse_it(html_doc,
     body_tag = soup.body
     regex101 = re.compile('h[2,3,4]')
     cleared_tags = body_tag.findAll(regex101)
+    # print("Test clear tags --> {}".format(cleared_tags))
     for tag in cleared_tags:
         if tag.name == 'h2':
             tag_link = tag_it(tag)
@@ -130,8 +131,36 @@ def parse_it(html_doc,
                 current_h4 = []
                 prev_var = []
         elif tag.name == 'h3':
+            #print("tag.string_type = {}, tag.string_value = {}".format(type(tag.string), tag.string))
+            #print("begstr_type = {}, begstr_value = {}".format(type(begstr), begstr))
+            # print("begstr = {}".format(begstr))
+            #print("endstr_type = {}, endstr_value = {}".format(type(endstr), endstr))
+            # print("endstr = {}".format(endstr))
             tag_link = tag_it(tag)
-            current_h3.append(begstr + tag_link + "\">" + tag.string + endstr)
+            #print("tag_link type = {}, tag_link value = {}".format(type(tag_link), tag_link))
+            
+            ## TODO: Ask Laura about the tag.string because we have lot of tags with empty string,
+            ## might be because of templating not sure so will need to make sure of the result.
+            ## if that is the case should do it for all the tags here.
+            if tag.string:
+                #print("final string ==> {}".format(begstr + tag_link + "\">" + tag.string + endstr))
+                current_h3.append(begstr + tag_link + "\">" + tag.string + endstr)
+            else:
+                # print("final string ==> {}".format(begstr + tag_link + "\">" + tag.string + endstr))
+                current_h3.append(begstr + tag_link + "\">" + "" + endstr)
+            ##TODO: come back here
+            
+            # except TypeError:
+                # print("----EXCEPTION")
+                # print("tag.string_type = {}, tag.string_value = {}".format(type(tag.string), tag.string))
+                # print("begstr_type = {}, begstr_value = {}".format(type(begstr), begstr))
+                # # print("begstr = {}".format(begstr))
+                # print("endstr_type = {}, endstr_value = {}".format(type(endstr), endstr))
+                # # print("endstr = {}".format(endstr))
+                # tag_link = tag_it(tag)
+                # print("tag_link type = {}, tag_link value = {}".format(type(tag_link), tag_link))
+                # print("------EXCEPTION")
+                
             (toc_gen, current_h3, prev_var, sib) = sibs_it(
                 tag,
                 tag.name,
@@ -180,6 +209,7 @@ def parse_it(html_doc,
                 prev_var = []
             else:
                 pass
+    # print("toc_gen-->{}".format(toc_gen))
     return toc_gen
 
 

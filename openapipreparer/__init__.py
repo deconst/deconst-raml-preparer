@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Modified from the Sphinx preparer's __init__.py file
+# Modified from the Sphinx preparer's __init__.py file and RAML preparer's __init__.py
 
 import os
 import sys
@@ -17,11 +17,11 @@ DECONST_FILE = "_deconst.json"
 
 sys.path.insert(0, os.getcwd())
 
-from ramlpreparer.deconstraml import enveloper, submit, find_all
-from ramlpreparer.config import Configuration
+from openapipreparer.deconstopenapi import enveloper, submit, find_all
+from openapipreparer.config import Configuration
 
-__author__ = 'Laura Santamaria'
-__email__ = 'laura.santamaria@rackspace.com'
+__author__ = 'Laura Santamaria, Madhusudan Sridharan'
+__email__ = 'laura.santamaria@rackspace.com, madhu.sridharan@rackspace.com'
 __version__ = '0.1.0'
 
 
@@ -35,10 +35,10 @@ def main(directory=False):
                 config.content_root, directory))
         else:
             os.chdir(config.content_root)
-            print(os.getcwd())
+            # print(os.getcwd())
     elif directory:
         os.chdir(directory)
-        print(os.getcwd())
+        # print(os.getcwd())
 
     if os.path.exists(DECONST_FILE):
         config.apply_file(DECONST_FILE)
@@ -53,9 +53,10 @@ def main(directory=False):
     the_list = find_all(config)
     for path_name in the_list:
         file_name = os.path.basename(path_name)
-        html_name = file_name.replace('raml', 'html')
-        base_location = os.path.join(config.envelope_dir, html_name)
-        each_envelope = enveloper(path_name, base_location)
+        # html_name = file_name.replace('json', 'html')
+        # base_location = os.path.join(config.envelope_dir, html_name)
+        
+        each_envelope = enveloper(path_name, config.envelope_dir)
         submit(each_envelope)
     # TODO: Clear out intermediate .html in envelope dir
     # regex_clear = re.compile('.*(\.html)$')

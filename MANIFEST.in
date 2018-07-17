@@ -1,2 +1,2 @@
-include ramlpreparer/scripts/*
-include ramlpreparer/nunjucks/*.nunjucks
+include openapipreparer/scripts/*
+include openapipreparer/nunjucks/*.nunjucks

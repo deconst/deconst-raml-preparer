@@ -96,12 +96,13 @@ ENV/
 # Extras
 node_modules/
 tests/node_modules/
+tests/dest/test_is_html/*.html
+tests/dest/test_is_html/*.json
+tests/dest/test_isnt_html/*.html
+tests/dest/test_isnt_html/*.json
 tests/dest/*.html
 tests/dest/*.json
 tests/src/tester.raml
+tests/src/openapi.json
 tests/dest/assets/*.jpg
-ramlpreparer/scripts/node_modules/
-ramlpreparer/builders/node_modules/
-old/
-_build/
-fake-repo/
+

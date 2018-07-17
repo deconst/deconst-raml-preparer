@@ -16,8 +16,8 @@ from bs4 import BeautifulSoup
 
 sys.path.append(path.join(path.dirname(__file__), '..'))
 
-from ramlpreparer.builders.common import init_builder
-from ramlpreparer.builders.common import derive_content_id
+from openapipreparer.builders.common import init_builder
+from openapipreparer.builders.common import derive_content_id
 
 
 class CommonTestCase(unittest.TestCase):

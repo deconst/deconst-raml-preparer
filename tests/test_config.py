@@ -15,16 +15,16 @@ import io
 from unittest import mock
 from os import path
 from bs4 import BeautifulSoup
-from test import support
+# from test import support
 
 sys.path.append(path.join(path.dirname(__file__), '..'))
 
-from ramlpreparer.config import _normalize as normalize_it
-from ramlpreparer.config import Configuration
+from openapipreparer.config import _normalize as normalize_it
+from openapipreparer.config import Configuration
 
 # Identify where the test files live
-env_file = path.join(os.getcwd(), 'ramlpreparer', 'tests', 'src', 'env')
-deconstjson = path.join(os.getcwd(), 'ramlpreparer',
+env_file = path.join(os.getcwd(), 'openapipreparer', 'tests', 'src', 'env')
+deconstjson = path.join(os.getcwd(), 'openapipreparer',
                         'tests', 'src', '_deconst.json')
 
 

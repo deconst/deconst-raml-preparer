@@ -18,10 +18,10 @@ from unittest import mock
 
 sys.path.append(path.join(path.dirname(__file__), '..'))
 
-from ramlpreparer.builders.envelope_writer import make_it_html
-from ramlpreparer.builders.envelope_writer import parsing_html
-from ramlpreparer.builders.envelope_writer import write_out
-from ramlpreparer.builders.envelope_writer import Envelope_RAML
+from openapipreparer.builders.envelope_writer import make_it_html
+from openapipreparer.builders.envelope_writer import parsing_html
+from openapipreparer.builders.envelope_writer import write_out
+from openapipreparer.builders.envelope_writer import Envelope_OPENAPI
 
 
 class EnvelopeWriterTestCase(unittest.TestCase):
@@ -120,7 +120,7 @@ class Envelope_RAMLTestCase(unittest.TestCase):
             os.getcwd(), 'tests', 'src', 'assets', '')
         original_file = os.path.join(
             os.getcwd(), 'tests', 'src', 'asset_test_html.html')
-        self.envelope = Envelope_RAML('small_test.raml',
+        self.envelope = Envelope_OPENAPI('openapi.json',
                                       '<body><p>testing</p></body>',
                                       originalFile=original_file,
                                       title='test_title',
