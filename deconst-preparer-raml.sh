@@ -10,6 +10,7 @@ exec docker run \
   -e ENVELOPE_DIR=${ENVELOPE_DIR:-} \
   -e ASSET_DIR=${ASSET_DIR:-} \
   -e VERBOSE=${VERBOSE:-} \
+  -e CONTENT_ROOT=/usr/content-repo \
   -v ${CONTENT_ROOT}:/usr/content-repo \
   deconstramlpreparer
 #  quay.io/deconst/preparer-raml ## to be used when it's all set
